@@ -1,0 +1,4 @@
+- grafik tidak perlu menampilkan tombol budget dan actual hanya label
+- card total budget = berisi daftar budget
+- card actual transaksi = berisi daftar transaksi
+- card sisa budget pengajuan = berisi daftar sisa budget

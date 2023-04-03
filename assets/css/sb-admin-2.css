@@ -10,7 +10,7 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
-:root {
+ :root {
   --blue: #4e73df;
   --indigo: #6610f2;
   --purple: #6f42c1;
@@ -10755,12 +10755,23 @@ a:focus {
   font-size: 1.35rem;
 }
 
-.btn-icon-split {
+/*.btn-icon-split {
   padding: 0;
   overflow: hidden;
   display: inline-flex;
   align-items: stretch;
   justify-content: center;
+  width: inherit;
+  align-items: stretch;
+}*/
+.btn-icon-split {
+  padding: 0;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: stretch;
+  width: inherit;
+  justify-content: flex-start;
+  flex-direction: column;
 }
 
 .btn-icon-split .icon {

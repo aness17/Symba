@@ -1,0 +1,23 @@
+return $this->db->query('SELECT COUNT(tb_pesanan.id_pesan) AS jumlah,tb_paket.paket,tb_pesanan.status_pesanan FROM tb_paket LEFT JOIN tb_pesanan ON tb_paket.id_paket = tb_pesanan.id_paket JOIN tb_vendor 
+		ON tb_vendor.kode_vendor = tb_paket.id_vendor WHERE tb_vendor.kode_vendor = "' . $id . '" GROUP BY tb_pesanan.status_pesanan')->result_array();
+
+return $this->db->query('SELECT tdivision.division,SUM(tbudget.amount_debit) as debit, sum(tactual.amount_debit) as debitactual, SUM(tactual.amount_credit) as creditactual, tbudget.status FROM tactual JOIN tbudget ON tactual.id_budget = tbudget.id_budget JOIN tuser ON tuser.id_user = tactual.id_user JOIN tdivision ON tuser.id_dvn = tdivision.id_dvn GROUP BY tdivision.division')->result_array;
+
+select tdivision.division, tbudget.status, budget.total, actual.debit,actual.credit from tactual a join ( select sum(amount_debit) total from tbudget group by id_user) budget on a.id_budget = budget.id_budget join tuser.id_user = tactual.id_user join tdivision on tdivision.id_dvn = tuser.id_dvn;
+
+select tdivision.division, budget.status, budget.total, sum(a.amount_debit) as debit ,SUM(a.amount_credit) as credit from tactual a LEFT join ( select status,id_budget,id_user,sum(amount_debit) total from tbudget group by id_user) budget on a.id_budget = budget.id_budget join tuser ON tuser.id_user = a.id_user join tdivision on tdivision.id_dvn = tuser.id_dvn GROUP BY tuser.id_user
+
+return $this->db->query('select tdivision.division, budget.status, budget.total,budget.debitbgt, sum(a.amount_debit) as debit ,SUM(a.amount_credit) as credit from tactual a LEFT join ( select status,id_budget,id_user,sum(amount_debit)debitbgt ,sum(amount_credit) total from tbudget group by id_user) budget on a.id_budget = budget.id_budget join tuser ON tuser.id_user = a.id_user join tdivision on tdivision.id_dvn = tuser.id_dvn GROUP BY tuser.id_user')->result_array;
+
+
+
+FIX
+SELECT tdivision.division,tbudget.id_user,debit_budget,SUM(tactual.amount_debit) debit_actual, SUM(tactual.amount_credit) credit_actual FROM `tactual` 
+JOIN `tbudget` on tbudget.id_budget = tactual.id_budget
+JOIN
+    (SELECT tbudget.id_user,SUM(tbudget.amount_debit) debit_budget FROM tbudget
+    JOIN tuser ON tuser.id_user = tbudget.id_user
+    GROUP BY tbudget.id_user) tbl_budget_user ON tbl_budget_user.id_user = tbudget.id_user
+JOIN `tuser` ON tuser.id_user = tbudget.id_user
+JOIN `tdivision` on tdivision.id_dvn = tuser.id_dvn
+GROUP BY tbudget.id_user

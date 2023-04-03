@@ -1,0 +1,8 @@
+id_actual,id_budget,subacc,product,description,source,category,doc_ref,doc_number,desc_source,currency,amount_debit,amount_credit,actual_date
+
+
+budget
+id_account,subacc,product,id_user,description,source,category,doc_ref,doc_number,desc_source,currency,amount_debit,amount_credit,create_date,status
+
+detail_budget
+id_account,id_bdgt,subacc,product,id_user,description,source,category,doc_ref,doc_number,desc_source,currency,amount_debit,amount_credit,create_date,status
