@@ -19,8 +19,9 @@
     <link href="<?= base_url('assets/') ?>css/sb-admin-2.min.css" rel="stylesheet">
     <link href="<?= base_url('assets/') ?>css/custom.css" rel="stylesheet">
     <link rel="icon" href="<?= base_url('/fotouser/logo3.png')?>" style="width:200%;" type="image/ico">
-
-
+ 
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.bootstrap4.min.css">
     <script src="<?= base_url('assets/vendor/jquery/jquery.min.js'); ?>"></script> <!-- Load file jquery -->
 </head>
 

@@ -174,8 +174,9 @@ class User extends CI_Controller
                         'id_user' => $id,
                         'total_budget' => 0
                     ];
-                    $this->Budget_model->create($db);
-                    $idbdgt = $this->Budget_model->getLastId()["id_bdgt"];
+                    
+                    $idbdgt = $this->Budget_model->create($db);
+                    // $idbdgt = $this->Budget_model->getLastId()["id_bdgt"];
 
                     $db = [
                         'id_account' => $this->input->post('acc'),

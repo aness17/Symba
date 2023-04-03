@@ -241,7 +241,7 @@
                         <tr style="text-align: center;">
                             <th>No</th>
                             <th>Account</th>
-                            <th>PIC</th>
+                            <!-- <th>PIC</th> -->
                             <th>Description</th>
                             <!-- <th>Currency</th> -->
                             <th>Balance</th>
@@ -256,7 +256,7 @@
                             <tr style="text-align: center;">
                                 <td><?= $no; ?></td>
                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
-                                <td><?= $bg['name_user'] ?> [<?= $bg['division'] ?>-<?= $bg['name_station'] ?>]</td>
+                                <!-- <td><?= $bg['name_user'] ?> [<?= $bg['division'] ?>-<?= $bg['name_station'] ?>]</td> -->
                                 <td><?= $bg['remark_acc'] ?></td>
                                 <td><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
                                 <td><a href="#detailbudget" onclick="dtl_budget(<?=$bg['id_user'] ?>,<?= $bg['id_bdgt']?>)" class="fa fa-binoculars" style="color:blue" data-toggle="modal">
