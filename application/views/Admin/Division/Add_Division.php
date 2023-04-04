@@ -15,7 +15,7 @@
                             </div>
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label">Departement</label>
-                                <select name="dpt" class="form-control" id="exampleFormControlSelect1" name="dpt">
+                                <select name="dpt" class="form-control" class="selectpicker" data-live-search="true" name="dpt">
 
                                     <?php
                                     foreach ($dpt as $dpt) : ?>
@@ -26,7 +26,7 @@
                             </div>
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label">Cost Center</label>
-                                <select name="cc" class="form-control" id="exampleFormControlSelect1" name="cc">
+                                <select name="cc" class="form-control" class="selectpicker" data-live-search="true" name="cc">
 
                                     <?php
                                     foreach ($cc as $cc) : ?>
@@ -37,7 +37,7 @@
                             </div>
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label">LOB</label>
-                                <select name="lob" class="form-control" id="exampleFormControlSelect1" name="lob">
+                                <select name="lob" class="form-control" class="selectpicker" data-live-search="true" name="lob">
 
                                     <?php
                                     foreach ($lob as $lob) : ?>
@@ -48,7 +48,7 @@
                             </div>
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label">Station</label>
-                                <select name="station" class="form-control" id="exampleFormControlSelect1" name="station">
+                                <select name="station" class="form-control" class="selectpicker" data-live-search="true" name="station">
 
                                     <?php
                                     foreach ($station as $station) : ?>
@@ -60,7 +60,7 @@
                             <div class="text-center col-12 mt-3  ">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
-                                <button onclick="history.go(-1);" class="btn btn-success">Kembali</button>
+                                <button type="button" onclick="history.go(-1);" class="btn btn-success">Kembali</button>
 
                             </div>
                         </form><!-- Vertical Form -->
@@ -71,4 +71,10 @@
     </div>
 
 </div>
+<script>
+$(function () {
+    $('select').selectpicker();
+});
+
+</script>
 </main><!-- End #main -->

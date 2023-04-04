@@ -19,8 +19,6 @@
                                         "selected" : ""?>><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?> [<?= $bg['name_user'] ?>-<?= $bg['division'] ?>-<?= $bg['name_station'] ?>]
                                         [ <?= number_format($bg['amount_debit'], 0, ",", ".");?> <?=$bg['currency']?> ]
                                         </option>
-
-
                                     <?php endforeach; ?>
                                 </select>
                                 <input type="hidden" name="id_budget" value="<?=$actual["id_budget"]?>">
@@ -81,7 +79,7 @@
                             <div class="text-center col-12 mt-3  ">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
-                                <button onclick="history.go(-1);" class="btn btn-success">Kembali</button>
+                                <button type="button" onclick="history.go(-1);" class="btn btn-success">Kembali</button>
                             </div>
                         </form><!-- Vertical Form -->
                     </div>

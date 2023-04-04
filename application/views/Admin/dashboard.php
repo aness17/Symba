@@ -35,14 +35,14 @@
                         <div class="col-sm-6" style="margin-bottom: -40px">
                             <div class="card-body">
                                 <h4 class="small font-weight-bold"><?= $sm['division']?> <span class="float-right">
-                                    <?php if($sm['debit_budget'] == 0){
+                                    <?php if($sm['debit_budget'] == 0 || ($sm['debit_actual']/$sm['debit_budget']*100) > 100){
                                         ?>100
                                     <?php }else{
                                         echo ceil($sm['debit_actual']/$sm['debit_budget']* 100);} ?>%
                                     </span></h4>
                                     <div class="progress mb-4">
                                         <div class="progress-bar sm-danger" role="progressbar" style="width:
-                                        <?php if($sm['debit_budget'] == 0){echo 100;}else{echo ($sm['debit_actual']/$sm['debit_budget']) * 100;} ?>%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                        <?php if($sm['debit_budget'] == 0 || ($sm['debit_actual']/$sm['debit_budget']*100) > 100 ){echo 100;}else{echo ($sm['debit_actual']/$sm['debit_budget']) * 100;} ?>%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
 
                                     </div>
                                 </div>

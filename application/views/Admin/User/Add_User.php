@@ -25,7 +25,7 @@
                             </div>
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label">Division</label>
-                                <select name="dvn" class="form-control" id="exampleFormControlSelect1" name="dvn">
+                                <select name="dvn" class="form-control" class="selectpicker" data-live-search="true" name="dvn">
 
                                     <?php
                                     foreach ($dvn as $dvn) : ?>
@@ -52,7 +52,7 @@
                             <div class="text-center col-12 mt-3  ">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
-                                <button onclick="history.go(-1);" class="btn btn-success">Kembali</button>
+                                <button type="button" onclick="history.go(-1);" class="btn btn-success">Kembali</button>
 
                             </div>
                         </form><!-- Vertical Form -->
@@ -63,4 +63,10 @@
     </div>
 
     </div>
+    <script>
+$(function () {
+    $('select').selectpicker();
+});
+
+</script>
     </main><!-- End #main -->

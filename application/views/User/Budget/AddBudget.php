@@ -11,7 +11,7 @@
 
                             <div class="col-12">
                                 <label for="acc" class="form-label">Account</label>
-                                <select id="accs" class="form-control" class="selectpicker" data-live-search="true"name="acc">
+                                <select id="accs" class="form-control" class="selectpicker" data-live-search="true" name="acc">
                                     <?php
                                     foreach ($account as $account) : ?>
                                         <option value="<?= $account['id_account'] ?>">[<?= $account['id_acc'] ?>] <?= $account['remark_acc'] ?></option>
@@ -80,7 +80,7 @@
                             <div class="text-center col-12 mt-3  ">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
-                                <button onclick="history.go(-1);" class="btn btn-success">Kembali</button>
+                                <button type="button" onclick="history.go(-1);" class="btn btn-success">Kembali</button>
                             </div>
                         </form><!-- Vertical Form -->
                     </div>

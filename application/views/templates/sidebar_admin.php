@@ -76,7 +76,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<?= base_url('actual/dataactual')?>">
                         <i class="fas fa-database"></i>
-                        <span>Aktual Budget</span>
+                        <span>All Data Actual</span>
                     </a>
                 </li>
 

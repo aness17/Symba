@@ -12,7 +12,7 @@
                                 <label for="inputNanme4" class="form-label">Account</label>
                                                                 <!-- <input type="text" name="acc" class="form-control" id="acc"> -->
 
-                                <select name="acc" class="form-control" id="acc">
+                                <select name="acc" class="form-control" id="acc" class="selectpicker" data-live-search="true">
 
                                     <?php
                                     foreach ($account as $acc) : ?>
@@ -23,7 +23,7 @@
                             </div>
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label">PIC</label>
-                                <select name="user" class="form-control" id="user">
+                                <select name="user" class="form-control" id="user" class="selectpicker" data-live-search="true">
 
                                     <?php
                                     foreach ($user as $user) : ?>
@@ -35,8 +35,7 @@
                             
                             <div class="text-center col-12 mt-3  ">
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <button type="reset" class="btn btn-secondary">Reset</button>
-                                <button onclick="history.go(-1);" class="btn btn-success">Kembali</button>
+                                <button type="button" onclick="javascript:window.history.go(-1);" class="btn btn-success">Kembali</button>
 
                             </div>
                         </form><!-- Vertical Form -->
@@ -47,4 +46,10 @@
     </div>
 
 </div>
+<script>
+$(function () {
+    $('select').selectpicker();
+});
+
+</script>
 </main><!-- End #main -->
