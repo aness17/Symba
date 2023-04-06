@@ -19,10 +19,10 @@ $(document).ready(function () {
 			{
 				extend: "pdfHtml5",
 				exportOptions: {
-					columns: [0, 1, 2, 3],
+					columns: [0, 1, 2, 3, 4],
 				},
 			},
-			"colvis",
+			// "colvis",
 		],
 	});
 	$("#dataTable2").DataTable({
@@ -45,6 +45,56 @@ $(document).ready(function () {
 				extend: "pdfHtml5",
 				exportOptions: {
 					columns: [0, 1, 2, 3, 4, 5, 6],
+				},
+			},
+			"colvis",
+		],
+	});
+	$("#dataTable7").DataTable({
+		dom: "Bfrtip",
+		// buttons: ["copy", "excel", "pdf", "print"],
+		buttons: [
+			{
+				extend: "copyHtml5",
+				exportOptions: {
+					columns: [0, ":visible"],
+				},
+			},
+			{
+				extend: "excelHtml5",
+				exportOptions: {
+					columns: ":visible",
+				},
+			},
+			{
+				extend: "pdfHtml5",
+				exportOptions: {
+					columns: [0, 1, 2, 3, 4, 5, 6, 7],
+				},
+			},
+			"colvis",
+		],
+	});
+	$("#dataTable6").DataTable({
+		dom: "Bfrtip",
+		// buttons: ["copy", "excel", "pdf", "print"],
+		buttons: [
+			{
+				extend: "copyHtml5",
+				exportOptions: {
+					columns: [0, ":visible"],
+				},
+			},
+			{
+				extend: "excelHtml5",
+				exportOptions: {
+					columns: ":visible",
+				},
+			},
+			{
+				extend: "pdfHtml5",
+				exportOptions: {
+					columns: [0, 1, 2, 3, 4],
 				},
 			},
 			"colvis",

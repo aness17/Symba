@@ -74,7 +74,7 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <h4><span class="badge badge-primary"><b>Total Transaction : <?= number_format($totaltx, 0, ",", ".");?> IDR </b></span></h4>
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered" id="dataTable7" width="100%" cellspacing="0">
                         <thead>
                             <tr style="text-align: center;">
                                 <th>No</th>
