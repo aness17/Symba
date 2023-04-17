@@ -44,7 +44,7 @@ class Actual extends CI_Controller
     public function cekauth(){
         $ci = get_instance();
         if ($ci->session->userdata('id_role') == '2') {
-            $this->session->set_flashdata('message_login', $this->flasher('success', 'Your not autorized'));
+            $this->session->set_flashdata('message_login', $this->flasher('success', 'Your not authorized'));
             $this->session->unset_userdata('id_user');
             $this->session->unset_userdata('id_role');
             $this->session->unset_userdata('name_user');
