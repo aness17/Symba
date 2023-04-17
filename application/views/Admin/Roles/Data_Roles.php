@@ -21,7 +21,7 @@
                         <tr style="text-align: center;">
                             <th>No</th>
                             <th>Roles</th>
-                            <th>Aksi</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody class="list">

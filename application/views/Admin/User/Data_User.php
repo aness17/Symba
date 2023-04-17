@@ -27,7 +27,7 @@
                             <th>LOB</th>
                             <th>Station</th>
                             <th>Role User</th>
-                            <th>Aksi</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody class="list">

@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <form method="POST" action="<?= base_url('admin/addcostcen') ?>" class="row g-3" enctype="multipart/form-data">
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Nama Cost Center</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Nama Cost Center</label>
                                 <input type="text" name="costcen" class="form-control" id="costcen">
                                 <?= form_error('costcen', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>

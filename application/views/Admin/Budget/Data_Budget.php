@@ -32,7 +32,7 @@
                             <th>Remaining Balance</th>
                             <!-- <th>Date</th> -->
                             <th>Status</th>
-                            <th>Aksi</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody class="list">

@@ -22,7 +22,7 @@
                             <th>No</th>
                             <th>ID</th>
                             <th>Remark</th>
-                            <th>Aksi</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody class="list">

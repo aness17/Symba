@@ -10,7 +10,7 @@
                         <form method="POST" action="<?= base_url('budget/addbudget/'.$id) ?>" class="row g-3">
 
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Account</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Account</label>
                                 <select name="acc" class="form-control" id="exampleFormControlSelect1" name="cc" disabled>
                                         <option value="<?= $h['acc'] ?>">[<?= $h['id_acc'] ?>] <?= $h['remark_acc'] ?></option>
                                 </select>
@@ -18,7 +18,7 @@
                             </div>
                             
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">PIC</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>PIC</label>
                                 <select name="user" class="form-control" id="exampleFormControlSelect1" name="user" disabled>
 
                                     
@@ -27,7 +27,7 @@
                                 <?= form_error('user', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Description</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Description</label>
                                 <input type="text" name="desc" class="form-control" id="desc">
                                 <?= form_error('desc', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
@@ -52,17 +52,17 @@
                                 <?= form_error('dns', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Desc. of source module</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Desc. of source module</label>
                                 <input type="text" name="dsm" class="form-control" id="dsm">
                                 <?= form_error('dsm', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Currency</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Currency</label>
                                 <input type="text" name="cur" class="form-control" id="cur">
                                 <?= form_error('cur', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Accounted DR Amount</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Accounted DR Amount</label>
                                 <input type="number" name="debit" class="form-control" id="debit">
                                 <?= form_error('debit', '<small class="form-text text-danger">', '</small>'); ?>
                             </div> 

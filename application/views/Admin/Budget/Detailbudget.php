@@ -87,7 +87,7 @@
                                 <th>Accounted DR Amount</th>
                                 <th>Accounted CR Amount</th>
                                 <th>Date</th>
-                                <th>Aksi</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody class="list">

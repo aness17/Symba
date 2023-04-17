@@ -142,16 +142,16 @@ class User extends CI_Controller
 
                 $this->form_validation->set_rules('acc', 'Account', '');
                 // $this->form_validation->set_rules('user', 'Division', '');
-                $this->form_validation->set_rules('desc', 'Description', '');
+                $this->form_validation->set_rules('desc', 'Description', 'required');
                 $this->form_validation->set_rules('source', 'Source', '');
                 $this->form_validation->set_rules('category', 'Category', '');
                 $this->form_validation->set_rules('docref', 'References', '');
                 $this->form_validation->set_rules('dns', 'Desc Source', '');
-                $this->form_validation->set_rules('dsm', 'Desc Module', '');
+                $this->form_validation->set_rules('dsm', 'Desc Module', 'required');
                 $this->form_validation->set_rules('cur', 'Currency', 'required');
-                $this->form_validation->set_rules('debit', 'Departement', '');
+                $this->form_validation->set_rules('debit', 'Departement', 'required');
                 $this->form_validation->set_rules('credit', 'Departement', '');
-                $this->form_validation->set_rules('date', 'Date', '');
+                $this->form_validation->set_rules('date', 'Date', 'required');
 
                 $user = $this->User_model->selectUser($id);
                 $usr = $this->User_model->getuser($id);

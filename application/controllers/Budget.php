@@ -121,14 +121,14 @@ class Budget extends CI_Controller
             } else {
                 // $this->form_validation->set_rules('acc', 'Account', '');
                 // $this->form_validation->set_rules('user', 'Division', '');
-                $this->form_validation->set_rules('desc', 'Description', '');
+                $this->form_validation->set_rules('desc', 'Description', 'required');
                 $this->form_validation->set_rules('source', 'Departement', '');
                 $this->form_validation->set_rules('category', 'Departement', '');
                 $this->form_validation->set_rules('docref', 'Departement', '');
                 $this->form_validation->set_rules('dns', 'Departement', '');
-                $this->form_validation->set_rules('dsm', 'Departement', '');
+                $this->form_validation->set_rules('dsm', 'Departement', 'required');
                 $this->form_validation->set_rules('cur', 'Departement', 'required');
-                $this->form_validation->set_rules('debit', 'Departement', '');
+                $this->form_validation->set_rules('debit', 'Departement', 'required');
                 $this->form_validation->set_rules('credit', 'Departement', '');
 
                 $h = $this->Budget_model->selectuser($id);

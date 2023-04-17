@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <form method="POST" action="<?= base_url('admin/addlob') ?>" class="row g-3" enctype="multipart/form-data">
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Nama LOB</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Nama LOB</label>
                                 <input type="text" name="lob" class="form-control" id="lob">
                                 <?= form_error('lob', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>

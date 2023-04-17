@@ -9,12 +9,12 @@
                     <div class="card-body">
                         <form method="POST" action="<?= base_url('admin/addstation') ?>" class="row g-3" enctype="multipart/form-data">
                            <div class="col-12">
-                            <label for="inputNanme4" class="form-label">Code Station</label>
+                            <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Code Station</label>
                             <input type="text" name="code" class="form-control" id="code">
                             <?= form_error('code', '<small class="form-text text-danger">', '</small>'); ?>
                         </div>
                         <div class="col-12">
-                            <label for="inputNanme4" class="form-label">Nama Station</label>
+                            <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Nama Station</label>
                             <input type="text" name="station" class="form-control" id="station">
                             <?= form_error('station', '<small class="form-text text-danger">', '</small>'); ?>
                         </div>

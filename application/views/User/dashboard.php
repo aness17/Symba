@@ -100,7 +100,7 @@
                                 <div class="modal-dialog modal-xl">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Detail</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Detail Remaining Budget</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
@@ -167,7 +167,7 @@
                 <div class="card-body ">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Budget
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Budget Amount
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?= number_format($totalbudget, 0, ",", "."); ?></div>
                             <input type="hidden" id="totalbudget" value="<?= $totalbudget ?>">
@@ -187,7 +187,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                            ACTUAL TRANSAKSI</div>
+                            Actual Amount</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?= number_format($debitactual, 0, ",", "."); ?></div>
                             <input type="hidden" id="totalactual" value="<?= $debitactual ?>">
 
@@ -208,7 +208,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            SISA BUDGET PENGAJUAN</div>
+                            Remaining Budget</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?= number_format($sisa, 0, ",", "."); ?>
                         </div>
                     </div>
@@ -246,7 +246,7 @@
                             <!-- <th>Currency</th> -->
                             <th>Balance</th>
                             <!-- <th>Date</th> -->
-                            <th>Aksi</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody class="list">
@@ -273,7 +273,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Detail</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Detail Budget</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -290,7 +290,7 @@
                                 <div class="modal-dialog modal-xl">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Detail</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Transaction List</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>

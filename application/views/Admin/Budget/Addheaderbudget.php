@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <form method="POST" action="<?= base_url('budget/addheaderbudget') ?>" class="row g-3">
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Account</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Account</label>
                                                                 <!-- <input type="text" name="acc" class="form-control" id="acc"> -->
 
                                 <select name="acc" class="form-control" id="acc" class="selectpicker" data-live-search="true">
@@ -22,7 +22,7 @@
                                 <?= form_error('acc', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">PIC</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>PIC</label>
                                 <select name="user" class="form-control" id="user" class="selectpicker" data-live-search="true">
 
                                     <?php

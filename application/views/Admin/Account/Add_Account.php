@@ -9,12 +9,12 @@
                     <div class="card-body">
                         <form method="POST" action="<?= base_url('admin/addaccount') ?>" class="row g-3" enctype="multipart/form-data">
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">ID</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>ID</label>
                                 <input type="text" name="id" class="form-control" id="id">
                                 <?= form_error('id', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Remark</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Remark</label>
                                 <input type="text" name="acc" class="form-control" id="acc">
                                 <?= form_error('Remark', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>

@@ -10,7 +10,7 @@
                         <form method="POST" action="<?= base_url('actual/addactual/'. $id)?>" class="row g-3" enctype="multipart/form-data">
 
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Budget</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Budget</label>
                                 <select name="bg" class="form-control" id="exampleFormControlSelect1" name="bg" disabled>
 
                                     <?php
@@ -24,7 +24,7 @@
                             <?= form_error('bg', '<small class="form-text text-danger">', '</small>'); ?>
                         </div>  
                         <div class="col-12">
-                            <label for="inputNanme4" class="form-label">Description</label>
+                            <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Description</label>
                             <input type="text" name="desc" class="form-control" id="desc">
                             <?= form_error('desc', '<small class="form-text text-danger">', '</small>'); ?>
                         </div>
@@ -44,7 +44,7 @@
                             <?= form_error('docref', '<small class="form-text text-danger">', '</small>'); ?>
                         </div>
                         <div class="col-12">
-                            <label for="inputNanme4" class="form-label">Doc. Number of Source</label>
+                            <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Doc. Number of Source</label>
                             <input type="text" name="dns" class="form-control" id="dns">
                             <?= form_error('dns', '<small class="form-text text-danger">', '</small>'); ?>
                         </div>
@@ -54,7 +54,7 @@
                             <?= form_error('dsm', '<small class="form-text text-danger">', '</small>'); ?>
                         </div>
                         <div class="col-12">
-                            <label for="inputNanme4" class="form-label">Currency</label>
+                            <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Currency</label>
                             <input type="text" name="cur" class="form-control" id="cur">
                             <?= form_error('cur', '<small class="form-text text-danger">', '</small>'); ?>
                         </div>
@@ -69,7 +69,7 @@
                             <?= form_error('credit', '<small class="form-text text-danger">', '</small>'); ?>
                         </div>
                         <div class="col-12">
-                            <label for="inputNanme4" class="form-label">Date</label>
+                            <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Date</label>
                             <input type="date" name="date" class="form-control" id="date">
                             <?= form_error('date', '<small class="form-text text-danger">', '</small>'); ?>
                         </div>            

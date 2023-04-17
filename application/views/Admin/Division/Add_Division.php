@@ -9,12 +9,12 @@
                     <div class="card-body">
                         <form method="POST" action="<?= base_url('admin/adddvn') ?>" class="row g-3" enctype="multipart/form-data">
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Division</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Division</label>
                                 <input type="text" name="dvn" class="form-control" id="dvn">
                                 <?= form_error('dvn', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Departement</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Departement</label>
                                 <select name="dpt" class="form-control" class="selectpicker" data-live-search="true" name="dpt">
 
                                     <?php
@@ -25,7 +25,7 @@
                                 <?= form_error('dpt', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Cost Center</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Cost Center</label>
                                 <select name="cc" class="form-control" class="selectpicker" data-live-search="true" name="cc">
 
                                     <?php
@@ -36,7 +36,7 @@
                                 <?= form_error('cc', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">LOB</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>LOB</label>
                                 <select name="lob" class="form-control" class="selectpicker" data-live-search="true" name="lob">
 
                                     <?php
@@ -47,7 +47,7 @@
                                 <?= form_error('lob', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Station</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Station</label>
                                 <select name="station" class="form-control" class="selectpicker" data-live-search="true" name="station">
 
                                     <?php

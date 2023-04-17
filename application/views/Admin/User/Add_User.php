@@ -9,22 +9,22 @@
                     <div class="card-body">
                         <form method="POST" action="<?= base_url('admin/adduser') ?>" class="row g-3" enctype="multipart/form-data">
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Nama User</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Nama User</label>
                                 <input type="text" name="nameuser" class="form-control" id="nameuser">
                                 <?= form_error('nameuser', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Username</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Username</label>
                                 <input type="text" name="username" class="form-control" id="username">
                                 <?= form_error('username', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Password</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Password</label>
                                 <input type="password" name="password" class="form-control" id="password">
                                 <?= form_error('password', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Division</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Division</label>
                                 <select name="dvn" class="form-control" class="selectpicker" data-live-search="true" name="dvn">
 
                                     <?php
@@ -35,11 +35,11 @@
                                 <?= form_error('dvn', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
-                                <label for="inputPassword4" class="form-label">Foto User</label>
+                                <label for="inputPassword4" class="form-label"><span class="text-danger">*</span>Foto User</label>
                                 <input type="file" name="fotouser" class="form-control" id="fotouser" required>
                             </div>
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Role User</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Role User</label>
                                 <select name="role" class="form-control" id="exampleFormControlSelect1" name="role">
 
                                     <?php

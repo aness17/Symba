@@ -61,10 +61,6 @@ class Auth extends CI_Controller
                         echo "<script>location.href='" . base_url('User') . "';alert('Anda Berhasil Masuk Sebagai User');</script>";
                     }
                 } else {
-                    // var_dump($user);
-                    // die;
-                                            echo "HJAHJH";
-
                     echo "<script>location.href='" . base_url('auth/') . "';alert('Password Salah');</script>";
                 }
             } else {
@@ -117,24 +113,12 @@ class Auth extends CI_Controller
         $this->session->unset_userdata('id_user');
         $this->session->unset_userdata('id_role');
         $this->session->unset_userdata('name_user');
+        $this->session->unset_userdata('id_dvn');
+        $this->session->unset_userdata('fotouser');
+        $this->session->unset_userdata('username_user');
+        $this->session->unset_userdata('password_user');
         echo "<script>alert('Anda Telah Keluar');</script>";
         redirect('auth/');
-        // $id = $this->session->userdata('id_role');
-        // if ($id == '1') {
-        //     $this->session->set_flashdata('message_login', $this->flasher('success', 'User has been logged out'));
-        //     $this->session->unset_userdata('id_pelanggan');
-        //     $this->session->unset_userdata('id_role');
-        //     $this->session->unset_userdata('nama_pelanggan');
-        //     echo "<script>alert('Anda Telah Keluar');</script>";
-        //     redirect('auth/');
-        // } else {
-        //     $this->session->set_flashdata('message_login', $this->flasher('success', 'User has been logged out'));
-        //     $this->session->unset_userdata('id_pelanggan');
-        //     $this->session->unset_userdata('id_role');
-        //     $this->session->unset_userdata('nama_pelanggan');
-        //     echo "<script>alert('Anda Telah Keluar');</script>";
-        //     redirect('auth/');
-        // }
     }
     public function flasher($class, $message)
     {
