@@ -77,7 +77,7 @@ class User extends CI_Controller
                 'bgg' => $bg,
                 'budget' => $budget
             ];
-            // var_dump($budget);die;
+            // var_dump($data);die;
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_user',$data);
             $this->load->view('user/dashboard', $data);
@@ -320,5 +320,37 @@ class User extends CI_Controller
         <span aria-hidden="true">&times;</span>
         </button>
         </div>';
+    }
+    public function change_password(){
+        $this->form_validation->set_rules('username', 'username');
+        $this->form_validation->set_rules('passwd', 'password', 'required|min_length[4]');
+
+        $username = $this->input->post('username');
+        $passwd = $this->input->post('passwd');
+        $user = $this->db->get_where('tuser', ['username_user' => $username])->row_array();
+
+        if ($this->form_validation->run()) {
+            if (isset($user)) {
+                if (password_verify($passwd, $user['password_user'])) {
+                    $this->session->set_userdata('id', $user['id_user']);
+                    $this->session->set_userdata('username', $user['username_user']);
+                    $this->session->set_userdata('id_role', $user['id_role']);
+                    if ($user['id_role'] == '1') {
+                        echo "<script>location.href='" . base_url('admin') . "';alert('Anda Berhasil Masuk Sebagai Admin');</script>";
+                    } else if ($user['id_role'] != '1') {
+                        echo "USER";
+                        echo "<script>location.href='" . base_url('User') . "';alert('Anda Berhasil Masuk Sebagai User');</script>";
+                    }
+                } else {
+                    echo "<script>location.href='" . base_url('auth/') . "';alert('Password Salah');</script>";
+                }
+            } else {
+                echo "<script>location.href='" . base_url('auth/') . "';alert('User Tidak Ada');</script>";
+            }
+        } else {
+            // var_dump($user);
+            // die;
+            $this->load->view('user/change_password');
+        }
     }
 }
