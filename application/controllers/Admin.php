@@ -54,8 +54,6 @@ class Admin extends CI_Controller
     }
     public function index()
     {
-
-        
             // $bg = $this->DetailBudget_model->summary();
             // $actual = $this->Actual_model->summary();
             $totalactualcr = $this->Actual_model->totalcr()[0]->amount_credit;
@@ -171,7 +169,7 @@ class Admin extends CI_Controller
     }
     public function User()
     {
-                    $user = $this->User_model->selectAll();
+            $user = $this->User_model->selectAll();
             $data = [
                 'user' => $user
             ];
