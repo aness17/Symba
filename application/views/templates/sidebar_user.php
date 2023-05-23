@@ -12,7 +12,7 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
+    <li class="nav-item <?= ($heading=="dashboard")?'active':'';?>">
         <a class="nav-link" href="<?= base_url('user/')?>">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
@@ -25,8 +25,8 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
         <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
-            <a class="nav-link" href="<?= base_url('user/addbudget') ?>">
+        <li class="nav-item <?=($heading =="user")?'active':'';?>">
+            <a class="nav-link" href="<?= base_url('user/chooseadd') ?>">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Add Budget</span>
             </a>

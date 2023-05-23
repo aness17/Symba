@@ -35,6 +35,7 @@ class Admin extends CI_Controller
         $this->load->model('Items_model');
         $this->load->model('Roles_model');
         $this->load->model('Budget_model');
+        $this->load->model('Travelda_model');
         $this->cekauth();
 
         if ($this->session->userdata('id') === null) {
@@ -1021,39 +1022,43 @@ class Admin extends CI_Controller
         redirect('admin/account');
         // }
     }
-    public function Items()
+
+    public function TravelDA()
     {
-        $item = $this->Items_model->selectAll();
+        $travel = $this->Travelda_model->selectAll();
         $data = [
-            'item' => $item
+            'travel' => $travel
         ];
 
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar_admin');
-        $this->load->view('admin/Items/data_Items', $data);
+        $this->load->view('admin/Travel_DA/data_TravelDA', $data);
         $this->load->view('templates/footer');
     }
-    public function addItems()
+    public function addtravelda()
     {
-        $this->form_validation->set_rules('name', 'Items Name', 'required|is_unique[tItems.name_items]');
-        $this->form_validation->set_rules('info', 'Items Information', 'required');
-        $this->form_validation->set_rules('price', 'Items Price', 'required');
+        $this->form_validation->set_rules('grade', 'Grade', 'required');
+        $this->form_validation->set_rules('hotel', 'Remark', 'required');
+        $this->form_validation->set_rules('da', 'Daily Allowance', 'required');
+        $this->form_validation->set_rules('ticket', 'Ticket', 'required');
+        $this->form_validation->set_rules('periode', 'Periode', 'required');
 
         if ($this->form_validation->run() == true) {
             $db = [
-                'name_items' => $this->input->post('name'),
-                'information_items' => $this->input->post('info'),
-                'item_price' => $this->input->post('price')
-
+                'grade' => $this->input->post('grade'),
+                'hotel' => $this->input->post('hotel'),
+                'daily_allowance' => $this->input->post('da'),
+                'ticket' => $this->input->post('ticket'),
+                'periode_year' => $this->input->post('periode')
             ];
 
-            if ($this->Items_model->createitem($db) > 0) {
-                $this->session->set_flashdata('message_login', $this->flasher('success', 'Items has been registered!'));
-                redirect('admin/Items');
+            if ($this->Travelda_model->create($db) > 0) {
+                $this->session->set_flashdata('message_login', $this->flasher('success', 'account has been registered!'));
+                redirect('admin/TravelDA    ');
             } else {
-                echo "Failed to create Items";
+                echo "Failed to create Travel DA";
                 die;
-                $this->session->set_flashdata('message_login', $this->flasher('danger', 'Failed to create Items'));
+                $this->session->set_flashdata('message_login', $this->flasher('danger', 'Failed to create account'));
             }
 
             // }
@@ -1061,44 +1066,52 @@ class Admin extends CI_Controller
         } else {
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin');
-            $this->load->view('admin/Items/add_Items');
+            $this->load->view('admin/travel_da/add_TravelDA');
             $this->load->view('templates/footer');
         }
         // }
     }
-    public function editItems($id)
-    {
-        $this->form_validation->set_rules('acc', 'Remark', 'required');
+    public function edittravelda($id)
+    {        
+        $this->form_validation->set_rules('grade', 'Grade','');
+        $this->form_validation->set_rules('hotel', 'Remark', 'required');
+        $this->form_validation->set_rules('da', 'Daily Allowance', 'required');
+        $this->form_validation->set_rules('ticket', 'Ticket', 'required');
+        $this->form_validation->set_rules('periode', 'Periode', 'required');
 
-        $acc = $this->Items_model->getaccById($id);
+        $travel = $this->Travelda_model->getaccById($id);
         $data = [
-            'acc' => $acc
+            'travel' => $travel
         ];
         // if ($id == "") {
         if ($this->form_validation->run() == true) {
             $db = [
-                'id_item' => $id,
-                'remark_acc' => $this->input->post('acc')
+                'id_travelda' => $id,
+                'grade' => $this->input->post('grade'),
+                'hotel' => $this->input->post('hotel'),
+                'daily_allowance' => $this->input->post('da'),
+                'ticket' => $this->input->post('ticket'),
+                'periode_year' => $this->input->post('periode')
             ];
-            if ($this->Items_model->update($db) > 0) {
+            if ($this->Travelda_model->update($db) > 0) {
                 $this->session->set_flashdata('message', $this->flasher('success', 'Success To Edit Data'));
             } else {
                 $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Edit Data'));
             }
-            redirect('admin/Items');
+            redirect('admin/travelda');
         } else {
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin');
-            $this->load->view('admin/Items/edit_Items', $data);
+            $this->load->view('admin/travel_da/edit_travelda', $data);
             $this->load->view('templates/footer');
         }
         // }
     }
 
-    public function deleteItems($id)
+    public function deletetravelda($id)
     {
         if ($id) {
-            if ($this->Items_model->delete($id) > 0) {
+            if ($this->Account_model->delete($id) > 0) {
                 $this->session->set_flashdata('message', $this->flasher('success', 'Success To Add Data'));
             } else {
                 $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Add Data'));
@@ -1106,7 +1119,7 @@ class Admin extends CI_Controller
         } else {
             $this->session->set_flashdata('message', $this->flasher('danger', 'Id Is null'));
         }
-        redirect('admin/Items');
+        redirect('admin/account');
         // }
     }
     

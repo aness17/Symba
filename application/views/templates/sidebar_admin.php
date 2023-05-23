@@ -35,6 +35,7 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Master Data</h6>
+                    <a class="collapse-item" href="<?= base_url('admin/travelda')?>">Travel DA Data</a>
                     <a class="collapse-item" href="<?= base_url('admin/dpt')?>">Departement Data</a>
                     <!-- <a class="collapse-item" href="<?= base_url('admin/items')?>">Items Data</a> -->   
                     <a class="collapse-item" href="<?= base_url('admin/Account')?>">Account Data</a>
@@ -97,7 +98,7 @@
 
                     <!-- Topbar -->
                     <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-<div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
                         <!-- <h1 class="h3 mb-0 text-gray-800" style="font-family: Garamond,serif; font-size: 35px"> -->
                             <h1 class="h3 mb-0 text-gray-800" style="font-family:Inter,sans-serif,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol">Dashboard</h1>
 

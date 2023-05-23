@@ -11,6 +11,18 @@ class Actual_model extends CI_Model
         return $this->db->insert($this->table, $data);
     }
 
+    public function Actualperbulan($id,$thn){
+        // SELECT concat(month(actual_date)," - ",year(actual_date)) as Bulan, sum(tactual.amount_debit)-sum(tactual.amount_credit) as jumlah  
+        // FROM `tactual` JOIN tdetail_budget ON tdetail_budget.id_budget = tactual.id_budget WHERE tdetail_budget.id_user = 4 
+        // GROUP BY month(actual_date)
+        $this->db->select('sum(A.amount_debit)-sum(A.amount_credit) as jumlah');
+        $this->db->join('tdetail_budget B', 'A.id_budget = B.id_budget');
+        $this->db->where('B.id_user',$id);
+        $this->db->where('B.budget_year',$thn);
+        $this->db->group_by('month(actual_date)');
+        return $this->db->get($this->table . " as A")->result_array();
+    }
+
     public function selectAll()
     {
         $this->db->select('G.name_user,H.id_acc,C.code_costcen,D.code_station,B.company,B.division, D.name_station,A.*');
@@ -38,7 +50,7 @@ class Actual_model extends CI_Model
         $this->db->where('A.id_actual', $id);
         return $this->db->get($this->table . " as A")->row_array();
     }
-    public function useractById($id)
+    public function useractById($id,$thn)
     {
         $this->db->select('G.name_user,H.id_acc,C.code_costcen,D.code_station,B.company,B.division, D.name_station,A.*');
         $this->db->join('tdetail_budget E', 'A.id_budget = E.id_budget');
@@ -49,6 +61,8 @@ class Actual_model extends CI_Model
         $this->db->join('tstation D', 'B.id_station=D.id_station');
         $this->db->join('taccount H', 'E.id_account = H.id_account');    
         $this->db->where('G.id_user', $id);
+        $this->db->where('A.actual_date like','%'.date('Y').'%');
+        $this->db->where('E.budget_year',$thn);
         return $this->db->get($this->table . " as A")->result_array();
     }
     public function update($data)
@@ -69,18 +83,22 @@ class Actual_model extends CI_Model
         $this->db->where($this->primary, $id);
         return $this->db->delete($this->table);
     }
-    public function sumcredit($id){
+    public function sumcredit($id,$thn){
         $this->db->select_sum('A.amount_credit');
         $this->db->join('tdetail_budget E', 'A.id_budget = E.id_budget');
         $this->db->join('tuser G', 'E.id_user = G.id_user');
         $this->db->where('G.id_user',$id);
+        $this->db->where('A.actual_date like','%'.date('Y').'%');
+        $this->db->where('E.budget_year',$thn);
         return $this->db->get($this->table . " as A")->result();
     }
-    public function sumdebit($id){
+    public function sumdebit($id,$thn){
         $this->db->select_sum('A.amount_debit');
         $this->db->join('tdetail_budget E', 'A.id_budget = E.id_budget');
         $this->db->join('tuser G', 'E.id_user = G.id_user');
         $this->db->where('G.id_user',$id);
+        $this->db->where('A.actual_date like','%'.date('Y').'%');
+        $this->db->where('E.budget_year',$thn);
         return $this->db->get($this->table . " as A")->result();
     }
     public function summary(){
@@ -131,6 +149,8 @@ class Actual_model extends CI_Model
         $this->db->join('tstation D', 'B.id_station=D.id_station');
         $this->db->join('taccount H', 'E.id_account = H.id_account'); 
         $this->db->where('E.id_user', $id);
+        $this->db->where('A.actual_date like','%'.date('Y').'%');
+
         return $this->db->get($this->table . " as A")->result_array();
     }
     public function sumcreditt($id){

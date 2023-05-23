@@ -24,7 +24,7 @@ class Budget_model extends CI_Model
         $this->db->join('taccount E', 'A.id_acc = E.id_account');
         return $this->db->get($this->table . " as A")->result_array();
     }
-    public function selectbudgetuser($id)
+    public function selectbudgetuser($id,$thn)
     {
         $this->db->join('tbudget H', 'A.id_bdgt = H.id_bdgt');
         $this->db->join('tuser G', 'A.id_user = G.id_user');
@@ -33,7 +33,9 @@ class Budget_model extends CI_Model
         $this->db->join('tcostcen C', 'B.id_costcen=C.id_costcen');
         $this->db->join('tstation D', 'B.id_station=D.id_station');
         $this->db->join('taccount E', 'A.id_acc = E.id_account');
-                $this->db->where('A.id_user',$id);
+        $this->db->where('A.id_user',$id);
+        $this->db->where('H.periode_year',$thn);
+
         return $this->db->get($this->table . " as A")->result_array();
     }
     public function getLastId()
@@ -54,7 +56,7 @@ class Budget_model extends CI_Model
         $this->db->where('A.id_bdgt',$id);
         return $this->db->get($this->table . " as A")->row_array();
     }
-     public function selectheader($id){
+    public function selectheader($id){
         $this->db->select('total_budget');
         $this->db->where('id_bdgt',$id);
         return $this->db->get($this->table)->row_array();
@@ -63,5 +65,12 @@ class Budget_model extends CI_Model
     {
         $this->db->where($this->primary, $data[$this->primary]);
         return $this->db->update($this->table, $data);
+    }
+    public function findheader($id,$account,$periode){
+        $this->db->join('taccount B', 'A.id_acc = B.id_account');
+        $this->db->where('A.id_user',$id);
+        $this->db->where('A.id_acc',$account);
+        $this->db->where('A.periode_year',$periode);
+        return $this->db->get($this->table. " as A")->result_array();
     }
 }

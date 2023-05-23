@@ -10,7 +10,8 @@ class DetailBudget_model extends CI_Model
     {
         return $this->db->insert($this->table, $data);
     }
-public function selectbudget($id)
+
+    public function selectbudget($id)
     {
         $this->db->join('tuser G', 'A.id_user = G.id_user');
         $this->db->join('tdivision B', 'G.id_dvn = B.id_dvn');
@@ -20,6 +21,7 @@ public function selectbudget($id)
         $this->db->join('taccount E', 'A.id_account = E.id_account');
         $this->db->join('tbudget H', 'A.id_bdgt = H.id_bdgt');
         $this->db->where('A.id_bdgt',$id);
+        $this->db->where('A.budget_year',date('YYYY'));
         return $this->db->get($this->table . " as A")->result_array();
     }
     public function deletebudget($id)
@@ -48,6 +50,7 @@ public function selectbudget($id)
         $this->db->join('tcostcen C', 'B.id_costcen=C.id_costcen');
         $this->db->join('tstation D', 'B.id_station=D.id_station');
         $this->db->join('taccount E', 'A.id_account = E.id_account');
+        $this->db->where('A.budget_year',date('YYYY'));
         return $this->db->get($this->table . " as A")->result_array();
     }
     public function sisabudget($id){
@@ -82,10 +85,9 @@ public function selectbudget($id)
             join tcostcen on tcostcen.id_costcen = tdivision.id_costcen        
             join tstation   on tstation.id_station  = tdivision.id_station      
             where tdetail_budget.id_budget = '.$id   .'   
-
             GROUP BY tdetail_budget.id_budget')->row_array();
     }
-    public function sisabudgetuser($id){
+    public function sisabudgetuser($id,$thn){
         return $this->db->query('SELECT taccount.id_acc,tcostcen.code_costcen,tstation.*,tdivision.*,tuser.name_user,SUM(tactual.amount_debit) debit, SUM(tactual.amount_credit) credit,tdetail_budget.* FROM `tdetail_budget`
             LEFT JOIN tactual ON tactual.id_budget = tdetail_budget.id_budget
             join tuser on tuser.id_user  = tdetail_budget.id_user  
@@ -93,11 +95,12 @@ public function selectbudget($id)
             join taccount   on taccount.id_account  = tdetail_budget.id_account
             join tcostcen on tcostcen.id_costcen = tdivision.id_costcen        
             join tstation   on tstation.id_station  = tdivision.id_station
-            where tdetail_budget.id_user = '.$id   .'   
+            where tdetail_budget.id_user = '.$id.' and
+             tdetail_budget.budget_year = '.$thn.'
             GROUP BY tdetail_budget.id_budget')->result_array();
     }
     
-    public function selectbyId($id)
+    public function selectbyId($id,$thn)
     {
         $this->db->join('tuser G', 'A.id_user = G.id_user');
         $this->db->join('tdivision B', 'G.id_dvn = B.id_dvn');
@@ -106,6 +109,7 @@ public function selectbudget($id)
         $this->db->join('tstation D', 'B.id_station=D.id_station');
         $this->db->join('taccount E', 'A.id_account = E.id_account');
         $this->db->where('G.id_user', $id);
+        $this->db->where('A.budget_year',$thn);
         return $this->db->get($this->table . " as A")->result_array();
     }
 
@@ -136,14 +140,18 @@ public function selectbudget($id)
     //     $this->db->where('id_user',$id);
     //     return $this->db->get($this->table)->result();
     // }
-    public function sumcredit($id){
+    public function sumcredit($id,$thn){
         $this->db->select_sum('amount_credit');
         $this->db->where('id_user',$id);
+        $this->db->where('A.budget_year',$thn);
+
         return $this->db->get($this->table . " as A")->result();
     }
-    public function sumdebit($id){
+    public function sumdebit($id,$thn){
         $this->db->select_sum('amount_debit');
         $this->db->where('id_user',$id);
+        $this->db->where('A.budget_year',$thn);
+
         return $this->db->get($this->table . " as A")->result();
     }
     
@@ -167,7 +175,10 @@ public function selectbudget($id)
         $this->db->group_by('A.id_user');
         return $this->db->get($this->table . " as A")->result_array();
     }
-    public function updatetotal($id){
-        // $this->db->
+    public function tahun()
+    {
+        $this->db->select('budget_year as tahun');
+        $this->db->group_by('tahun');
+        return $this->db->get($this->table)->result_array();
     }
 }

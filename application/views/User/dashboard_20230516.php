@@ -14,9 +14,6 @@
                                     <div class="col md-3">
                                         <img src="<?= base_url('fotouser/') . $user['fotouser'] ?>" style="width:30%;margin: auto; display: block;">
                                     </div>
-                                    <!-- <div class="chart-pie pt-6 pb-4">
-                            <canvas id="myPieChart"></canvas>
-                        </div> -->
                                     <!-- <div class="col-auto">
                                     <i class="fas fa-info-circle fa-2x text-gray-300"></i>
                                 </div> -->
@@ -74,26 +71,7 @@
                                     <div class="my-2"></div>
 
                                     <?php $no++;
-                                    endforeach; ?>
-                                    <a class="btn btn-primary btn-icon-split ">
-                                        <span class="icon text-white-50">
-                                            Periode :
-                                        </span>
-                                        <span class="text shadow py-2 effect">
-                                            <form action="" method="post">
-                                                <select id="tahun" name="tahun" class="ml-3">
-                                                    <option value="-">Pilih Tahun</option>  
-                                                    <?php foreach ($tahun as $r) : ?>
-                                                        <option value="<?= $r['tahun'] ?>"><?= $r['tahun'] ?></option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                                <?= form_error('tahun', '<small class="form-text text-danger">', '</small>'); ?>
-
-                                                <button type="submit" id="tombol">Cek</button>
-                                            </form>
-                                        </span>
-                                    </a>
-                                <div class="my-2"></div>
+                                endforeach; ?>
                             </div>
                         </div>
                     </div>
@@ -108,25 +86,9 @@
                     </div>
                     <!-- Card Body -->
                     <div class="card-body">
-                        <!-- <div class="chart-pie pt-6 pb-4">
+                        <div class="chart-pie pt-6 pb-4">
                             <canvas id="myPieChart"></canvas>
-                        </div> -->
-                        
-                        <div class="chart-bar">
-                            <canvas id="myBarChart"></canvas>
                         </div>
-                        <?php
-                        $hasil = '';
-                        foreach($diagram as $d){                            
-                            $flatArray = array_column($diagram, 'jumlah');
-                            if(count($diagram) > 0){
-                                $hasil = implode(",",$flatArray);
-                            }else{
-                                $hasil = $flatArray;
-                            }
-                        }
-                        ?>
-                        <input type="hidden" id="diagram" value="<?=$hasil;?>">
                         <div class="mt-4 text-center small">
                             <!-- Button trigger modal -->
                             <div class="modal fade sisabudget" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-dismiss="modal">
@@ -200,14 +162,14 @@
                 <div class="card-body ">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Budget
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Budget Amount
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?= number_format($totalbudget, 0, ",", "."); ?></div>
                             <input type="hidden" id="totalbudget" value="<?= $totalbudget ?>">
 
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-money fa-2x text-gray-300"></i>
+                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -220,13 +182,13 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                            Actual</div>
+                            Actual Amount</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?= number_format($debitactual, 0, ",", "."); ?></div>
                             <input type="hidden" id="totalactual" value="<?= $debitactual ?>">
 
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-money fa-2x text-gray-300"></i>
+                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -241,12 +203,12 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            Remaining</div>
+                            Remaining Budget</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?= number_format($sisa, 0, ",", "."); ?>
                         </div>
                     </div>
                     <div class="col-auto">
-                        <i class="fas fa-money fa-2x text-gray-300"></i>
+                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
                     </div>
                 </div>
             </div>

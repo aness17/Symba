@@ -35,6 +35,7 @@ class User extends CI_Controller
         $this->load->model('Roles_model');
         $this->load->model('Budget_model');
         $this->load->model('Account_model');
+        $this->load->model('Travelda_model');
         $this->cekauth();
     }
     public function cekauth(){
@@ -49,21 +50,31 @@ class User extends CI_Controller
     }
     public function index()
     {
-                $ci = get_instance();
+            $ci = get_instance();
+            $this->form_validation->set_rules('tahun', 'tahun', 'required');
 
+            $thn = $this->input->post('tahun');
+            $thn = '';
+
+            if($this->form_validation->run()== true){
+                $thn = $this->input->post('tahun');
+            }else{
+                $thn = date('Y');
+            }
             $id = $ci->session->userdata('id');
             $user = $this->User_model->selectUser($id);
-            $bg = $this->DetailBudget_model->selectbyid($id);
-            $sisabudget = $this->DetailBudget_model->sisabudgetuser($id);
-            $actual = $this->Actual_model->useractById($id);
-            $debitbudget = $this->DetailBudget_model->sumdebit($id)[0]->amount_debit;
-            $debitactual = $this->Actual_model->sumdebit($id)[0]->amount_debit;
-            $creditbudget = $this->DetailBudget_model->sumcredit($id)[0]->amount_credit;
-            $creditactual = $this->Actual_model->sumcredit($id)[0]->amount_credit;
+            $bg = $this->DetailBudget_model->selectbyid($id,$thn);
+            $sisabudget = $this->DetailBudget_model->sisabudgetuser($id,$thn);
+            $actual = $this->Actual_model->useractById($id,$thn);
+            $debitbudget = $this->DetailBudget_model->sumdebit($id,$thn)[0]->amount_debit;
+            $debitactual = $this->Actual_model->sumdebit($id,$thn)[0]->amount_debit;
+            $creditbudget = $this->DetailBudget_model->sumcredit($id,$thn)[0]->amount_credit;
+            $creditactual = $this->Actual_model->sumcredit($id,$thn)[0]->amount_credit;
             $sisa = ($debitbudget - $debitactual) + ($creditbudget - $creditactual);
             // $detailactual = $this->Actual_model->getactdetail($id,$iduser);
-            $budget = $this->Budget_model->selectbudgetuser($id);
-            
+            $budget = $this->Budget_model->selectbudgetuser($id,$thn);
+            $diagram = $this->Actual_model->Actualperbulan($id,$thn);
+            $tahun = $this->DetailBudget_model->tahun();
             // $pengajuan = $this->DetailBudget_model->sumpengajuan($id);
             $data = [
                 'user' => $user,
@@ -71,13 +82,16 @@ class User extends CI_Controller
                 'debit' => $debitbudget - $debitactual,
                 'debitactual' => $debitactual,
                 'totalbudget' => $debitbudget,
+                'diagram' => $diagram,
                 'sisa' => $sisa,
                 'bgs' => $sisabudget,
                 'actual' => $actual,
                 'bgg' => $bg,
-                'budget' => $budget
+                'budget' => $budget,
+                'tahun' => $tahun,
+                'heading' => 'dashboard'
             ];
-            // var_dump($data);die;
+            // var_dump($diagram);die;
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_user',$data);
             $this->load->view('user/dashboard', $data);
@@ -136,98 +150,134 @@ class User extends CI_Controller
         
     }
     public function addbudget(){
-                $ci = get_instance();
+        $ci = get_instance();
+        $id = $ci->session->userdata('id');
 
-                       $id = $ci->session->userdata('id');
+        $this->form_validation->set_rules('acc', 'Account', '');
+        // $this->form_validation->set_rules('user', 'Division', '');
+        $this->form_validation->set_rules('desc', 'Description', 'required');
+        $this->form_validation->set_rules('source', 'Source', '');
+        $this->form_validation->set_rules('category', 'Category', '');
+        $this->form_validation->set_rules('docref', 'References', '');
+        $this->form_validation->set_rules('dns', 'Desc Source', '');
+        $this->form_validation->set_rules('dsm', 'Desc Module', 'required');
+        $this->form_validation->set_rules('cur', 'Currency', 'required');
+        $this->form_validation->set_rules('debit', 'Departement', 'required');
+        $this->form_validation->set_rules('credit', 'Departement', '');
+        $this->form_validation->set_rules('date', 'Date', 'required');
 
-                $this->form_validation->set_rules('acc', 'Account', '');
-                // $this->form_validation->set_rules('user', 'Division', '');
-                $this->form_validation->set_rules('desc', 'Description', 'required');
-                $this->form_validation->set_rules('source', 'Source', '');
-                $this->form_validation->set_rules('category', 'Category', '');
-                $this->form_validation->set_rules('docref', 'References', '');
-                $this->form_validation->set_rules('dns', 'Desc Source', '');
-                $this->form_validation->set_rules('dsm', 'Desc Module', 'required');
-                $this->form_validation->set_rules('cur', 'Currency', 'required');
-                $this->form_validation->set_rules('debit', 'Departement', 'required');
-                $this->form_validation->set_rules('credit', 'Departement', '');
-                $this->form_validation->set_rules('date', 'Date', 'required');
-
-                $user = $this->User_model->selectUser($id);
-                $usr = $this->User_model->getuser($id);
-                $account = $this->Account_model->selectAll();
-                // $id = $id;
-                $data = [
-                    'user' => $user,
-                    'account' => $account,
-                    'usr' => $usr,
-                    'id' => $id
+        $user = $this->User_model->selectUser($id);
+        $usr = $this->User_model->getuser($id);
+        $account = $this->Account_model->selectAll();
+        $data = [
+            'user' => $user,
+            'account' => $account,
+            'usr' => $usr,
+            'id' => $id,
+            'heading'=>'user'
+        ];
+        // var_dump($user);die;
+        $account = $this->input->post('acc');
+        $periode = date("Y", strtotime($this->input->post('date')));
+        // var_dump($id,$account,$periode);die;
+        if ($this->form_validation->run() == true) {
+            $find = $this->Budget_model->findheader($id,$account,$periode);
+            
+            // var_dump($hotel);die;
+            // var_dump($find[0]['id_bdgt']);die;
+            if(count($find) > 0){
+                $db = [
+                    'id_account' => $this->input->post('acc'),
+                    'subacc' => '000',
+                    'product' => '00000',
+                    'id_user' => $id,
+                    'description'=> $this->input->post('desc'),
+                    'source'=> $this->input->post('source'),
+                    'category'=> $this->input->post('category'),
+                    'doc_ref'=> $this->input->post('docref'),
+                    'doc_number'=> $this->input->post('dns'),
+                    'desc_source'=> $this->input->post('dsm'),
+                    'currency'=> $this->input->post('cur'),
+                    'amount_debit'=> $this->input->post('debit'),
+                    'amount_credit'=> $this->input->post('credit'),
+                    'status' => 'no',
+                    'id_bdgt' => $find[0]['id_bdgt'],
+                    'budget_year' => $this->input->post('date')
                 ];
-                // var_dump($user);die;
 
-
-                if ($this->form_validation->run() == true) {
-                    $db = [
-                        'id_acc' => $this->input->post('acc'),
-                        'subacc' => '000',
-                        'product' => '00000',
-                        'id_user' => $id,
-                        'total_budget' => 0
-                    ];
+                $budget = $this->DetailBudget_model->create($db);
+                $p = $this->Budget_model->selectheader($find[0]['id_bdgt']);
+                // var_dump($p);
+                $data = [
+                    'id_bdgt' => $find[0]['id_bdgt'],
+                    'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
+                ];
+                // var_dump($find[0]['id_bdgt']);die;
+                $this->Budget_model->update($data);  
+                echo "<script>location.href='" . base_url('user/') . "';alert('Success to Update Data');</script>";
+            }else{
+                $db = [
+                    'id_acc' => $this->input->post('acc'),
+                    'subacc' => '000',
+                    'product' => '00000',
+                    'id_user' => $id,
+                    'total_budget' => 0,
+                    'periode_year' => $this->input->post('date')
+                ];
                     
-                    $idbdgt = $this->Budget_model->create($db);
-                    // $idbdgt = $this->Budget_model->getLastId()["id_bdgt"];
+                $idbdgt = $this->Budget_model->create($db);
+                // $idbdgt = $this->Budget_model->getLastId()["id_bdgt"];
 
-                    $db = [
-                        'id_account' => $this->input->post('acc'),
-                        'subacc' => '000',
-                        'product' => '00000',
-                        'id_user' => $id,
-                        'description'=> $this->input->post('desc'),
-                        'source'=> $this->input->post('source'),
-                        'category'=> $this->input->post('category'),
-                        'doc_ref'=> $this->input->post('docref'),
-                        'doc_number'=> $this->input->post('dns'),
-                        'desc_source'=> $this->input->post('dsm'),
-                        'currency'=> $this->input->post('cur'),
-                        'amount_debit'=> $this->input->post('debit'),
-                        'amount_credit'=> $this->input->post('credit'),
-                        'status' => 'no',
-                        'id_bdgt' => $idbdgt,
-                        'budget_year' => $this->input->post('date')
-
-                    ];
-
+                $db = [
+                    'id_account' => $this->input->post('acc'),
+                    'subacc' => '000',
+                    'product' => '00000',
+                    'id_user' => $id,
+                    'description'=> $this->input->post('desc'),
+                    'source'=> $this->input->post('source'),
+                    'category'=> $this->input->post('category'),
+                    'doc_ref'=> $this->input->post('docref'),
+                    'doc_number'=> $this->input->post('dns'),
+                    'desc_source'=> $this->input->post('dsm'),
+                    'currency'=> $this->input->post('cur'),
+                    'amount_debit'=> $this->input->post('debit'),
+                    'amount_credit'=> $this->input->post('credit'),
+                    'status' => 'no',
+                    'id_bdgt' => $idbdgt,
+                    'budget_year' => $this->input->post('date')
+                ];
                 // var_dump($db);die;
                 // id_account,subacc,product,id_user,description,source,category,doc_ref,doc_number,desc_source,currency,amount_debit,amount_credit,create_date,status
-                    if ($this->DetailBudget_model->create($db) > 0) {
-                            // $id = $id;
-                            $p = $this->Budget_model->selectheader($idbdgt);
-                            // var_dump($id);
-                            $data = [
-                                'id_bdgt' => $idbdgt,
-                                'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
-                            ];
-                                                        // var_dump($data);die;
-
-                            $this->Budget_model->update($data);                        
-                        $this->session->set_flashdata('message_login', $this->flasher('success', 'User has been registered!'));
-                        redirect('user/');
-                    } else {
-                        echo "Failed to create Budget";
-                        die;
-                        $this->session->set_flashdata('message_login', $this->flasher('danger', 'Failed to create Budget'));
-                    }
+                if ($this->DetailBudget_model->create($db) > 0) {
+                    // $id = $id;
+                    $p = $this->Budget_model->selectheader($idbdgt);
+                    // var_dump($id);
+                    $data = [
+                        'id_bdgt' => $idbdgt,
+                        'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
+                    ];
+                    // var_dump($data);die;
+                    $this->Budget_model->update($data);                        
+                    $this->session->set_flashdata('message_login', $this->flasher('success', 'User has been registered!'));
+                    echo "<script>alert('Success to Update Data');</script>";
+                    redirect('user/');
+                } else {
+                    echo "Failed to create Budget";
+                    die;
+                    $this->session->set_flashdata('message_login', $this->flasher('danger', 'Failed to create Budget'));
+                }
 
                 // }
                 // redirect('admin/pelanggan/tambahpelanggan');
-                } else {
-                    $this->load->view('templates/header');
-                    $this->load->view('templates/sidebar_user',$data);
-                    $this->load->view('user/budget/addbudget',$data);
-                    $this->load->view('templates/footer');
-                }
             }
+            
+        } else {
+            $this->load->view('templates/header');
+            $this->load->view('templates/sidebar_user',$data);
+            $this->load->view('user/budget/addbudget',$data);
+            $this->load->view('templates/footer');
+        }
+    }
         
     public function dataactual()
     {
@@ -250,6 +300,29 @@ class User extends CI_Controller
             $this->load->view('templates/sidebar_user',$data);
             $this->load->view('user/data_actual', $data);
             $this->load->view('templates/footer');
+        
+    }
+    public function chooseadd()
+    {
+        $ci = get_instance();
+
+        $id = $ci->session->userdata('id');
+        $user = $this->User_model->selectUser($id);
+        // $sisa = $bg['amount_debit']-$actual['amount_debit'];
+        // $bg = $this->DetailBudget_model->selectAll();
+        // $actual = $this->Actual_model->useractById($id);
+        $data = [
+            // 'actual' => $actual,
+            'user' => $user,
+            // 'bg' => $bg,
+            'heading'=>'user'
+            // 'sisa' => $sisa
+        ];
+        // var_dump($bg);die;
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar_user',$data);
+        $this->load->view('user/chooseadd', $data);
+        $this->load->view('templates/footer');
         
     }
     public function detailbudget($id)
@@ -352,5 +425,283 @@ class User extends CI_Controller
             // die;
             $this->load->view('user/change_password');
         }
+    }
+    public function travelda()
+    {
+        $ci = get_instance();
+        $id = $ci->session->userdata('id');
+        $usr = $this->User_model->getUser($id);
+        $user = $this->User_model->selectUser($id);
+
+
+        $data = [
+            'usr' => $usr,
+            'user' => $user,
+            'heading'=>'user'
+        ];
+        // var_dump($data);die;
+        $this->form_validation->set_rules('grade', 'Grade', 'required');
+        $this->form_validation->set_rules('hari', 'Days', 'required');
+        $this->form_validation->set_rules('tujuan', 'Destination', 'required');
+        $this->form_validation->set_rules('qty', 'Qty', 'required');
+        $this->form_validation->set_rules('periode', 'Periode', 'required');
+
+        if ($this->form_validation->run() == true) {
+            $db = [
+                'grade' => $this->input->post('grade'),
+                'hari' => $this->input->post('hari'),
+                'tujuan' => $this->input->post('tujuan'),
+                'qty' => $this->input->post('qty'),
+                'periode_year' => $this->input->post('periode')
+            ];
+
+            $account1 = '104';
+            $account2 = '106';
+            $account3 = '107';
+            $periode = date("Y", strtotime($this->input->post('periode')));
+        
+            $travel_da = $this->Travelda_model->selectAll();
+            $hotel = $db['hari']*$db['qty']*$travel_da[0]['hotel'];
+            $ted = $db['hari']*$db['qty']*$travel_da[0]['daily_allowance'];
+            $ticket = $db['qty']*2*$travel_da[0]['ticket'];
+            $find = $this->Budget_model->findheader($id,$account1,$periode);
+            
+            // var_dump($hotel);die;
+            // var_dump(count($find));die;
+            if(count($find) > 0){
+                $db = [
+                    'id_account' => $account1,
+                    'subacc' => '000',
+                    'product' => '00000',
+                    'id_user' => $id,
+                    'description'=> 'Daily Allowance',
+                    'source'=> '',
+                    'category'=> '',
+                    'doc_ref'=> '',
+                    'doc_number'=> '',
+                    'desc_source'=> 'Daily Allowance ' .$this->input->post('tujuan'),
+                    'currency'=> 'IDR',
+                    'amount_debit'=> $hotel,
+                    'amount_credit'=> 0,
+                    'status' => 'no',
+                    'id_bdgt' => $find[0]['id_bdgt'],
+                    'budget_year' => $this->input->post('periode')
+                ];
+                $da2 = $this->DetailBudget_model->create($db);
+                $p = $this->Budget_model->selectheader($find[0]['id_bdgt']);
+                // var_dump($p);
+                $data = [
+                    'id_bdgt' => $find[0]['id_bdgt'],
+                    'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
+                ];
+                // var_dump($find[0]['id_bdgt']);die;
+                $this->Budget_model->update($data);  
+                echo "<script>alert('Success to Update Data Daily Allowance');</script>";
+            }else{
+                $da = [
+                    'id_acc' => $account1,
+                    'subacc' => '000',
+                    'product' => '00000',
+                    'id_user' => $id,
+                    'total_budget' => 0,
+                    'periode_year' => $this->input->post('periode')
+                ];
+                $da = $this->Budget_model->create($da);
+
+                $db = [
+                    'id_account' => $account1,
+                    'subacc' => '000',
+                    'product' => '00000',
+                    'id_user' => $id,
+                    'description'=> 'Daily Allowance',
+                    'source'=> '',
+                    'category'=> '',
+                    'doc_ref'=> '',
+                    'doc_number'=> '',
+                    'desc_source'=> 'Daily Allowance ' .$this->input->post('tujuan'),
+                    'currency'=> 'IDR',
+                    'amount_debit'=> $hotel,
+                    'amount_credit'=> 0,
+                    'status' => 'no',
+                    'id_bdgt' => $da,
+                    'budget_year' => $this->input->post('periode')
+                ];
+                $da2 = $this->DetailBudget_model->create($db);
+                $p = $this->Budget_model->selectheader($da);
+                // var_dump($p);die;
+                $data = [
+                    'id_bdgt' => $da,
+                    'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
+                ];
+                // var_dump($data['id_bdgt']);die;
+                $this->Budget_model->update($data);  
+                echo "<script>alert('Success to Add Data Daily Allowance');</script>";
+            }
+
+            $find = $this->Budget_model->findheader($id,$account2,$periode);
+            
+            // var_dump($hotel);die;
+            // var_dump(count($find));die;
+            if(count($find) > 0){
+                $db = [
+                    'id_account' => $account2,
+                    'subacc' => '000',
+                    'product' => '00000',
+                    'id_user' => $id,
+                    'description'=> 'Travel Expense Domestic',
+                    'source'=> '',
+                    'category'=> '',
+                    'doc_ref'=> '',
+                    'doc_number'=> '',
+                    'desc_source'=> 'Travel Expense Domestic ' .$this->input->post('tujuan'),
+                    'currency'=> 'IDR',
+                    'amount_debit'=> $ted,
+                    'amount_credit'=> 0,
+                    'status' => 'no',
+                    'id_bdgt' => $find[0]['id_bdgt'],
+                    'budget_year' => $this->input->post('periode')
+                ];
+                $da2 = $this->DetailBudget_model->create($db);
+                $p = $this->Budget_model->selectheader($find[0]['id_bdgt']);
+                // var_dump($p);
+                $data = [
+                    'id_bdgt' => $find[0]['id_bdgt'],
+                    'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
+                ];
+                // var_dump($find[0]['id_bdgt']);die;
+                $this->Budget_model->update($data);  
+                echo "<script>alert('Success to Update Data Travel Expense Domestic');</script>";
+            }else{
+                $da = [
+                    'id_acc' => $account2,
+                    'subacc' => '000',
+                    'product' => '00000',
+                    'id_user' => $id,
+                    'total_budget' => 0,
+                    'periode_year' => $this->input->post('periode')
+                ];
+                $da = $this->Budget_model->create($da);
+
+                $db = [
+                    'id_account' => $account2,
+                    'subacc' => '000',
+                    'product' => '00000',
+                    'id_user' => $id,
+                    'description'=> 'Travel Expense Domestic',
+                    'source'=> '',
+                    'category'=> '',
+                    'doc_ref'=> '',
+                    'doc_number'=> '',
+                    'desc_source'=> 'Travel Expense Domestic ' .$this->input->post('tujuan'),
+                    'currency'=> 'IDR',
+                    'amount_debit'=> $ted,
+                    'amount_credit'=> 0,
+                    'status' => 'no',
+                    'id_bdgt' => $da,
+                    'budget_year' => $this->input->post('periode')
+                ];
+                $da2 = $this->DetailBudget_model->create($db);
+                $p = $this->Budget_model->selectheader($da);
+                // var_dump($p);die;
+                $data = [
+                    'id_bdgt' => $da,
+                    'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
+                ];
+                // var_dump($data['id_bdgt']);die;
+                $this->Budget_model->update($data);  
+                echo "<script>alert('Success to Add Travel Expense Domestic');</script>";
+            }
+            
+            $find = $this->Budget_model->findheader($id,$account3,$periode);
+            
+            // var_dump($hotel);die;
+            // var_dump(count($find));die;
+            if(count($find) > 0){
+                $db = [
+                    'id_account' => $account3,
+                    'subacc' => '000',
+                    'product' => '00000',
+                    'id_user' => $id,
+                    'description'=> 'Ticket',
+                    'source'=> '',
+                    'category'=> '',
+                    'doc_ref'=> '',
+                    'doc_number'=> '',
+                    'desc_source'=> 'Ticket ' .$this->input->post('tujuan'),
+                    'currency'=> 'IDR',
+                    'amount_debit'=> $ticket,
+                    'amount_credit'=> 0,
+                    'status' => 'no',
+                    'id_bdgt' => $find[0]['id_bdgt'],
+                    'budget_year' => $this->input->post('periode')
+                ];
+                $da2 = $this->DetailBudget_model->create($db);
+                $p = $this->Budget_model->selectheader($find[0]['id_bdgt']);
+                // var_dump($p);
+                $data = [
+                    'id_bdgt' => $find[0]['id_bdgt'],
+                    'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
+                ];
+                // var_dump($find[0]['id_bdgt']);die;
+                $this->Budget_model->update($data);  
+                echo "<script>location.href='" . base_url('user/') . "';alert('Success to Update Data Ticket');</script>";
+            }else{
+                $da = [
+                    'id_acc' => $account3,
+                    'subacc' => '000',
+                    'product' => '00000',
+                    'id_user' => $id,
+                    'total_budget' => 0,
+                    'periode_year' => $this->input->post('periode')
+                ];
+                $da = $this->Budget_model->create($da);
+
+                $db = [
+                    'id_account' => $account3,
+                    'subacc' => '000',
+                    'product' => '00000',
+                    'id_user' => $id,
+                    'description'=> 'Ticket',
+                    'source'=> '',
+                    'category'=> '',
+                    'doc_ref'=> '',
+                    'doc_number'=> '',
+                    'desc_source'=> 'Ticket ' .$this->input->post('tujuan'),
+                    'currency'=> 'IDR',
+                    'amount_debit'=> $ticket,
+                    'amount_credit'=> 0,
+                    'status' => 'no',
+                    'id_bdgt' => $da,
+                    'budget_year' => $this->input->post('periode')
+                ];
+                $da2 = $this->DetailBudget_model->create($db);
+                $p = $this->Budget_model->selectheader($da);
+                // var_dump($p);die;
+                $data = [
+                    'id_bdgt' => $da,
+                    'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
+                ];
+                // var_dump($data['id_bdgt']);die;
+                $this->Budget_model->update($data);  
+                echo "<script>location.href='" . base_url('user/') . "';alert('Success to Add Ticket');</script>";
+            }
+
+                // $this->session->set_flashdata('message_login', $this->flasher('success', 'account has been registered!'));
+                // redirect('user/    ');
+            // } else {
+            //     echo "Failed to create Travel DA";
+            //     die;
+            //     $this->session->set_flashdata('message_login', $this->flasher('danger', 'Failed to create account'));
+            // }
+
+            // }
+            // redirect('admin/pelanggan/tambahpelanggan');
+        } else {
+            $this->load->view('templates/header');
+            $this->load->view('templates/sidebar_user',$data);
+            $this->load->view('user/add_TravelDA',$data);
+            $this->load->view('templates/footer');
+        }
+        // }
     }
 }
