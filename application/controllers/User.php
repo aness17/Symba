@@ -433,7 +433,6 @@ class User extends CI_Controller
         $usr = $this->User_model->getUser($id);
         $user = $this->User_model->selectUser($id);
 
-
         $data = [
             'usr' => $usr,
             'user' => $user,
@@ -454,19 +453,20 @@ class User extends CI_Controller
                 'qty' => $this->input->post('qty'),
                 'periode_year' => $this->input->post('periode')
             ];
-
+            
             $account1 = '104';
             $account2 = '106';
             $account3 = '107';
             $periode = date("Y", strtotime($this->input->post('periode')));
-        
+            $grade = $this->Travelda_model->getidbygrade($db['grade']) ;
+
             $travel_da = $this->Travelda_model->selectAll();
-            $hotel = $db['hari']*$db['qty']*$travel_da[0]['hotel'];
-            $ted = $db['hari']*$db['qty']*$travel_da[0]['daily_allowance'];
-            $ticket = $db['qty']*2*$travel_da[0]['ticket'];
+            $hotel = $db['hari']*$db['qty']*$travel_da[implode($grade)-1]['hotel'];
+            $ted = $db['hari']*$db['qty']*$travel_da[implode($grade)-1]['daily_allowance'];
+            $ticket = $db['qty']*2*$travel_da[implode($grade)-1]['ticket'];
             $find = $this->Budget_model->findheader($id,$account1,$periode);
-            
-            // var_dump($hotel);die;
+            // var_dump(implode($grade)-1);
+            // var_dump($travel_da[implode($grade)-1]['hotel']);die;
             // var_dump(count($find));die;
             if(count($find) > 0){
                 $db = [
