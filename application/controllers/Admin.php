@@ -57,13 +57,25 @@ class Admin extends CI_Controller
     {
             // $bg = $this->DetailBudget_model->summary();
             // $actual = $this->Actual_model->summary();
-            $totalactualcr = $this->Actual_model->totalcr()[0]->amount_credit;
-            $totalbudgetcr = $this->DetailBudget_model->totalcr()[0]->amount_credit;
-            $totalactualdr = $this->Actual_model->totaldr()[0]->amount_debit;
-            $totalbudgetdr = $this->DetailBudget_model->totaldr()[0]->amount_debit;
+            $this->form_validation->set_rules('tahun', 'tahun', 'required');
+
+            $thn = $this->input->post('tahun');
+            $thn = '';
+
+            if($this->form_validation->run()== true){
+                $thn = $this->input->post('tahun');
+            }else{
+                $thn = date('Y');
+            }
+            // var_dump($thn);die;
+            $totalactualcr = $this->Actual_model->totalcr($thn)[0]->amount_credit;
+            $totalbudgetcr = $this->DetailBudget_model->totalcr($thn)[0]->amount_credit;
+            $totalactualdr = $this->Actual_model->totaldr($thn)[0]->amount_debit;
+            $totalbudgetdr = $this->DetailBudget_model->totaldr($thn)[0]->amount_debit;
             $totalbudget = $totalbudgetdr - $totalbudgetcr;
             $totalactual = $totalactualdr - $totalactualcr;
-            $summary = $this->Actual_model->summary();
+            $summary = $this->Actual_model->summary($thn);
+            $tahun = $this->DetailBudget_model->tahun();
 
             $data = [
                 // 'bg' => $bg,
@@ -74,10 +86,12 @@ class Admin extends CI_Controller
                 'debitbudget' => $totalbudgetdr,
                 'totalbudget' => $totalbudget,
                 'totalactual' => $totalactual,
+                'tahun' => $tahun,
+                'thn' => $thn,
                 'summary' => $summary
             ];
 
-            // var_dump($totalactualdr);die;
+            // var_dump($thn);die;
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin');
             $this->load->view('admin/dashboard', $data);
@@ -86,7 +100,9 @@ class Admin extends CI_Controller
     public function budget_detail()
     {
         $iduser = (int)$_POST['id_user'];
-        $data = $this->DetailBudget_model->selectbyid($iduser);
+        $thn = (int)$_POST['thn'];
+        echo $thn;
+        $data = $this->DetailBudget_model->selectbyid($iduser,$thn);
         $content =  '';
         $isi_table = '';
         if (empty($data)) {
@@ -114,7 +130,8 @@ class Admin extends CI_Controller
     public function actual_detail()
     {
         $iduser = (int)$_POST['id_user'];
-        $data = $this->Actual_model->getbybudget($iduser);
+        $thn = (int)$_POST['thn'];
+        $data = $this->Actual_model->getbybudget($iduser,$thn);
         $content =  '';
         $isi_table = '';
         if (empty($data)) {
@@ -142,7 +159,9 @@ class Admin extends CI_Controller
     public function creditactual_detail()
     {
         $iduser = (int)$_POST['id_user'];
-        $data = $this->Actual_model->getbybudget($iduser);
+        $thn = (int)$_POST['thn'];
+        var_dump($thn);die;
+        $data = $this->Actual_model->getbybudget($iduser,$thn);
         $content =  '';
         $isi_table = '';
         if (empty($data)) {

@@ -70,12 +70,16 @@ class Actual_model extends CI_Model
         $this->db->where($this->primary, $data[$this->primary]);
         return $this->db->update($this->table, $data);
     }
-    public function totalcr(){
-        $this->db->select_sum('amount_credit');
+    public function totalcr($thn){
+        $this->db->select_sum('A.amount_credit');
+        $this->db->join('tdetail_budget E', 'A.id_budget = E.id_budget');
+        $this->db->where('E.budget_year',$thn);
         return $this->db->get($this->table . " as A")->result();
     }
-    public function totaldr(){
-        $this->db->select_sum('amount_debit');
+    public function totaldr($thn){
+        $this->db->select_sum('A.amount_debit');
+        $this->db->join('tdetail_budget E', 'A.id_budget = E.id_budget');
+        $this->db->where('E.budget_year',$thn);
         return $this->db->get($this->table . " as A")->result();
     }
     public function delete($id)
@@ -101,14 +105,14 @@ class Actual_model extends CI_Model
         $this->db->where('E.budget_year',$thn);
         return $this->db->get($this->table . " as A")->result();
     }
-    public function summary(){
+    public function summary($thn){
         return $this->db->query('SELECT tdetail_budget.currency bd,tactual.currency cr,tdivision.division,tstation.code_station,tdetail_budget.id_user,
         tdetail_budget.id_budget,debit_budget,credit_budget,SUM(tactual.amount_debit) debit_actual, SUM(tactual.amount_credit) credit_actual 
         FROM `tactual` RIGHT JOIN `tdetail_budget` on tdetail_budget.id_budget = tactual.id_budget JOIN (SELECT tdetail_budget.currency,tdetail_budget.id_user,
         SUM(tdetail_budget.amount_debit) debit_budget,SUM(tdetail_budget.amount_credit)credit_budget FROM tdetail_budget JOIN tuser 
         ON tuser.id_user = tdetail_budget.id_user GROUP BY tdetail_budget.id_user) tbl_budget_user ON tbl_budget_user.id_user = tdetail_budget.id_user 
         JOIN `tuser` ON tuser.id_user = tdetail_budget.id_user JOIN `tdivision` on tdivision.id_dvn = tuser.id_dvn JOIN `tstation` 
-        ON tstation.id_station = tdivision.id_station GROUP BY tdetail_budget.id_user ORDER BY tstation.code_station')->result_array();
+        ON tstation.id_station = tdivision.id_station WHERE tdetail_budget.budget_year = '.$thn.' GROUP BY tdetail_budget.id_user ORDER BY tstation.code_station')->result_array();
         // return $this->db->query('select tdivision.division,sum(tdetail_budget.amount_debit) debitbgt, sum(a.amount_debit) as debit ,SUM(a.amount_credit) as credit,sum(tdetail_budget.amount_debit)debitbgt from tactual a RIGHT join tdetail_budget on a.id_budget = tdetail_budget.id_budget join tuser ON tuser.id_user = tdetail_budget.id_user join tdivision on tdivision.id_dvn = tuser.id_dvn GROUP BY tuser.id_user')->result_array();
     }
     public function getactdetail($id,$iduser)
@@ -138,7 +142,7 @@ class Actual_model extends CI_Model
         $this->db->where('A.id_budget', $id);
         return $this->db->get($this->table . " as A")->result_array();
     }
-    public function getbybudget($id)
+    public function getbybudget($id,$tahun)
     {
         $this->db->select('G.name_user,H.id_acc,C.code_costcen,D.code_station,B.company,B.division, D.name_station,A.*,E.desc_source as desc,E.amount_debit as debit');
         $this->db->join('tdetail_budget E', 'A.id_budget = E.id_budget');
@@ -149,8 +153,8 @@ class Actual_model extends CI_Model
         $this->db->join('tstation D', 'B.id_station=D.id_station');
         $this->db->join('taccount H', 'E.id_account = H.id_account'); 
         $this->db->where('E.id_user', $id);
+        $this->db->where('E.budget_year', $tahun);
         $this->db->where('A.actual_date like','%'.date('Y').'%');
-
         return $this->db->get($this->table . " as A")->result_array();
     }
     public function sumcreditt($id){

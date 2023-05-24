@@ -56,9 +56,20 @@
         </div>
     </div>
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div class="d-sm-flex mb-4">
         <h1 class="h3 mb-0 text-gray-800">Summary</h1>
-
+            <!-- <span class="text"> -->
+                <form action="" method="post">
+                    <select id="tahun" name="tahun" class="ml-3">
+                        <option value="-">Pilih Tahun</option>  
+                            <?php foreach ($tahun as $r) : ?>
+                        <option value="<?= $r['tahun'] ?>"><?= $r['tahun'] ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                <?= form_error('tahun', '<small class="form-text text-danger">', '</small>'); ?>
+                <button type="submit" id="tombol">Cek</button>
+                </form>
+            <!-- </span> -->
     </div>
 
     <!-- Content Row -->
@@ -154,9 +165,9 @@
                             <tr style="text-align: center;">
                                 <td><?= $no; ?></td>
                                 <td><?= $sm['division']?>-<?= $sm['code_station']?></td>
-                                <td><a href="#budget" onclick="budget(<?= $sm['id_user'] ?>)" data-toggle="modal"><?= number_format($sm['debit_budget'], 0, ",", "."); ?> <?= $sm['bd']?></a></td>
-                                <td><a href="#budget" onclick="actual(<?= $sm['id_user'] ?>)" data-toggle="modal"><?= number_format($sm['debit_actual']-$sm['credit_actual'], 0, ",", "."); ?> <?= $sm['bd']?></a></td>
-                                <td><a href="#budget" onclick="creditactual(<?= $sm['id_user'] ?>)" data-toggle="modal"><?= number_format($sm['debit_budget']-$sm['debit_actual']+$sm['credit_actual'], 0, ",", "."); ?> <?= $sm['bd']?></a></td>
+                                <td><a href="#budget" onclick="budget(<?= $sm['id_user'] ?>,<?= $thn?>)" data-toggle="modal"><?= number_format($sm['debit_budget'], 0, ",", "."); ?> <?= $sm['bd']?></a></td>
+                                <td><a href="#budget" onclick="actual(<?= $sm['id_user'] ?>,<?= $thn?>)" data-toggle="modal"><?= number_format($sm['debit_actual']-$sm['credit_actual'], 0, ",", "."); ?> <?= $sm['bd']?></a></td>
+                                <td><a href="#budget" onclick="creditactual(<?= $sm['id_user'] ?>,<?= $thn?>)" data-toggle="modal"><?= number_format($sm['debit_budget']-$sm['debit_actual']+$sm['credit_actual'], 0, ",", "."); ?> <?= $sm['bd']?></a></td>
                             </tr>
                             <?php $no++;
                         endforeach; ?>

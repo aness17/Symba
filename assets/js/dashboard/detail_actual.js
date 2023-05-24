@@ -53,13 +53,15 @@ function dtl_budget(id, idbudget) {
 	});
 }
 
-function budget(id) {
+function budget(tahun) {
 	let id_user = id;
+	let thn = tahun;
 	$.ajax({
 		url: "http://192.168.11.116/Symba/admin/budget_detail",
 		type: "POST",
 		data: {
 			id_user: id_user,
+			thn: thn,
 		},
 		success: function (r) {
 			let obj = JSON.parse(r);
@@ -80,13 +82,15 @@ function budget(id) {
 	});
 }
 
-function actual(id) {
+function actual(id, tahun) {
 	let id_user = id;
+	let thn = tahun;
 	$.ajax({
 		url: "http://192.168.11.116/Symba/admin/actual_detail",
 		type: "POST",
 		data: {
 			id_user: id_user,
+			thn: thn,
 		},
 		success: function (r) {
 			let obj = JSON.parse(r);
@@ -105,13 +109,16 @@ function actual(id) {
 	});
 }
 
-function creditactual(id) {
+function creditactual(id, tahun) {
 	let id_user = id;
+	let thn = tahun;
+	console.log(thn);
 	$.ajax({
 		url: "http://192.168.11.116/Symba/admin/creditactual_detail",
 		type: "POST",
 		data: {
 			id_user: id_user,
+			thn: thn,
 		},
 		success: function (r) {
 			let obj = JSON.parse(r);

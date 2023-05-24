@@ -155,12 +155,16 @@ class DetailBudget_model extends CI_Model
         return $this->db->get($this->table . " as A")->result();
     }
     
-    public function totalcr(){
+    public function totalcr($thn){
         $this->db->select_sum('amount_credit');
+        $this->db->where('A.budget_year',$thn);
+
         return $this->db->get($this->table . " as A")->result();
     }
-    public function totaldr(){
-        $this->db->select_sum('amount_debit');
+    public function totaldr($thn){
+        $this->db->select_sum('amount_debit');        
+        $this->db->where('A.budget_year',$thn);
+
         return $this->db->get($this->table . " as A")->result();
     }
     public function updatestatus($data, $id)
