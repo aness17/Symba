@@ -53,7 +53,7 @@ function dtl_budget(id, idbudget) {
 	});
 }
 
-function budget(tahun) {
+function budget(id, tahun) {
 	let id_user = id;
 	let thn = tahun;
 	$.ajax({
@@ -112,7 +112,7 @@ function actual(id, tahun) {
 function creditactual(id, tahun) {
 	let id_user = id;
 	let thn = tahun;
-	console.log(thn);
+	// console.log(thn);
 	$.ajax({
 		url: "http://192.168.11.116/Symba/admin/creditactual_detail",
 		type: "POST",

@@ -101,7 +101,7 @@ class Admin extends CI_Controller
     {
         $iduser = (int)$_POST['id_user'];
         $thn = (int)$_POST['thn'];
-        echo $thn;
+        // echo $thn;
         $data = $this->DetailBudget_model->selectbyid($iduser,$thn);
         $content =  '';
         $isi_table = '';
