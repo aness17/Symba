@@ -20,8 +20,6 @@
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>PIC</label>
                                 <select name="user" class="form-control" id="exampleFormControlSelect1" name="user" disabled>
-
-                                    
                                         <option value="<?= $h['user'] ?>"><?= $h['name_user'] ?> [<?= $h['division'] ?> - <?= $h['name_station'] ?>]</option>
                                 </select>
                                 <?= form_error('user', '<small class="form-text text-danger">', '</small>'); ?>

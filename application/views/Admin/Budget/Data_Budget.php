@@ -11,11 +11,10 @@
             <div class="d-flex justify-content-between">
                 <h6 class="m-2 font-weight-bold text-primary">Budget Data</h6>
                 <div>
-                <a href="<?= base_url('budget/databudget') ?>" class="btn btn-info">Back</a>
-                <a href="<?= base_url('budget/addbudget/' . $id)?>" class="btn btn-primary">Add Data</a>
-</div>
+                    <a href="<?= base_url('budget/databudget') ?>" class="btn btn-info">Back</a>
+                    <a href="<?= base_url('budget/addbudget/' . $id)?>" class="btn btn-primary">Add Data</a>
+                </div>
             </div>
-
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -71,10 +70,5 @@
         
     </div>
 </div>
-</div>
 
-</div>
-<!-- /.container-fluid -->
-
-</div>
             <!-- End of Main Content -->

@@ -327,7 +327,7 @@ class User extends CI_Controller
     }
     public function detailbudget($id)
     {
-                $ci = get_instance();
+            $ci = get_instance();
 
             $iduser = $ci->session->userdata('id');
             $user = $this->User_model->selectUser($id);
@@ -479,7 +479,7 @@ class User extends CI_Controller
                     'category'=> '',
                     'doc_ref'=> '',
                     'doc_number'=> '',
-                    'desc_source'=> 'Daily Allowance ' .$this->input->post('tujuan'),
+                    'desc_source'=> 'Daily Allowance ' .$this->input->post('tujuan') .' '.$this->input->post('grade'),
                     'currency'=> 'IDR',
                     'amount_debit'=> $hotel,
                     'amount_credit'=> 0,

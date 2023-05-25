@@ -96,7 +96,30 @@ class Admin extends CI_Controller
             $this->load->view('templates/sidebar_admin');
             $this->load->view('admin/dashboard', $data);
             $this->load->view('templates/footer');
-            }
+    }
+    public function chooseadd()
+    {
+        // $ci = get_instance();
+
+        // $id = $ci->session->userdata('id');
+        // $user = $this->User_model->selectUser($id);
+        // // $sisa = $bg['amount_debit']-$actual['amount_debit'];
+        // // $bg = $this->DetailBudget_model->selectAll();
+        // // $actual = $this->Actual_model->useractById($id);
+        // $data = [
+        //     // 'actual' => $actual,
+        //     'user' => $user,
+        //     // 'bg' => $bg,
+        //     'heading'=>'user'
+        //     // 'sisa' => $sisa
+        // ];
+        // var_dump($bg);die;
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar_admin');
+        $this->load->view('admin/budget/chooseadd');
+        $this->load->view('templates/footer');
+        
+    }
     public function budget_detail()
     {
         $iduser = (int)$_POST['id_user'];

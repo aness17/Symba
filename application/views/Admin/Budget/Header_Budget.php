@@ -10,9 +10,9 @@
         <div class="card-header py-2">
             <div class="d-flex justify-content-between">
                 <h6 class="m-2 font-weight-bold text-primary">Budget Data</h6>
-                <a href="<?= base_url('budget/addheaderbudget') ?>" class="btn btn-primary">Add Data</a>
+                <a href="<?= base_url('admin/chooseadd') ?>" class="btn btn-primary">Add Data</a>
+                <!-- <a href="<?= base_url('budget/addheaderbudget') ?>" class="btn btn-primary">Add Data</a> -->
             </div>
-
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -41,9 +41,9 @@
                                 <!-- <td><?= $bg['category'] ?></td> -->
                                 <!-- <td><?= $bg['currency'] ?></td> -->
                                 <td><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
-                                
                                 <td><a href="<?= base_url('budget/datadetailbudget/' . $bg['id_bdgt']) ?>" type="button" class="fa fa-binoculars" style="color:blue">
-                                    </a></td>    
+                                    </a>
+                                </td>    
                                                             </tr>
                             <?php $no++;
                         endforeach; ?>
@@ -51,13 +51,6 @@
                 </table>
             </div>
         </div>
-        
     </div>
-</div>
-</div>
-
-</div>
-<!-- /.container-fluid -->
-
 </div>
             <!-- End of Main Content -->
