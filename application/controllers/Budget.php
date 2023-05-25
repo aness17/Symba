@@ -159,8 +159,8 @@ class Budget extends CI_Controller
                         'amount_debit'=> $this->input->post('debit'),
                         'amount_credit'=> $this->input->post('credit'),
                         'status' => 'no',
-                        'id_bdgt' => $id
-
+                        'id_bdgt' => $id,
+                        'budget_year' => date('Y')
                     ];
 
                 // var_dump($db);die;
