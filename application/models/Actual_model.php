@@ -22,6 +22,16 @@ class Actual_model extends CI_Model
         $this->db->group_by('month(actual_date)');
         return $this->db->get($this->table . " as A")->result_array();
     }
+    public function AllActualperbulan($thn){
+        // SELECT concat(month(actual_date)," - ",year(actual_date)) as Bulan, sum(tactual.amount_debit)-sum(tactual.amount_credit) as jumlah  
+        // FROM `tactual` JOIN tdetail_budget ON tdetail_budget.id_budget = tactual.id_budget WHERE tdetail_budget.id_user = 4 
+        // GROUP BY month(actual_date)
+        $this->db->select('sum(A.amount_debit)-sum(A.amount_credit) as jumlah');
+        $this->db->join('tdetail_budget B', 'A.id_budget = B.id_budget');
+        $this->db->where('B.budget_year',$thn);
+        $this->db->group_by('month(actual_date)');
+        return $this->db->get($this->table . " as A")->result_array();
+    }
 
     public function selectAll()
     {
@@ -112,7 +122,7 @@ class Actual_model extends CI_Model
         SUM(tdetail_budget.amount_debit) debit_budget,SUM(tdetail_budget.amount_credit)credit_budget FROM tdetail_budget JOIN tuser 
         ON tuser.id_user = tdetail_budget.id_user WHERE tdetail_budget.budget_year = '.$thn.' GROUP BY tdetail_budget.id_user) tbl_budget_user ON tbl_budget_user.id_user = tdetail_budget.id_user 
         JOIN `tuser` ON tuser.id_user = tdetail_budget.id_user JOIN `tdivision` on tdivision.id_dvn = tuser.id_dvn JOIN `tstation` 
-        ON tstation.id_station = tdivision.id_station WHERE tdetail_budget.budget_year = '.$thn.' GROUP BY tdetail_budget.id_user ORDER BY tstation.code_station')->result_array();
+        ON tstation.id_station = tdivision.id_station WHERE tdetail_budget.budget_year = '.$thn.' GROUP BY tdetail_budget.id_user ASC ORDER BY tstation.code_station asc')->result_array();
         // return $this->db->query('select tdivision.division,sum(tdetail_budget.amount_debit) debitbgt, sum(a.amount_debit) as debit ,SUM(a.amount_credit) as credit,sum(tdetail_budget.amount_debit)debitbgt from tactual a RIGHT join tdetail_budget on a.id_budget = tdetail_budget.id_budget join tuser ON tuser.id_user = tdetail_budget.id_user join tdivision on tdivision.id_dvn = tuser.id_dvn GROUP BY tuser.id_user')->result_array();
     }
     public function getactdetail($id,$iduser)

@@ -2,6 +2,24 @@
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
+    <div class="d-sm-flex mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Summary</h1>
+            <!-- <span class="text"> -->
+                <form action="" method="post">
+                    <select id="tahun" name="tahun" class="ml-3">
+                        <!-- <option value="-">Pilih Tahun</option>   -->
+                        <?php foreach ($tahun as $r) : ?>
+                        <option value="<?= $r['tahun'] ?>" <?= ($r['tahun'] == $thn) ? "selected" : "" ?>><?= $r['tahun'] ?></option>
+                        <?php endforeach; 
+                        
+                        ?>
+
+                    </select>
+                <?= form_error('tahun', '<small class="form-text text-danger">', '</small>'); ?>
+                <button type="submit" id="tombol">Cek</button>
+                </form>
+            <!-- </span> -->
+    </div>
     <div class="row">
         <!-- Pie Chart -->
         <div class="col-xl-6 col-lg-6">
@@ -55,22 +73,36 @@
 
         </div>
     </div>
+    <div class="col-xl-12 col-lg-6">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Percentage (%)</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="chart-bar">
+                <canvas id="myBarChart"></canvas>
+                    </div>
+                        <?php
+                        $hasil = '';
+                        foreach($diagram as $d){                            
+                            $flatArray = array_column($diagram, 'jumlah');
+                            if(count($diagram) > 0){
+                                $hasil = implode(",",$flatArray);
+                            }else{
+                                $hasil = $flatArray;
+                            }
+                        }
+                        // var_dump($hasil);die;
+                        ?>
+                    </div>
+            </div>
+                            <input type="hidden" id="diagram" value="<?=$hasil;?>">
+
+
     <!-- Page Heading -->
-    <div class="d-sm-flex mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Summary</h1>
-            <!-- <span class="text"> -->
-                <form action="" method="post">
-                    <select id="tahun" name="tahun" class="ml-3">
-                        <option value="-">Pilih Tahun</option>  
-                            <?php foreach ($tahun as $r) : ?>
-                        <option value="<?= $r['tahun'] ?>"><?= $r['tahun'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                <?= form_error('tahun', '<small class="form-text text-danger">', '</small>'); ?>
-                <button type="submit" id="tombol">Cek</button>
-                </form>
-            <!-- </span> -->
-    </div>
+    
+    
 
     <!-- Content Row -->
     <div class="row">
@@ -133,7 +165,7 @@
         </div>
     </div>
 
-
+    
 
     <div class="card shadow mb-4">
         <div class="card-header py-2">

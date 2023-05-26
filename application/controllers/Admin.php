@@ -76,6 +76,7 @@ class Admin extends CI_Controller
             $totalactual = $totalactualdr - $totalactualcr;
             $summary = $this->Actual_model->summary($thn);
             $tahun = $this->DetailBudget_model->tahun();
+            $diagram = $this->Actual_model->AllActualperbulan($thn);
 
             $data = [
                 // 'bg' => $bg,
@@ -88,6 +89,7 @@ class Admin extends CI_Controller
                 'totalactual' => $totalactual,
                 'tahun' => $tahun,
                 'thn' => $thn,
+                'diagram' => $diagram,
                 'summary' => $summary
             ];
 

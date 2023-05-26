@@ -128,7 +128,7 @@ var myBarChart = new Chart(ctx, {
 					var datasetLabel =
 						chart.datasets[tooltipItem.datasetIndex].label || "";
 					return (
-						datasetLabel + ": " + number_format(tooltipItem.yLabel) + " IDR"
+						datasetLabel + " : " + number_format(tooltipItem.yLabel) + " IDR"
 					);
 				},
 			},
