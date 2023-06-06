@@ -57,11 +57,12 @@ class Budget extends CI_Controller
         if ($ci->session->userdata('id_role') == '1') {
             $bg = $this->Budget_model->selectAll();
             $data = [
-                'bg' => $bg
+                'bg' => $bg,
+                'heading' => 'budget'
             ];
             // var_dump($bg);die;
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/budget/header_budget',$data);
             $this->load->view('templates/footer');
         } else {
@@ -77,11 +78,12 @@ class Budget extends CI_Controller
             $data = [
                 'bg' => $bg,
                 'sisa' => $sisa,
-                'id' => $id
+                'id' => $id,
+                'heading' => 'budget'
             ];
             // var_dump($sisa);die;
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/budget/data_budget',$data);
             $this->load->view('templates/footer');
         } else {
@@ -101,13 +103,14 @@ class Budget extends CI_Controller
                 'bg' => $bgs,
                 'actdetail' => $actdetail,
                 'totaltx' => $totaltx,
-                'id' => $idbudgets['id_bdgt']          
+                'id' => $idbudgets['id_bdgt']     ,
+                'heading' => 'budget'     
             ];
             // var_dump($bgs);
             // echo "<br />";
             // var_dump($idbudgets);die;
                 $this->load->view('templates/header');
-                $this->load->view('templates/sidebar_admin');
+                $this->load->view('templates/sidebar_admin',$data);
                 $this->load->view('admin/budget/detailbudget',$data);
                 $this->load->view('templates/footer');
         } else {
@@ -140,7 +143,8 @@ class Budget extends CI_Controller
                     'user' => $user,
                     'account' => $account,
                     'h' => $h,
-                    'id' => $id
+                    'id' => $id,
+                    'heading' => 'budget'
                 ];
                 // var_dump($h);die;
                 if ($this->form_validation->run() == true) {
@@ -186,7 +190,7 @@ class Budget extends CI_Controller
                 // redirect('admin/pelanggan/tambahpelanggan');
                 } else {
                     $this->load->view('templates/header');
-                    $this->load->view('templates/sidebar_admin');
+                    $this->load->view('templates/sidebar_admin',$data);
                     $this->load->view('admin/budget/Addbudget',$data);
                     $this->load->view('templates/footer');
                 }
@@ -236,7 +240,8 @@ class Budget extends CI_Controller
                 $account = $this->Account_model->selectAll();
                 $data = [
                     'user' => $user,
-                    'account' => $account
+                    'account' => $account,
+                    'heading' => 'budget'
                 ];
                 // var_dump($account);die;
                 if ($this->form_validation->run() == true) {
@@ -265,7 +270,7 @@ class Budget extends CI_Controller
                                     // var_dump($data);die;
 
                     $this->load->view('templates/header');
-                    $this->load->view('templates/sidebar_admin');
+                    $this->load->view('templates/sidebar_admin',$data);
                     $this->load->view('admin/budget/Addheaderbudget',$data);
                     $this->load->view('templates/footer');
                 }
@@ -295,7 +300,8 @@ class Budget extends CI_Controller
                $data = [
                 'bg' => $bg,
                 'user' => $user,
-                'account' => $account
+                'account' => $account,
+                'heading' => 'budget'
             ];
             // var_dump();die;
 
@@ -349,7 +355,7 @@ class Budget extends CI_Controller
             } else {
 
                 $this->load->view('templates/header');
-                $this->load->view('templates/sidebar_admin');
+                $this->load->view('templates/sidebar_admin',$data);
                 $this->load->view('admin/budget/edit_budget',$data);
                 $this->load->view('templates/footer');
             }
@@ -406,7 +412,7 @@ class Budget extends CI_Controller
 
         $data = [
             'user' => $user,
-            'heading'=>'user'
+            'heading'=>'budget'
         ];
         // var_dump($data);die;
         $this->form_validation->set_rules('user', 'User', 'required');
@@ -672,7 +678,7 @@ class Budget extends CI_Controller
             // redirect('admin/pelanggan/tambahpelanggan');
         } else {
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/budget/add_TravelDA',$data);
             $this->load->view('templates/footer');
         }

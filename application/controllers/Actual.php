@@ -55,11 +55,12 @@ class Actual extends CI_Controller
             $actual = $this->Actual_model->selectAll();
             $bg = $this->Actual_model->selectAll();
             $data = [
-                'actual' => $actual
+                'actual' => $actual,
+                'heading' => 'actual'
             ];
             // var_dump($data);die;
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/actual/data_actual',$data);
             $this->load->view('templates/footer');
     }
@@ -88,7 +89,8 @@ class Actual extends CI_Controller
                 // 'debit' => $debit,
                 // 'credit' => $credit,
                 'bg' => $bg,
-                'id' => $id
+                'id' => $id,
+                'heading' => 'actual'
                 // 'user' => $user
             ];
             // var_dump($bg);die;
@@ -132,7 +134,7 @@ class Actual extends CI_Controller
                 // redirect('admin/pelanggan/tambahpelanggan');
             } else {
                 $this->load->view('templates/header');
-                $this->load->view('templates/sidebar_admin');
+                $this->load->view('templates/sidebar_admin',$data);
                 $this->load->view('admin/actual/Add_actual',$data);
                 $this->load->view('templates/footer');
             }
@@ -160,7 +162,8 @@ class Actual extends CI_Controller
             'bg' => $bg,
             'actual' => $actual,
             // 'user' => $user,
-            'account' => $account
+            'account' => $account,
+            'heading' => 'actual'
         ];
 
         if ($this->form_validation->run() == true) {
@@ -200,7 +203,7 @@ class Actual extends CI_Controller
         } else {
 
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/actual/edit_actual',$data);
             $this->load->view('templates/footer');
             // var_dump($data['actual']);die;

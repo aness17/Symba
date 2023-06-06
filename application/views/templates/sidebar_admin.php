@@ -12,7 +12,7 @@
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
+    <li class="nav-item <?= ($heading=="dashboard")?'active':'';?>">
         <a class="nav-link" href="<?= base_url('admin/')?>">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
@@ -27,7 +27,7 @@
         </div>
 
         <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
+        <li class="nav-item <?= ($heading=="master")?'active':'';?>">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-folder"></i>
                 <span>Master Data</span>
@@ -47,14 +47,19 @@
 
                 </div>
             </div>
+        </li>
+        <li class="nav-item <?= ($heading=="user")?'active':'';?>">
             <a class="nav-link" href="<?= base_url('admin/user')?>">
                 <i class="fas fa-fw fa-folder"></i>
                 <span>User Data</span>
             </a>
+        </li>
+        <li class="nav-item <?= ($heading=="dvn")?'active':'';?>">
             <a class="nav-link" href="<?= base_url('admin/dvn')?>">
                 <i class="fas fa-fw fa-folder"></i>
                 <span>Division Data</span>
             </a>
+        </li>
             <!-- <a class="nav-link" href="<?= base_url('admin/')?>">
                 <i class="fas fa-fw fa-folder"></i>
                 <span>User Access</span>
@@ -67,14 +72,15 @@
                 Data Budget
             </div>
             <!-- Nav Item - Charts -->
-            <li class="nav-item">
+            <li class="nav-item <?= ($heading=="budget")?'active':'';?>">
                 <a class="nav-link" href="<?= base_url('budget/databudget')?>">
                     <i class="fas fa-database"></i>
-                    <span>Data Budget</span></a>
-                </li>
+                    <span>Data Budget</span>
+                </a>
+            </li>
 
                 <!-- Nav Item - Tables -->
-                <li class="nav-item">
+            <li class="nav-item <?= ($heading=="actual")?'active':'';?>">
                     <a class="nav-link" href="<?= base_url('actual/dataactual')?>">
                         <i class="fas fa-database"></i>
                         <span>All Data Actual</span>

@@ -90,12 +90,13 @@ class Admin extends CI_Controller
                 'tahun' => $tahun,
                 'thn' => $thn,
                 'diagram' => $diagram,
-                'summary' => $summary
+                'summary' => $summary,
+                'heading' => 'dashboard'
             ];
 
             // var_dump($thn);die;
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/dashboard', $data);
             $this->load->view('templates/footer');
     }
@@ -116,8 +117,9 @@ class Admin extends CI_Controller
         //     // 'sisa' => $sisa
         // ];
         // var_dump($bg);die;
+        $data= ['heading' => 'budget'];
         $this->load->view('templates/header');
-        $this->load->view('templates/sidebar_admin');
+        $this->load->view('templates/sidebar_admin',$data);
         $this->load->view('admin/budget/chooseadd');
         $this->load->view('templates/footer');
         
@@ -216,10 +218,11 @@ class Admin extends CI_Controller
     {
             $user = $this->User_model->selectAll();
             $data = [
-                'user' => $user
+                'user' => $user,
+                'heading' => 'user'
             ];
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/user/data_user', $data);
             $this->load->view('templates/footer');
         
@@ -237,7 +240,8 @@ class Admin extends CI_Controller
             $role = $this->Roles_model->selectAll();
             $data = [
                 'dvn' => $dvn,
-                'role' => $role
+                'role' => $role,
+                'heading' => 'user'
             ];
             if ($this->form_validation->run() == true) {
                 $config['upload_path']          = './fotouser/';
@@ -277,7 +281,7 @@ class Admin extends CI_Controller
                 }
             } else {
                 $this->load->view('templates/header');
-                $this->load->view('templates/sidebar_admin');
+                $this->load->view('templates/sidebar_admin',$data);
                 $this->load->view('admin/user/add_user', $data);
                 $this->load->view('templates/footer');
             }
@@ -300,7 +304,8 @@ class Admin extends CI_Controller
             $data = [
                 'user' => $user,
                 'dvn' => $dvn,
-                'role' => $role
+                'role' => $role,
+                'heading' => 'user'
             ];
             // if ($id == "") {
             // var_dump($user['id_station']);die;
@@ -341,7 +346,7 @@ class Admin extends CI_Controller
                 // redirect('admin/pelanggan/tambahpelanggan');
             } else {
                 $this->load->view('templates/header');
-                $this->load->view('templates/sidebar_admin');
+                $this->load->view('templates/sidebar_admin',$data);
                 $this->load->view('admin/user/edit_user', $data);
                 $this->load->view('templates/footer');
             }
@@ -427,11 +432,12 @@ class Admin extends CI_Controller
     {
         $dvn = $this->Division_model->selectAll();
         $data = [
-            'dvn' => $dvn
+            'dvn' => $dvn,
+            'heading' => 'dvn'
         ];
 
         $this->load->view('templates/header');
-        $this->load->view('templates/sidebar_admin');
+        $this->load->view('templates/sidebar_admin',$data);
         $this->load->view('admin/division/data_division', $data);
         $this->load->view('templates/footer');
     }
@@ -451,7 +457,8 @@ class Admin extends CI_Controller
             'dpt' => $dpt,
             'cc' => $cc,
             'station' => $station,
-            'lob' => $lob
+            'lob' => $lob,
+            'heading' => 'master'
         ];
 
         if ($this->form_validation->run() == true) {
@@ -477,8 +484,9 @@ class Admin extends CI_Controller
             // }
             // redirect('admin/pelanggan/tambahpelanggan');
         } else {
+            $data= ['heading' => 'dvn'];
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/Division/add_division', $data);
             $this->load->view('templates/footer');
         }
@@ -503,7 +511,8 @@ class Admin extends CI_Controller
             'dpt' => $dpt,
             'cc' => $cc,
             'station' => $station,
-            'lob' => $lob
+            'lob' => $lob,
+            'heading' => 'dvn'
 
         ];
         // if ($id == "") {
@@ -524,7 +533,7 @@ class Admin extends CI_Controller
             redirect('admin/dvn');
         } else {
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/division/edit_division', $data);
             $this->load->view('templates/footer');
         }
@@ -550,11 +559,12 @@ class Admin extends CI_Controller
     {
         $dpt = $this->Departement_model->selectAll();
         $data = [
-            'dpt' => $dpt
+            'dpt' => $dpt,
+            'heading' => 'master'
         ];
 
         $this->load->view('templates/header');
-        $this->load->view('templates/sidebar_admin');
+        $this->load->view('templates/sidebar_admin',$data);
         $this->load->view('admin/departement/data_dpt', $data);
         $this->load->view('templates/footer');
     }
@@ -566,7 +576,6 @@ class Admin extends CI_Controller
         if ($this->form_validation->run() == true) {
             $db = [
                 'name_dpt' => $this->input->post('departement')
-
             ];
 
 
@@ -582,8 +591,9 @@ class Admin extends CI_Controller
             // }
             // redirect('admin/pelanggan/tambahpelanggan');
         } else {
+            $data= ['heading' => 'master'];
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/Departement/add_dpt');
             $this->load->view('templates/footer');
         }
@@ -596,7 +606,8 @@ class Admin extends CI_Controller
 
         $dpt = $this->Departement_model->getDptById($id);
         $data = [
-            'dpt' => $dpt
+            'dpt' => $dpt,
+            'heading' => 'master'
 
         ];
         // if ($id == "") {
@@ -612,8 +623,9 @@ class Admin extends CI_Controller
             }
             redirect('admin/dpt');
         } else {
+            $data= ['heading' => 'master'];
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/departement/edit_Dpt', $data);
             $this->load->view('templates/footer');
         }
@@ -639,11 +651,12 @@ class Admin extends CI_Controller
     {
         $station = $this->Station_model->selectAll();
         $data = [
-            'station' => $station
+            'station' => $station,
+            'heading' => 'master'
         ];
 
         $this->load->view('templates/header');
-        $this->load->view('templates/sidebar_admin');
+        $this->load->view('templates/sidebar_admin',$data);
         $this->load->view('admin/Station/data_Station', $data);
         $this->load->view('templates/footer');
     }
@@ -671,8 +684,9 @@ class Admin extends CI_Controller
             // }
             // redirect('admin/pelanggan/tambahpelanggan');
         } else {
+            $data= ['heading' => 'master'];
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/station/add_station');
             $this->load->view('templates/footer');
         }
@@ -686,7 +700,8 @@ class Admin extends CI_Controller
 
         $station = $this->Station_model->getstnById($id);
         $data = [
-            'station' => $station
+            'station' => $station,
+            'heading' => 'master'
         ];
         // if ($id == "") {
         if ($this->form_validation->run() == true) {
@@ -702,8 +717,9 @@ class Admin extends CI_Controller
             }
             redirect('admin/station');
         } else {
+            $data= ['heading' => 'master'];
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/Station/edit_Station', $data);
             $this->load->view('templates/footer');
         }
@@ -728,11 +744,12 @@ class Admin extends CI_Controller
     {
         $costcen = $this->Costcen_model->selectAll();
         $data = [
-            'costcen' => $costcen
+            'costcen' => $costcen,
+            'heading' => 'master'
         ];
 
         $this->load->view('templates/header');
-        $this->load->view('templates/sidebar_admin');
+        $this->load->view('templates/sidebar_admin',$data);
         $this->load->view('admin/Cost_center/data_costcen', $data);
         $this->load->view('templates/footer');
     }
@@ -759,8 +776,9 @@ class Admin extends CI_Controller
             // }
             // redirect('admin/pelanggan/tambahpelanggan');
         } else {
+            $data= ['heading' => 'master'];
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/Cost_Center/add_costcen');
             $this->load->view('templates/footer');
         }
@@ -789,8 +807,9 @@ class Admin extends CI_Controller
             }
             redirect('admin/costcen');
         } else {
+            $data= ['heading' => 'master'];
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/cost_center/edit_costcen', $data);
             $this->load->view('templates/footer');
         }
@@ -815,11 +834,12 @@ class Admin extends CI_Controller
     {
         $lob = $this->Lob_model->selectAll();
         $data = [
-            'lob' => $lob
+            'lob' => $lob,
+            'heading' => 'master'
         ];
 
         $this->load->view('templates/header');
-        $this->load->view('templates/sidebar_admin');
+        $this->load->view('templates/sidebar_admin',$data);
         $this->load->view('admin/lob/data_lob', $data);
         $this->load->view('templates/footer');
     }
@@ -845,8 +865,9 @@ class Admin extends CI_Controller
             // }
             // redirect('admin/pelanggan/tambahpelanggan');
         } else {
+            $data= ['heading' => 'master'];
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/lob/add_lob');
             $this->load->view('templates/footer');
         }
@@ -873,8 +894,9 @@ class Admin extends CI_Controller
             }
             redirect('admin/lob');
         } else {
+             $data= ['heading' => 'master'];
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/lob/edit_lob', $data);
             $this->load->view('templates/footer');
         }
@@ -900,11 +922,12 @@ class Admin extends CI_Controller
     {
         $roles = $this->Roles_model->selectAll();
         $data = [
-            'roles' => $roles
+            'roles' => $roles,
+            'heading' => 'master'
         ];
 
         $this->load->view('templates/header');
-        $this->load->view('templates/sidebar_admin');
+        $this->load->view('templates/sidebar_admin',$data);
         $this->load->view('admin/roles/data_roles', $data);
         $this->load->view('templates/footer');
     }
@@ -930,8 +953,10 @@ class Admin extends CI_Controller
             // }
             // redirect('admin/pelanggan/tambahpelanggan');
         } else {
+            $data= ['heading' => 'master'];
+
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/roles/add_roles');
             $this->load->view('templates/footer');
         }
@@ -942,7 +967,9 @@ class Admin extends CI_Controller
 
         $roles = $this->Roles_model->getroleById($id);
         $data = [
-            'roles' => $roles
+            'roles' => $roles,
+            'heading' => 'master'
+
         ];
         // if ($id == "") {
         if ($this->form_validation->run() == true) {
@@ -957,8 +984,10 @@ class Admin extends CI_Controller
             }
             redirect('admin/roles');
         } else {
+                        $data= ['heading' => 'master'];
+
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/roles/edit_roles', $data);
             $this->load->view('templates/footer');
         }
@@ -982,11 +1011,12 @@ class Admin extends CI_Controller
     {
         $acc = $this->Account_model->selectAll();
         $data = [
-            'acc' => $acc
+            'acc' => $acc,
+            'heading' => 'master'
         ];
 
         $this->load->view('templates/header');
-        $this->load->view('templates/sidebar_admin');
+        $this->load->view('templates/sidebar_admin',$data);
         $this->load->view('admin/account/data_account', $data);
         $this->load->view('templates/footer');
     }
@@ -1014,8 +1044,10 @@ class Admin extends CI_Controller
             // }
             // redirect('admin/pelanggan/tambahpelanggan');
         } else {
+            $data= ['heading' => 'master'];
+
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/account/add_account');
             $this->load->view('templates/footer');
         }
@@ -1028,7 +1060,8 @@ class Admin extends CI_Controller
 
         $acc = $this->Account_model->getaccById($id);
         $data = [
-            'acc' => $acc
+            'acc' => $acc,
+            'heading' => 'master'
         ];
         // if ($id == "") {
         if ($this->form_validation->run() == true) {
@@ -1044,8 +1077,9 @@ class Admin extends CI_Controller
             }
             redirect('admin/account');
         } else {
+
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/account/edit_account', $data);
             $this->load->view('templates/footer');
         }
@@ -1071,11 +1105,12 @@ class Admin extends CI_Controller
     {
         $travel = $this->Travelda_model->selectAll();
         $data = [
-            'travel' => $travel
+            'travel' => $travel,
+            'heading' => 'master'
         ];
 
         $this->load->view('templates/header');
-        $this->load->view('templates/sidebar_admin');
+        $this->load->view('templates/sidebar_admin',$data);
         $this->load->view('admin/Travel_DA/data_TravelDA', $data);
         $this->load->view('templates/footer');
     }
@@ -1108,8 +1143,9 @@ class Admin extends CI_Controller
             // }
             // redirect('admin/pelanggan/tambahpelanggan');
         } else {
+            $data= ['heading' => 'master'];
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/travel_da/add_TravelDA');
             $this->load->view('templates/footer');
         }
@@ -1144,8 +1180,10 @@ class Admin extends CI_Controller
             }
             redirect('admin/travelda');
         } else {
+            $data= ['heading' => 'master'];
+
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin');
+            $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/travel_da/edit_travelda', $data);
             $this->load->view('templates/footer');
         }
