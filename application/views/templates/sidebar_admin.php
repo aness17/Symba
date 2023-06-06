@@ -35,14 +35,14 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Master Data</h6>
-                    <a class="collapse-item" href="<?= base_url('admin/travelda')?>">Travel DA Data</a>
-                    <a class="collapse-item" href="<?= base_url('admin/dpt')?>">Departement Data</a>
-                    <!-- <a class="collapse-item" href="<?= base_url('admin/items')?>">Items Data</a> -->   
                     <a class="collapse-item" href="<?= base_url('admin/Account')?>">Account Data</a>
-                    <a class="collapse-item" href="<?= base_url('admin/lob')?>">LOB Data</a>
-                    <a class="collapse-item" href="<?= base_url('admin/station')?>">Station Data</a>
-                    <a class="collapse-item" href="<?= base_url('admin/roles')?>">Roles Data</a>
                     <a class="collapse-item" href="<?= base_url('admin/costcen')?>">Cost Center Data</a>
+                    <a class="collapse-item" href="<?= base_url('admin/dpt')?>">Departement Data</a>
+                    <a class="collapse-item" href="<?= base_url('admin/lob')?>">LOB Data</a>
+                    <a class="collapse-item" href="<?= base_url('admin/roles')?>">Roles Data</a>
+                    <a class="collapse-item" href="<?= base_url('admin/station')?>">Station Data</a>
+                    <a class="collapse-item" href="<?= base_url('admin/travelda')?>">Travel DA Data</a>
+                    <!-- <a class="collapse-item" href="<?= base_url('admin/items')?>">Items Data</a> -->   
                     <!-- <a class="collapse-item" href="<?= base_url('admin/master')?>">Master</a> -->
 
                 </div>

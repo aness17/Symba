@@ -1,6 +1,6 @@
     <div class="container-fluid">
-        <div class="row ml-1">
-            <div class="col-lg-12">
+        <!-- <div class="row ml-1">
+            <div class="col-lg-12"> -->
                 <!-- Project Card Example -->
                 <div class="card shadow mb-12">
                     <div class="card-header py-3">
@@ -66,9 +66,9 @@
                         </form><!-- Vertical Form -->
                     </div>
                 </div>
-            </div>
+            <!-- </div>
         </div>  
-    </div>
+    </div> -->
 
 </div>
 </main><!-- End #main -->
