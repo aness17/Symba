@@ -458,7 +458,7 @@ class Admin extends CI_Controller
             'cc' => $cc,
             'station' => $station,
             'lob' => $lob,
-            'heading' => 'master'
+            'heading' => 'dvn'
         ];
 
         if ($this->form_validation->run() == true) {
@@ -484,7 +484,6 @@ class Admin extends CI_Controller
             // }
             // redirect('admin/pelanggan/tambahpelanggan');
         } else {
-            $data= ['heading' => 'dvn'];
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/Division/add_division', $data);
@@ -608,7 +607,6 @@ class Admin extends CI_Controller
         $data = [
             'dpt' => $dpt,
             'heading' => 'master'
-
         ];
         // if ($id == "") {
         if ($this->form_validation->run() == true) {
@@ -623,7 +621,6 @@ class Admin extends CI_Controller
             }
             redirect('admin/dpt');
         } else {
-            $data= ['heading' => 'master'];
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/departement/edit_Dpt', $data);
@@ -717,7 +714,6 @@ class Admin extends CI_Controller
             }
             redirect('admin/station');
         } else {
-            $data= ['heading' => 'master'];
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/Station/edit_Station', $data);
@@ -791,7 +787,8 @@ class Admin extends CI_Controller
 
         $costcen = $this->Costcen_model->getccById($id);
         $data = [
-            'costcen' => $costcen
+            'costcen' => $costcen,
+            'heading' => 'master'
         ];
         // if ($id == "") {
         if ($this->form_validation->run() == true) {
@@ -807,7 +804,6 @@ class Admin extends CI_Controller
             }
             redirect('admin/costcen');
         } else {
-            $data= ['heading' => 'master'];
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/cost_center/edit_costcen', $data);
@@ -879,7 +875,8 @@ class Admin extends CI_Controller
 
         $lob = $this->Lob_model->getlobById($id);
         $data = [
-            'lob' => $lob
+            'lob' => $lob,
+            'heading' => 'master'
         ];
         // if ($id == "") {
         if ($this->form_validation->run() == true) {
@@ -894,7 +891,6 @@ class Admin extends CI_Controller
             }
             redirect('admin/lob');
         } else {
-             $data= ['heading' => 'master'];
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/lob/edit_lob', $data);
@@ -984,8 +980,6 @@ class Admin extends CI_Controller
             }
             redirect('admin/roles');
         } else {
-                        $data= ['heading' => 'master'];
-
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/roles/edit_roles', $data);
@@ -1077,7 +1071,6 @@ class Admin extends CI_Controller
             }
             redirect('admin/account');
         } else {
-
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/account/edit_account', $data);
@@ -1161,7 +1154,8 @@ class Admin extends CI_Controller
 
         $travel = $this->Travelda_model->getaccById($id);
         $data = [
-            'travel' => $travel
+            'travel' => $travel,
+            'heading' => 'master'
         ];
         // if ($id == "") {
         if ($this->form_validation->run() == true) {
@@ -1180,8 +1174,6 @@ class Admin extends CI_Controller
             }
             redirect('admin/travelda');
         } else {
-            $data= ['heading' => 'master'];
-
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/travel_da/edit_travelda', $data);
