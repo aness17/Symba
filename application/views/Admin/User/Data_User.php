@@ -50,8 +50,8 @@
                                     </a>
                                     <a href="<?= base_url('admin/deleteuser/' . $user['id_user']) ?>" type="button" class="fa fa-trash" style="color:red" onclick="return confirm('Are you sure to delete this row ?')">
                                     </a>
-                                    <a href="<?= base_url('admin/resetpassworduser/' . $user['id_user']) ?>" type="button" class="fas fa-lock" style="color:blue">
-                                    </a>
+                                    <!-- <a href="<?= base_url('admin/resetpassworduser/' . $user['id_user']) ?>" type="button" class="fas fa-lock" style="color:blue">
+                                    </a> -->
                                 </td>
                             </tr>
                         <?php $no++;
