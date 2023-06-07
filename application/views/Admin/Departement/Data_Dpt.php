@@ -9,7 +9,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-2">
             <div class="d-flex justify-content-between">
-                <h6 class="m-2 font-weight-bold text-primary">Departement Data</h6>
+                <h6 class="m-2 font-weight-bold text-primary">Department Data</h6>
                 <a href="<?= base_url('admin/adddpt') ?>" class="btn btn-primary">Add Data</a>
             </div>
 
@@ -20,7 +20,7 @@
                     <thead>
                         <tr style="text-align: center;">
                             <th>No</th>
-                            <th>Departement</th>
+                            <th>Department</th>
                             <th>Action</th>
                         </tr>
                     </thead>

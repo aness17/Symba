@@ -4,12 +4,12 @@
                 <!-- Project Card Example -->
                 <div class="card shadow mb-12">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Add Departement</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Add Department</h6>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="<?= base_url('admin/adddpt') ?>" class="row g-3" enctype="multipart/form-data">
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Nama Departement</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Department Name</label>
                                 <input type="text" name="departement" class="form-control" id="departement">
                                 <?= form_error('departement', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>

@@ -8,12 +8,16 @@
                     </div>
                     <div class="card-body">
                         <form method="POST" action="<?= base_url('admin/addcostcen') ?>" class="row g-3" enctype="multipart/form-data">
+                        <div class="col-12">
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Code Cost Center</label>
+                                <input type="text" name="code" class="form-control" id="code">
+                                <?= form_error('code', '<small class="form-text text-danger">', '</small>'); ?>
+                            </div>
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Nama Cost Center</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Cost Center Name</label>
                                 <input type="text" name="costcen" class="form-control" id="costcen">
                                 <?= form_error('costcen', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
-                            
                             <div class="text-center col-12 mt-3  ">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>

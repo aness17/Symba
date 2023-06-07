@@ -37,7 +37,7 @@
                     <h6 class="collapse-header">Master Data</h6>
                     <a class="collapse-item" href="<?= base_url('admin/Account')?>">Account Data</a>
                     <a class="collapse-item" href="<?= base_url('admin/costcen')?>">Cost Center Data</a>
-                    <a class="collapse-item" href="<?= base_url('admin/dpt')?>">Departement Data</a>
+                    <a class="collapse-item" href="<?= base_url('admin/dpt')?>">Department Data</a>
                     <a class="collapse-item" href="<?= base_url('admin/lob')?>">LOB Data</a>
                     <a class="collapse-item" href="<?= base_url('admin/roles')?>">Roles Data</a>
                     <a class="collapse-item" href="<?= base_url('admin/station')?>">Station Data</a>

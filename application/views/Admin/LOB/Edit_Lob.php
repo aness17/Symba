@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <form method="POST" action="<?= base_url('admin/editlob/' . $lob["id_lob"]) ?>" class="row g-3" enctype="multipart/form-data">
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Nama Cost Center</label>
+                                <label for="inputNanme4" class="form-label">LOB Name</label>
                                 <input type="text" name="lob" class="form-control" id="lob" value="<?= $lob["name_lob"] ?>">
                                 <?= form_error('lob', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>

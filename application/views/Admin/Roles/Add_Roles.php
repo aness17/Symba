@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <form method="POST" action="<?= base_url('admin/addroles') ?>" class="row g-3" enctype="multipart/form-data">
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Nama Roles</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Roles Name</label>
                                 <input type="text" name="roles" class="form-control" id="roles">
                                 <?= form_error('roles', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>

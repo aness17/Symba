@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <form method="POST" action="<?= base_url('admin/editroles/' . $roles["id_role"]) ?>" class="row g-3" enctype="multipart/form-data">
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Roles</label>
+                                <label for="inputNanme4" class="form-label">Roles Name</label>
                                 <input type="text" name="roles" class="form-control" id="roles" value="<?= $roles["roles"] ?>">
                                 <?= form_error('roles', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>

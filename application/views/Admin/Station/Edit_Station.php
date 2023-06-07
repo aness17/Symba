@@ -14,7 +14,7 @@
                                 <?= form_error('Code', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Station</label>
+                                <label for="inputNanme4" class="form-label">Station Name</label>
                                 <input type="text" name="station" class="form-control" id="station" value="<?= $station["name_station"] ?>">
                                 <?= form_error('station', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>

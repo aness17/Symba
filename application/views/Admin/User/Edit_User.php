@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <form method="POST" action="<?= base_url('admin/edituser/' . $user["id_user"]) ?>" class="row g-3" enctype="multipart/form-data">
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Nama User</label>
+                                <label for="inputNanme4" class="form-label">Name User</label>
                                 <input type="text" name="nameuser" class="form-control" id="nameuser" value="<?= $user["name_user"] ?>">
                                 <?= form_error('nameuser', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
