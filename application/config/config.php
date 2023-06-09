@@ -23,7 +23,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://192.168.4.169/symba/';
+$config['base_url'] = 'http://192.168.11.116/symba/';
 
 /*
 |--------------------------------------------------------------------------

@@ -196,7 +196,7 @@ class Actual extends CI_Controller
             } else {
                 $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Edit Data'));
             }
-            redirect('budget/Detailbudget/'. $id_budget);
+            redirect('budget/detailbudget/'. $id_budget);
 
                 // }
                 // redirect('admin/pelanggan/tambahpelanggan');
@@ -221,7 +221,7 @@ class Actual extends CI_Controller
         } else {
             $this->session->set_flashdata('message', $this->flasher('danger', 'Id Is null'));
         }
-        redirect('budget/Detailbudget/'. $id_budget);
+        redirect('budget/detailbudget/'. $id_budget);
             // }
     }
     public function flasher($class, $message)

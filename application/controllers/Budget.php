@@ -191,7 +191,7 @@ class Budget extends CI_Controller
                 } else {
                     $this->load->view('templates/header');
                     $this->load->view('templates/sidebar_admin',$data);
-                    $this->load->view('admin/budget/Addbudget',$data);
+                    $this->load->view('admin/budget/addbudget',$data);
                     $this->load->view('templates/footer');
                 }
             }

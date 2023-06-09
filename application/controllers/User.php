@@ -412,7 +412,7 @@ class User extends CI_Controller
                         echo "<script>location.href='" . base_url('admin') . "';alert('Anda Berhasil Masuk Sebagai Admin');</script>";
                     } else if ($user['id_role'] != '1') {
                         echo "USER";
-                        echo "<script>location.href='" . base_url('User') . "';alert('Anda Berhasil Masuk Sebagai User');</script>";
+                        echo "<script>location.href='" . base_url('user') . "';alert('Anda Berhasil Masuk Sebagai User');</script>";
                     }
                 } else {
                     echo "<script>location.href='" . base_url('auth/') . "';alert('Password Salah');</script>";

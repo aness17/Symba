@@ -486,7 +486,7 @@ class Admin extends CI_Controller
         } else {
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin',$data);
-            $this->load->view('admin/Division/add_division', $data);
+            $this->load->view('admin/division/add_division', $data);
             $this->load->view('templates/footer');
         }
         // }
@@ -593,7 +593,7 @@ class Admin extends CI_Controller
             $data= ['heading' => 'master'];
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin',$data);
-            $this->load->view('admin/Departement/add_dpt');
+            $this->load->view('admin/departement/add_dpt');
             $this->load->view('templates/footer');
         }
         // }
@@ -654,7 +654,7 @@ class Admin extends CI_Controller
 
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar_admin',$data);
-        $this->load->view('admin/Station/data_Station', $data);
+        $this->load->view('admin/station/data_Station', $data);
         $this->load->view('templates/footer');
     }
     public function addStation()
@@ -716,7 +716,7 @@ class Admin extends CI_Controller
         } else {
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin',$data);
-            $this->load->view('admin/Station/edit_Station', $data);
+            $this->load->view('admin/station/edit_Station', $data);
             $this->load->view('templates/footer');
         }
         // }
@@ -746,7 +746,7 @@ class Admin extends CI_Controller
 
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar_admin',$data);
-        $this->load->view('admin/Cost_center/data_costcen', $data);
+        $this->load->view('admin/cost_center/data_costcen', $data);
         $this->load->view('templates/footer');
     }
     public function addcostcen()
@@ -775,7 +775,7 @@ class Admin extends CI_Controller
             $data= ['heading' => 'master'];
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin',$data);
-            $this->load->view('admin/Cost_Center/add_costcen');
+            $this->load->view('admin/cost_Center/add_costcen');
             $this->load->view('templates/footer');
         }
         // }
@@ -1104,7 +1104,7 @@ class Admin extends CI_Controller
 
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar_admin',$data);
-        $this->load->view('admin/Travel_DA/data_TravelDA', $data);
+        $this->load->view('admin/travel_da/data_TravelDA', $data);
         $this->load->view('templates/footer');
     }
     public function addtravelda()
