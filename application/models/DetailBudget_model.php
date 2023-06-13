@@ -21,7 +21,7 @@ class DetailBudget_model extends CI_Model
         $this->db->join('taccount E', 'A.id_account = E.id_account');
         $this->db->join('tbudget H', 'A.id_bdgt = H.id_bdgt');
         $this->db->where('A.id_bdgt',$id);
-        $this->db->where('A.budget_year',date('YYYY'));
+        $this->db->where('A.budget_year',date('Y'));
         return $this->db->get($this->table . " as A")->result_array();
     }
     public function deletebudget($id)
@@ -50,7 +50,7 @@ class DetailBudget_model extends CI_Model
         $this->db->join('tcostcen C', 'B.id_costcen=C.id_costcen');
         $this->db->join('tstation D', 'B.id_station=D.id_station');
         $this->db->join('taccount E', 'A.id_account = E.id_account');
-        $this->db->where('A.budget_year',date('YYYY'));
+        $this->db->where('A.budget_year',date('Y'));
         return $this->db->get($this->table . " as A")->result_array();
     }
     public function sisabudget($id){

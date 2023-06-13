@@ -165,6 +165,7 @@ class Actual extends CI_Controller
             'account' => $account,
             'heading' => 'actual'
         ];
+        // var_dump($bg);die;
 
         if ($this->form_validation->run() == true) {
             $db = [

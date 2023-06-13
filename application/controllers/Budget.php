@@ -271,7 +271,7 @@ class Budget extends CI_Controller
 
                     $this->load->view('templates/header');
                     $this->load->view('templates/sidebar_admin',$data);
-                    $this->load->view('admin/budget/Addheaderbudget',$data);
+                    $this->load->view('admin/budget/addheaderbudget',$data);
                     $this->load->view('templates/footer');
                 }
             }
