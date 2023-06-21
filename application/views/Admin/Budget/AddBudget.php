@@ -29,7 +29,7 @@
                                 <input type="text" name="desc" class="form-control" id="desc">
                                 <?= form_error('desc', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
-                            <div class="col-12">
+                            <!-- <div class="col-12">
                                 <label for="inputNanme4" class="form-label">Source</label>
                                 <input type="text" name="source" class="form-control" id="source">
                                 <?= form_error('source', '<small class="form-text text-danger">', '</small>'); ?>
@@ -48,7 +48,7 @@
                                 <label for="inputNanme4" class="form-label">Doc. Number of Source</label>
                                 <input type="text" name="dns" class="form-control" id="dns">
                                 <?= form_error('dns', '<small class="form-text text-danger">', '</small>'); ?>
-                            </div>
+                            </div> -->
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Desc. of source module</label>
                                 <input type="text" name="dsm" class="form-control" id="dsm">
@@ -56,7 +56,7 @@
                             </div>
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Currency</label>
-                                <input type="text" name="cur" class="form-control" id="cur">
+                                <input type="text" name="cur" class="form-control" id="cur" value="IDR" disabled>
                                 <?= form_error('cur', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
@@ -64,11 +64,11 @@
                                 <input type="number" name="debit" class="form-control" id="debit">
                                 <?= form_error('debit', '<small class="form-text text-danger">', '</small>'); ?>
                             </div> 
-                            <div class="col-12">
+                            <!-- <div class="col-12">
                                 <label for="inputNanme4" class="form-label">Accounted CR Amount</label>
                                 <input type="number" name="credit" class="form-control" id="credit">
                                 <?= form_error('credit', '<small class="form-text text-danger">', '</small>'); ?>
-                            </div>                         
+                            </div>                          -->
                             <div class="text-center col-12 mt-3  ">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>

@@ -126,12 +126,12 @@ class Budget extends CI_Controller
                 // $this->form_validation->set_rules('acc', 'Account', '');
                 // $this->form_validation->set_rules('user', 'Division', '');
                 $this->form_validation->set_rules('desc', 'Description', 'required');
-                $this->form_validation->set_rules('source', 'Departement', '');
-                $this->form_validation->set_rules('category', 'Departement', '');
-                $this->form_validation->set_rules('docref', 'Departement', '');
-                $this->form_validation->set_rules('dns', 'Departement', '');
-                $this->form_validation->set_rules('dsm', 'Departement', 'required');
-                $this->form_validation->set_rules('cur', 'Departement', 'required');
+                // $this->form_validation->set_rules('source', 'Departement', '');
+                // $this->form_validation->set_rules('category', 'Departement', '');
+                // $this->form_validation->set_rules('docref', 'Departement', '');
+                // $this->form_validation->set_rules('dns', 'Departement', '');
+                $this->form_validation->set_rules('dsm', 'Doc. of source module', 'required');
+                // $this->form_validation->set_rules('cur', 'Currency', 'required');
                 $this->form_validation->set_rules('debit', 'Departement', 'required');
                 $this->form_validation->set_rules('credit', 'Departement', '');
 
@@ -154,12 +154,12 @@ class Budget extends CI_Controller
                         'product' => '00000',
                         'id_user' => $h['user'],
                         'description'=> $this->input->post('desc'),
-                        'source'=> $this->input->post('source'),
-                        'category'=> $this->input->post('category'),
-                        'doc_ref'=> $this->input->post('docref'),
-                        'doc_number'=> $this->input->post('dns'),
+                        // 'source'=> $this->input->post('source'),
+                        // 'category'=> $this->input->post('category'),
+                        // 'doc_ref'=> $this->input->post('docref'),
+                        // 'doc_number'=> $this->input->post('dns'),
                         'desc_source'=> $this->input->post('dsm'),
-                        'currency'=> $this->input->post('cur'),
+                        'currency'=> 'IDR',
                         'amount_debit'=> $this->input->post('debit'),
                         'amount_credit'=> $this->input->post('credit'),
                         'status' => 'no',
@@ -284,14 +284,14 @@ class Budget extends CI_Controller
                $this->form_validation->set_rules('acc', 'Account', '');
                $this->form_validation->set_rules('user', 'Division', '');
                $this->form_validation->set_rules('desc', 'Description', '');
-               $this->form_validation->set_rules('source', 'Departement', '');
-               $this->form_validation->set_rules('category', 'Departement', '');
-               $this->form_validation->set_rules('docref', 'Departement', '');
-               $this->form_validation->set_rules('dns', 'Departement', '');
-               $this->form_validation->set_rules('dsm', 'Departement', '');
-               $this->form_validation->set_rules('cur', 'Departement', 'required');
+            //    $this->form_validation->set_rules('source', 'Departement', '');
+            //    $this->form_validation->set_rules('category', 'Departement', '');
+            //    $this->form_validation->set_rules('docref', 'Departement', '');
+            //    $this->form_validation->set_rules('dns', 'Departement', '');
+               $this->form_validation->set_rules('dsm', 'Desc of source module', '');
+            //    $this->form_validation->set_rules('cur', 'Currency', 'required');
                $this->form_validation->set_rules('debit', 'Departement', '');
-               $this->form_validation->set_rules('credit', 'Departement', '');
+            //    $this->form_validation->set_rules('credit', 'Departement', '');
 
                $bdgt = $this->DetailBudget_model->selectiddetail($id);
                $bg = $this->DetailBudget_model->getbgById($id);
@@ -313,14 +313,14 @@ class Budget extends CI_Controller
                     'product' => '00000',
                     'id_user' => $this->input->post('user'),
                     'description'=> $this->input->post('desc'),
-                    'source'=> $this->input->post('source'),
-                    'category'=> $this->input->post('category'),
-                    'doc_ref'=> $this->input->post('docref'),
-                    'doc_number'=> $this->input->post('dns'),
+                    // 'source'=> $this->input->post('source'),
+                    // 'category'=> $this->input->post('category'),
+                    // 'doc_ref'=> $this->input->post('docref'),
+                    // 'doc_number'=> $this->input->post('dns'),
                     'desc_source'=> $this->input->post('dsm'),
-                    'currency'=> $this->input->post('cur'),
+                    'currency'=> 'IDR',
                     'amount_debit'=> $this->input->post('debit'),
-                    'amount_credit'=> $this->input->post('credit'),
+                    'amount_credit'=> 0,
                     'status' => 'yes',
                     'id_bdgt' => $bdgt['id_bdgt']          
                 ];

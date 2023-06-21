@@ -49,7 +49,7 @@
 <script>
 $(function () {
     $('select').selectpicker();
-});
+}); 
 
 </script>
 </main><!-- End #main -->

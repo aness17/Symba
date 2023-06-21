@@ -156,14 +156,14 @@ class User extends CI_Controller
         $this->form_validation->set_rules('acc', 'Account', '');
         // $this->form_validation->set_rules('user', 'Division', '');
         $this->form_validation->set_rules('desc', 'Description', 'required');
-        $this->form_validation->set_rules('source', 'Source', '');
-        $this->form_validation->set_rules('category', 'Category', '');
-        $this->form_validation->set_rules('docref', 'References', '');
-        $this->form_validation->set_rules('dns', 'Desc Source', '');
+        // $this->form_validation->set_rules('source', 'Source', '');
+        // $this->form_validation->set_rules('category', 'Category', '');
+        // $this->form_validation->set_rules('docref', 'References', '');
+        // $this->form_validation->set_rules('dns', 'Desc Source', '');
         $this->form_validation->set_rules('dsm', 'Desc Module', 'required');
-        $this->form_validation->set_rules('cur', 'Currency', 'required');
-        $this->form_validation->set_rules('debit', 'Departement', 'required');
-        $this->form_validation->set_rules('credit', 'Departement', '');
+        // $this->form_validation->set_rules('cur', 'Currency', 'required');
+        $this->form_validation->set_rules('debit', 'Debit', 'required');
+        // $this->form_validation->set_rules('credit', 'Credit', '');
         $this->form_validation->set_rules('date', 'Date', 'required');
 
         $user = $this->User_model->selectUser($id);
@@ -192,14 +192,14 @@ class User extends CI_Controller
                     'product' => '00000',
                     'id_user' => $id,
                     'description'=> $this->input->post('desc'),
-                    'source'=> $this->input->post('source'),
-                    'category'=> $this->input->post('category'),
-                    'doc_ref'=> $this->input->post('docref'),
-                    'doc_number'=> $this->input->post('dns'),
+                    // 'source'=> $this->input->post('source'),
+                    // 'category'=> $this->input->post('category'),
+                    // 'doc_ref'=> $this->input->post('docref'),
+                    // 'doc_number'=> $this->input->post('dns'),
                     'desc_source'=> $this->input->post('dsm'),
-                    'currency'=> $this->input->post('cur'),
+                    'currency'=> 'IDR',
                     'amount_debit'=> $this->input->post('debit'),
-                    'amount_credit'=> $this->input->post('credit'),
+                    'amount_credit'=> 0,
                     'status' => 'no',
                     'id_bdgt' => $find[0]['id_bdgt'],
                     'budget_year' => $this->input->post('date')
@@ -234,14 +234,14 @@ class User extends CI_Controller
                     'product' => '00000',
                     'id_user' => $id,
                     'description'=> $this->input->post('desc'),
-                    'source'=> $this->input->post('source'),
-                    'category'=> $this->input->post('category'),
-                    'doc_ref'=> $this->input->post('docref'),
-                    'doc_number'=> $this->input->post('dns'),
+                    // 'source'=> $this->input->post('source'),
+                    // 'category'=> $this->input->post('category'),
+                    // 'doc_ref'=> $this->input->post('docref'),
+                    // 'doc_number'=> $this->input->post('dns'),
                     'desc_source'=> $this->input->post('dsm'),
-                    'currency'=> $this->input->post('cur'),
+                    'currency'=> 'IDR',
                     'amount_debit'=> $this->input->post('debit'),
-                    'amount_credit'=> $this->input->post('credit'),
+                    'amount_credit'=> 0,
                     'status' => 'no',
                     'id_bdgt' => $idbdgt,
                     'budget_year' => $this->input->post('date')
