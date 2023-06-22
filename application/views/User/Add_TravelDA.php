@@ -31,7 +31,7 @@
                             </div>
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Days</label>
-                                <input type="number" name="hari" class="form-control" id="hari">
+                                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" name="hari" class="form-control" id="hari">
                                 <?= form_error('hari', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
@@ -41,7 +41,7 @@
                             </div>
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Qty</label>
-                                <input type="number" name="qty" class="form-control" id="qty">
+                                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" name="qty" class="form-control" id="qty">
                                 <?= form_error('qty', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">

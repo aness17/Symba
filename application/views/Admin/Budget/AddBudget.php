@@ -61,7 +61,7 @@
                             </div>
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Accounted DR Amount</label>
-                                <input type="number" name="debit" class="form-control" id="debit">
+                                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" name="debit" class="form-control" id="debit">
                                 <?= form_error('debit', '<small class="form-text text-danger">', '</small>'); ?>
                             </div> 
                             <!-- <div class="col-12">

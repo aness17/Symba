@@ -81,7 +81,7 @@ var myBarChart = new Chart(ctx, {
 						drawBorder: false,
 					},
 					ticks: {
-						maxTicksLimit: 6,
+						maxTicksLimit: 12,
 					},
 					maxBarThickness: 25,
 				},

@@ -1,5 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+date_default_timezone_set("Asia/Jakarta");
 
 class Budget extends CI_Controller
 {
@@ -138,6 +139,8 @@ class Budget extends CI_Controller
                 $h = $this->Budget_model->selectuser($id);
                 $user = $this->User_model->selectAll($id);
                 $account = $this->Account_model->selectAll($id);
+                $t = date("Y-m-d H:i:s");
+                // var_dump($t);die;
                 // $id = $id;
                 $data = [
                     'user' => $user,
@@ -164,6 +167,7 @@ class Budget extends CI_Controller
                         'amount_credit'=> $this->input->post('credit'),
                         'status' => 'no',
                         'id_bdgt' => $id,
+                        'create_date' => $t,
                         'budget_year' => date('Y')
                     ];
 
