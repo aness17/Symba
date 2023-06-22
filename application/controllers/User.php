@@ -178,7 +178,7 @@ class User extends CI_Controller
         ];
         // var_dump($user);die;
         $account = $this->input->post('acc');
-        $periode = date("Y", strtotime($this->input->post('date')));
+        $periode = date("Y", strtotime($this->input->post('date'))); 
         // var_dump($id,$account,$periode);die;
         if ($this->form_validation->run() == true) {
             $find = $this->Budget_model->findheader($id,$account,$periode);
