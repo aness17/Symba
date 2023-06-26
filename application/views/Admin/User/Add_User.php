@@ -36,7 +36,7 @@
                             </div>
                             <div class="col-12">
                                 <label for="inputPassword4" class="form-label"><span class="text-danger">*</span>Foto User</label>
-                                <input type="file" name="fotouser" class="form-control" id="fotouser" required>
+                                <input type="file" name="fotouser" class="form-control" id="fotouser" accept=".png, .jpg, .jpeg" required>
                             </div>
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Role User</label>

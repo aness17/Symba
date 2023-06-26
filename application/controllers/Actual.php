@@ -1,9 +1,5 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Shared;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
 class Actual extends CI_Controller
 {
@@ -39,6 +35,7 @@ class Actual extends CI_Controller
         $this->load->model('Actual_model');
         $this->load->model('DetailBudget_model');
         $this->load->model('Budget_model');
+        $this->load->library('PHPExcel');
         $this->cekauth();
 
         if ($this->session->userdata('id') === null) {
@@ -189,7 +186,7 @@ class Actual extends CI_Controller
                 'amount_debit'=> $this->input->post('debit'),
                 'amount_credit'=> $this->input->post('credit'),
                 'id_budget' => $this->input->post('bg'),
-		'actual_date' => $this->input->post('date')            
+		        'actual_date' => $this->input->post('date')            
             ];
             $id_budget  = $this->input->post('id_budget');
             $datas = [
@@ -232,84 +229,81 @@ class Actual extends CI_Controller
             // }
     }
     public function upload(){
-		$this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
-		if($this->form_validation->run() == true){
-			// START UPLOAD
-			$msg = '';
-			$file_mimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-			$config['upload_path'] = './upload/';
-			$config['allowed_types'] = 'xls|xlsx';
-			$config['max_size'] = 1000;
-			$this->load->library('upload');
-			$this->upload->initialize($config);
-			if(!$this->upload->do_upload('file_upload')){
-				$msg_x = array('error' => $this->upload->display_errors());
-				$this->session->set_flashdata('msg_x',$msg_x);
-				redirect('certificate/create','refresh');
-			}else{
-				$actual = $this->Pattern_model->find(['id'=>$this->input->post('pattern',TRUE)]);
-				foreach($actual as $p){
-					$pattern = $p->format;
-				}
-				$data = array('upload_data' => $this->upload->data());
-				$inputFileName = $data['upload_data']['full_path']; //ambil path file
-				$inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($inputFileName);
-				/**  Create a new Reader of the type that has been identified  **/
-				$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
-				$reader->setReadDataOnly(true);
-				/**  Load $inputFileName to a Spreadsheet Object  **/
-				$spreadsheet = $reader->load($inputFileName);
-				$sheet = $spreadsheet->getSheet(0)->toArray();
-				unset($sheet[0]);
-				foreach($sheet as $s){
-					$records = array(
-						'id_budget'=>$s[0],
-						'sub_acc'=>$s[1],
-						'product'=>$s[2],
-						'description'=>$s[3],
-						'source'=>$s[4],
-						'category'=>$s[5],
-						'doc_ref'=>$s[6],
-						'doc_number'=>$s[7],
-						'desc_source'=>$s[8],
-						'currency'=>$s[9],
-						'amount_debit'=>$s[11],
-						'amount_credit'=>$s[12],
-						'actual_date'=>date('Y-m-d H:i:s')
-					);
-					//jika ada record yang sama maka terupdate
-					$duplicate = $this->Cert_model->find(['pattern_id'=>$records['pattern_id'],'participant_name'=>$records['participant_name'],
-					'start_date'=>$records['start_date'],'end_date'=>$records['end_date']]);
-					if(count($duplicate) > 0){
-						foreach($duplicate as $d){
-							$cert_id = $d->id;
-							$cert_no = $d->cert_no;
-						}
-						$records['cert_no'] = $cert_no;
-						$process = $this->Cert_model->update($cert_id,$records);
-						$msg .= "<p>Success update data certificate no = ".$cert_no;
-					}else{
+		// $this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
+		if(isset($_FILES["file"]["name"])){
+                  // upload
+                $file_tmp = $_FILES['file']['tmp_name'];
+                $file_name = $_FILES['file']['name'];
+                $file_size =$_FILES['file']['size'];
+                $file_type=$_FILES['file']['type'];
+                // move_uploaded_file($file_tmp,"uploads/".$file_name); // simpan filenya di folder uploads
+                
+                $object = PHPExcel_IOFactory::load($file_tmp);
+        
+                foreach($object->getWorksheetIterator() as $worksheet){
+        
+                    $highestRow = $worksheet->getHighestRow();
+                    $highestColumn = $worksheet->getHighestColumn();
+        
+                    for($row=13; $row<=$highestRow; $row++){
+        
+                        $id_budget = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
+                        $subacc = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
+                        $product = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
+                        $description = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
+                        $source = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
+                        $category = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
+                        $doc_ref = $worksheet->getCellByColumnAndRow(6, $row)->getValue();
+                        $doc_number = $worksheet->getCellByColumnAndRow(7, $row)->getValue();
+                        $desc_source = $worksheet->getCellByColumnAndRow(8, $row)->getValue();
+                        $currency = $worksheet->getCellByColumnAndRow(9, $row)->getValue();
+                        $amount_debit = $worksheet->getCellByColumnAndRow(10, $row)->getValue();
+                        $amount_credit = $worksheet->getCellByColumnAndRow(11, $row)->getValue();
+                        $actual_date = $worksheet->getCellByColumnAndRow(12, $row)->getValue();
 
-						// $cert_no = $this->getCertificateNo($pattern,$location);
-						// $records['cert_no'] = $cert_no;
-						// $records['token'] = hash('crc32c',$cert_no);
-						// $process = $this->Cert_model->insert($records);
-						// $msg .= "<p>Success insert data certificate no = ".$cert_no;
-					}
-				}
-				$this->session->set_flashdata('msg',$msg);
-				return redirect('certificate','refresh');		
-			}
-			//END UPLOAD
-		}else{
-            $data = [
-                'heading' => 'actual'
-            ];
-            $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin',$data);
-            $this->load->view('admin/actual/upload_actual');
-            $this->load->view('templates/footer');
-        }
+                        $data[] = array(
+                            'id_budget'         => $id_budget,
+                            'subacc'            =>$subacc,
+                            'product'           =>$product,
+                            'description'       =>$description,
+                            'source'            =>$source,
+                            'category'          =>$category,
+                            'doc_ref'           =>$doc_ref,
+                            'doc_number'        =>$doc_number,
+                            'desc_source'       =>$desc_source,
+                            'currency'          =>$currency,
+                            'amount_debit'      =>$amount_debit,
+                            'amount_credit'     =>$amount_credit,
+                            'actual_date'       =>$actual_date,
+                        );
+        
+                    } 
+        
+                }
+        
+                $this->db->insert_batch('tactual', $data);
+        
+                $message = array(
+                    'message'=>'<div class="alert alert-success">Import file excel berhasil disimpan di database</div>',
+                );
+                
+                $this->session->set_flashdata($message);
+                redirect('admin/');
+            }
+            else
+            {
+                 $message = array(
+                    'message'=>'<div class="alert alert-danger">Import file gagal, coba lagi</div>',
+                );
+                $data = [
+                    'heading' => 'actual'
+                ];
+                $this->session->set_flashdata($message);
+                $this->load->view('templates/header');
+                $this->load->view('templates/sidebar_admin',$data);
+                $this->load->view('admin/actual/upload_actual');
+                $this->load->view('templates/footer');
+            }
 	}
     public function flasher($class, $message)
     {
