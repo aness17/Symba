@@ -24,6 +24,18 @@ class Budget_model extends CI_Model
         $this->db->join('taccount E', 'A.id_acc = E.id_account');
         return $this->db->get($this->table . " as A")->result_array();
     }
+    public function selectbudgettahun($thn)
+    {
+        $this->db->join('tbudget H', 'A.id_bdgt = H.id_bdgt');
+        $this->db->join('tuser G', 'A.id_user = G.id_user');
+        $this->db->join('tdivision B', 'G.id_dvn = B.id_dvn');
+        $this->db->join('tdepartement F', 'B.id_dpt=F.id_dpt');
+        $this->db->join('tcostcen C', 'B.id_costcen=C.id_costcen');
+        $this->db->join('tstation D', 'B.id_station=D.id_station');
+        $this->db->join('taccount E', 'A.id_acc = E.id_account');
+        $this->db->where('H.periode_year',$thn);
+        return $this->db->get($this->table . " as A")->result_array();
+    }
     public function selectbudgetuser($id,$thn)
     {
         $this->db->join('tbudget H', 'A.id_bdgt = H.id_bdgt');
@@ -72,5 +84,11 @@ class Budget_model extends CI_Model
         $this->db->where('A.id_acc',$account);
         $this->db->where('A.periode_year',$periode);
         return $this->db->get($this->table. " as A")->result_array();
+    }
+    public function tahun()
+    {
+        $this->db->select('periode_year as tahun');
+        $this->db->group_by('tahun');
+        return $this->db->get($this->table)->result_array();
     }
 }

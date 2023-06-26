@@ -25,22 +25,22 @@
                             </div>
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Hotel</label>
-                                <input type="text" name="hotel" class="form-control" id="hotel">
+                                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" name="hotel" class="form-control" id="hotel">
                                 <?= form_error('hotel', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Daily Allowance</label>
-                                <input type="text" name="da" class="form-control" id="da">
+                                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" name="da" class="form-control" id="da">
                                 <?= form_error('da', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Ticket</label>
-                                <input type="text" name="ticket" class="form-control" id="ticket">
+                                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" name="ticket" class="form-control" id="ticket">
                                 <?= form_error('ticket', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
-                            <div class="col-12">
+                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Periode</label>
-                                <input type="month" data-format="YYYY" name="periode" class="form-control" id="periode">
+                            	<input type="month" name="periode" class="form-control" id="datepicker">
                                 <?= form_error('periode', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             
@@ -58,4 +58,10 @@
     </div> -->
 
 </div>
+<script>
+$(function () {
+    $('select').selectpicker();
+    $('#datepicker').datepicker();
+});
+</script>
 </main><!-- End #main -->

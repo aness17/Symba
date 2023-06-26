@@ -44,35 +44,35 @@
                             <?= form_error('docref', '<small class="form-text text-danger">', '</small>'); ?>
                         </div>
                         <div class="col-12">
-                            <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Doc. Number of Source</label>
+                            <label for="inputNanme4" class="form-label">Doc. Number of Source</label>
                             <input type="text" name="dns" class="form-control" id="dns">
                             <?= form_error('dns', '<small class="form-text text-danger">', '</small>'); ?>
                         </div>
                         <div class="col-12">
-                            <label for="inputNanme4" class="form-label">Desc. of source module</label>
+                            <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Desc. of source module</label>
                             <input type="text" name="dsm" class="form-control" id="dsm">
                             <?= form_error('dsm', '<small class="form-text text-danger">', '</small>'); ?>
                         </div>
                         <div class="col-12">
                             <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Currency</label>
-                            <input type="text" name="cur" class="form-control" id="cur">
+                            <input type="text" name="cur" class="form-control" id="cur" value="IDR" disabled>
                             <?= form_error('cur', '<small class="form-text text-danger">', '</small>'); ?>
                         </div>
                         <div class="col-12">
-                            <label for="inputNanme4" class="form-label">Accounted DR Amount</label>
-                            <input type="number" name="debit" class="form-control" id="debit">
+                            <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Accounted DR Amount</label>
+                            <input type="text" onkeypress="return /[0-9]/i.test(event.key)" name="debit" class="form-control" id="debit">
                             <?= form_error('debit', '<small class="form-text text-danger">', '</small>'); ?>
                         </div> 
                         <div class="col-12">
                             <label for="inputNanme4" class="form-label">Accounted CR Amount</label>
-                            <input type="number" name="credit" class="form-control" id="credit">
+                            <input type="text" onkeypress="return /[0-9]/i.test(event.key)" name="credit" class="form-control" id="credit">
                             <?= form_error('credit', '<small class="form-text text-danger">', '</small>'); ?>
                         </div>
                         <div class="col-12">
-                            <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Date</label>
-                            <input type="date" name="date" class="form-control" id="date">
-                            <?= form_error('date', '<small class="form-text text-danger">', '</small>'); ?>
-                        </div>            
+                            	<label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Date</label>
+                            	<input type="text" name="date" class="form-control" id="datepicker" placeholder="00/00/0000">
+                             	<?= form_error('date', '<small class="form-text text-danger">', '</small>'); ?>
+                            </div>            
 
                         <div class="text-center col-12 mt-3  ">
                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -87,4 +87,10 @@
 </div>
 
 </div> -->
+<script>
+$(function () {
+    $('select').selectpicker();
+    $('#datepicker').datepicker();
+});
+</script>
 </main><!-- End #main -->

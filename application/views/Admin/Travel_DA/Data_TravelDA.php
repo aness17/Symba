@@ -42,7 +42,7 @@
                                 <td class="text-center">
                                     <a href="<?= base_url('admin/edittravelda/' . $t['id_travelda']) ?>" type="button" class="fa fa-edit" style="color:green">
                                     </a>
-                                    <a href="<?= base_url('admin/deletettravelda/' . $t['id_travelda']) ?>" type="button" class="fa fa-trash" style="color:red" onclick="return confirm('Are you sure to delete this row ?')">
+                                    <a href="<?= base_url('admin/deletetravelda/' . $t['id_travelda']) ?>" type="button" class="fa fa-trash" style="color:red" onclick="return confirm('Are you sure to delete this row ?')">
                                     </a>
                                 </td>
                             </tr>

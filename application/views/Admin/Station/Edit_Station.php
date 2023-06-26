@@ -10,7 +10,7 @@
                         <form method="POST" action="<?= base_url('admin/editstation/' . $station["id_station"]) ?>" class="row g-3" enctype="multipart/form-data">
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label">Code Station</label>
-                                <input type="text" name="code" class="form-control" id="code">
+                                <input type="text" name="code" class="form-control" id="code" value="<?= $station["code_station"] ?>">
                                 <?= form_error('Code', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">

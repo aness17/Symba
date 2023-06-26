@@ -74,7 +74,7 @@ class Actual extends CI_Controller
             $this->form_validation->set_rules('docref', 'Departement', '');
             $this->form_validation->set_rules('dns', 'Departement', '');
             $this->form_validation->set_rules('dsm', 'Departement', '');
-            $this->form_validation->set_rules('cur', 'Departement', 'required');
+            // $this->form_validation->set_rules('cur', 'Departement', 'required');
             $this->form_validation->set_rules('debit', 'Departement', '');
             $this->form_validation->set_rules('credit', 'Departement', '');
             $this->form_validation->set_rules('date','Date','required');
@@ -93,6 +93,7 @@ class Actual extends CI_Controller
                 'heading' => 'actual'
                 // 'user' => $user
             ];
+	    $adate = date('Y-m-d', strtotime($this->input->post('date')));
             // var_dump($bg);die;
             if ($this->form_validation->run() == true) {
                 $db = [
@@ -105,10 +106,10 @@ class Actual extends CI_Controller
                     'doc_ref'=> $this->input->post('docref'),
                     'doc_number'=> $this->input->post('dns'),
                     'desc_source'=> $this->input->post('dsm'),
-                    'currency'=> $this->input->post('cur'),
+                    'currency'=> 'IDR',
                     'amount_debit'=> $this->input->post('debit'),
                     'amount_credit'=> $this->input->post('credit'),
-                    'actual_date' => $this->input->post('date'),
+                    'actual_date' => $adate,
                     'id_budget' => $id            
                 ];
                 
@@ -135,7 +136,7 @@ class Actual extends CI_Controller
             } else {
                 $this->load->view('templates/header');
                 $this->load->view('templates/sidebar_admin',$data);
-                $this->load->view('admin/actual/Add_actual',$data);
+                $this->load->view('admin/actual/add_actual',$data);
                 $this->load->view('templates/footer');
             }
         
@@ -150,9 +151,10 @@ class Actual extends CI_Controller
            $this->form_validation->set_rules('docref', 'Departement', '');
            $this->form_validation->set_rules('dns', 'Departement', '');
            $this->form_validation->set_rules('dsm', 'Departement', '');
-           $this->form_validation->set_rules('cur', 'Departement', 'required');
+           // $this->form_validation->set_rules('cur', 'Departement', 'required');
            $this->form_validation->set_rules('debit', 'Departement', '');
            $this->form_validation->set_rules('credit', 'Departement', '');
+	   $this->form_validation->set_rules('date', 'Date', 'required');
 
            $actual = $this->Actual_model->getactById($id);
          // $user = $this->User_model->selectAll();
@@ -178,10 +180,11 @@ class Actual extends CI_Controller
                 'doc_ref'=> $this->input->post('docref'),
                 'doc_number'=> $this->input->post('dns'),
                 'desc_source'=> $this->input->post('dsm'),
-                'currency'=> $this->input->post('cur'),
+                'currency'=> 'IDR',
                 'amount_debit'=> $this->input->post('debit'),
                 'amount_credit'=> $this->input->post('credit'),
-                'id_budget' => $this->input->post('bg')            
+                'id_budget' => $this->input->post('bg'),
+		'actual_date' => $this->input->post('date')            
             ];
             $id_budget  = $this->input->post('id_budget');
             $datas = [
@@ -196,7 +199,7 @@ class Actual extends CI_Controller
             } else {
                 $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Edit Data'));
             }
-            redirect('budget/Detailbudget/'. $id_budget);
+            redirect('budget/detailbudget/'. $id_budget);
 
                 // }
                 // redirect('admin/pelanggan/tambahpelanggan');
@@ -221,7 +224,7 @@ class Actual extends CI_Controller
         } else {
             $this->session->set_flashdata('message', $this->flasher('danger', 'Id Is null'));
         }
-        redirect('budget/Detailbudget/'. $id_budget);
+        redirect('budget/detailbudget/'. $id_budget);
             // }
     }
     public function flasher($class, $message)

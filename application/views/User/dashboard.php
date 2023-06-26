@@ -84,7 +84,7 @@
                                                 <select id="tahun" name="tahun" class="ml-3">
                                                     <option value="-">Pilih Tahun</option>  
                                                     <?php foreach ($tahun as $r) : ?>
-                                                        <option value="<?= $r['tahun'] ?>"><?= $r['tahun'] ?></option>
+                        				<option value="<?= $r['tahun'] ?>" <?= ($r['tahun'] == $thn) ? "selected" : "" ?>><?= $r['tahun'] ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                                 <?= form_error('tahun', '<small class="form-text text-danger">', '</small>'); ?>

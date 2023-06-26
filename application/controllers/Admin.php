@@ -486,7 +486,7 @@ class Admin extends CI_Controller
         } else {
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin',$data);
-            $this->load->view('admin/Division/add_division', $data);
+            $this->load->view('admin/division/add_division', $data);
             $this->load->view('templates/footer');
         }
         // }
@@ -593,7 +593,7 @@ class Admin extends CI_Controller
             $data= ['heading' => 'master'];
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin',$data);
-            $this->load->view('admin/Departement/add_dpt');
+            $this->load->view('admin/departement/add_dpt');
             $this->load->view('templates/footer');
         }
         // }
@@ -623,7 +623,7 @@ class Admin extends CI_Controller
         } else {
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin',$data);
-            $this->load->view('admin/departement/edit_Dpt', $data);
+            $this->load->view('admin/departement/edit_dpt', $data);
             $this->load->view('templates/footer');
         }
         // }
@@ -654,7 +654,7 @@ class Admin extends CI_Controller
 
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar_admin',$data);
-        $this->load->view('admin/Station/data_Station', $data);
+        $this->load->view('admin/station/data_Station', $data);
         $this->load->view('templates/footer');
     }
     public function addStation()
@@ -716,7 +716,7 @@ class Admin extends CI_Controller
         } else {
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin',$data);
-            $this->load->view('admin/Station/edit_Station', $data);
+            $this->load->view('admin/station/edit_Station', $data);
             $this->load->view('templates/footer');
         }
         // }
@@ -746,7 +746,7 @@ class Admin extends CI_Controller
 
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar_admin',$data);
-        $this->load->view('admin/Cost_center/data_costcen', $data);
+        $this->load->view('admin/cost_center/data_costcen', $data);
         $this->load->view('templates/footer');
     }
     public function addcostcen()
@@ -775,7 +775,7 @@ class Admin extends CI_Controller
             $data= ['heading' => 'master'];
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin',$data);
-            $this->load->view('admin/Cost_Center/add_costcen');
+            $this->load->view('admin/cost_center/add_costcen');
             $this->load->view('templates/footer');
         }
         // }
@@ -1104,7 +1104,7 @@ class Admin extends CI_Controller
 
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar_admin',$data);
-        $this->load->view('admin/Travel_DA/data_TravelDA', $data);
+        $this->load->view('admin/travel_da/data_TravelDA', $data);
         $this->load->view('templates/footer');
     }
     public function addtravelda()
@@ -1116,12 +1116,13 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('periode', 'Periode', 'required');
 
         if ($this->form_validation->run() == true) {
+	$periode = date('Y',strtotime($this->input->post('periode')));
             $db = [
                 'grade' => $this->input->post('grade'),
                 'hotel' => $this->input->post('hotel'),
                 'daily_allowance' => $this->input->post('da'),
                 'ticket' => $this->input->post('ticket'),
-                'periode_year' => $this->input->post('periode')
+                'periode_year' => $periode
             ];
 
             if ($this->Travelda_model->create($db) > 0) {
@@ -1157,15 +1158,17 @@ class Admin extends CI_Controller
             'travel' => $travel,
             'heading' => 'master'
         ];
+	// var_dump($data);die;
         // if ($id == "") {
         if ($this->form_validation->run() == true) {
+	    $periode = date('Y',strtotime($this->input->post('periode')));
             $db = [
                 'id_travelda' => $id,
                 'grade' => $this->input->post('grade'),
                 'hotel' => $this->input->post('hotel'),
                 'daily_allowance' => $this->input->post('da'),
                 'ticket' => $this->input->post('ticket'),
-                'periode_year' => $this->input->post('periode')
+                'periode_year' => $periode
             ];
             if ($this->Travelda_model->update($db) > 0) {
                 $this->session->set_flashdata('message', $this->flasher('success', 'Success To Edit Data'));
@@ -1174,9 +1177,10 @@ class Admin extends CI_Controller
             }
             redirect('admin/travelda');
         } else {
+	// var_dump($data);die;
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin',$data);
-            $this->load->view('admin/travel_da/edit_travelda', $data);
+            $this->load->view('admin/travel_da/edit_TravelDA', $data);
             $this->load->view('templates/footer');
         }
         // }
@@ -1185,7 +1189,7 @@ class Admin extends CI_Controller
     public function deletetravelda($id)
     {
         if ($id) {
-            if ($this->Account_model->delete($id) > 0) {
+            if ($this->Travelda_model->delete($id) > 0) {
                 $this->session->set_flashdata('message', $this->flasher('success', 'Success To Add Data'));
             } else {
                 $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Add Data'));
@@ -1193,7 +1197,7 @@ class Admin extends CI_Controller
         } else {
             $this->session->set_flashdata('message', $this->flasher('danger', 'Id Is null'));
         }
-        redirect('admin/account');
+        redirect('Admin/TravelDA');
         // }
     }
     

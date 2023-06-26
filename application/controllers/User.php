@@ -89,7 +89,8 @@ class User extends CI_Controller
                 'bgg' => $bg,
                 'budget' => $budget,
                 'tahun' => $tahun,
-                'heading' => 'dashboard'
+                'heading' => 'dashboard',
+		'thn' => $thn
             ];
             // var_dump($diagram);die;
             $this->load->view('templates/header');
@@ -156,14 +157,14 @@ class User extends CI_Controller
         $this->form_validation->set_rules('acc', 'Account', '');
         // $this->form_validation->set_rules('user', 'Division', '');
         $this->form_validation->set_rules('desc', 'Description', 'required');
-        $this->form_validation->set_rules('source', 'Source', '');
-        $this->form_validation->set_rules('category', 'Category', '');
-        $this->form_validation->set_rules('docref', 'References', '');
-        $this->form_validation->set_rules('dns', 'Desc Source', '');
+        // $this->form_validation->set_rules('source', 'Source', '');
+        // $this->form_validation->set_rules('category', 'Category', '');
+        // $this->form_validation->set_rules('docref', 'References', '');
+        // $this->form_validation->set_rules('dns', 'Desc Source', '');
         $this->form_validation->set_rules('dsm', 'Desc Module', 'required');
-        $this->form_validation->set_rules('cur', 'Currency', 'required');
-        $this->form_validation->set_rules('debit', 'Departement', 'required');
-        $this->form_validation->set_rules('credit', 'Departement', '');
+        // $this->form_validation->set_rules('cur', 'Currency', 'required');
+        $this->form_validation->set_rules('debit', 'Debit', 'required');
+        // $this->form_validation->set_rules('credit', 'Credit', '');
         $this->form_validation->set_rules('date', 'Date', 'required');
 
         $user = $this->User_model->selectUser($id);
@@ -179,10 +180,10 @@ class User extends CI_Controller
         // var_dump($user);die;
         $account = $this->input->post('acc');
         $periode = date("Y", strtotime($this->input->post('date')));
-        // var_dump($id,$account,$periode);die;
+        
         if ($this->form_validation->run() == true) {
             $find = $this->Budget_model->findheader($id,$account,$periode);
-            
+            // var_dump($periode);die;
             // var_dump($hotel);die;
             // var_dump($find[0]['id_bdgt']);die;
             if(count($find) > 0){
@@ -192,19 +193,19 @@ class User extends CI_Controller
                     'product' => '00000',
                     'id_user' => $id,
                     'description'=> $this->input->post('desc'),
-                    'source'=> $this->input->post('source'),
-                    'category'=> $this->input->post('category'),
-                    'doc_ref'=> $this->input->post('docref'),
-                    'doc_number'=> $this->input->post('dns'),
+                    // 'source'=> $this->input->post('source'),
+                    // 'category'=> $this->input->post('category'),
+                    // 'doc_ref'=> $this->input->post('docref'),
+                    // 'doc_number'=> $this->input->post('dns'),
                     'desc_source'=> $this->input->post('dsm'),
-                    'currency'=> $this->input->post('cur'),
+                    'currency'=> 'IDR',
                     'amount_debit'=> $this->input->post('debit'),
-                    'amount_credit'=> $this->input->post('credit'),
+                    'amount_credit'=> 0,
                     'status' => 'no',
                     'id_bdgt' => $find[0]['id_bdgt'],
-                    'budget_year' => $this->input->post('date')
-                ];
-
+                    'budget_year' => $periode                
+		];
+		// var_dump($db);die;
                 $budget = $this->DetailBudget_model->create($db);
                 $p = $this->Budget_model->selectheader($find[0]['id_bdgt']);
                 // var_dump($p);
@@ -222,7 +223,7 @@ class User extends CI_Controller
                     'product' => '00000',
                     'id_user' => $id,
                     'total_budget' => 0,
-                    'periode_year' => $this->input->post('date')
+                    'periode_year' => $periode
                 ];
                     
                 $idbdgt = $this->Budget_model->create($db);
@@ -234,17 +235,17 @@ class User extends CI_Controller
                     'product' => '00000',
                     'id_user' => $id,
                     'description'=> $this->input->post('desc'),
-                    'source'=> $this->input->post('source'),
-                    'category'=> $this->input->post('category'),
-                    'doc_ref'=> $this->input->post('docref'),
-                    'doc_number'=> $this->input->post('dns'),
+                    // 'source'=> $this->input->post('source'),
+                    // 'category'=> $this->input->post('category'),
+                    // 'doc_ref'=> $this->input->post('docref'),
+                    // 'doc_number'=> $this->input->post('dns'),
                     'desc_source'=> $this->input->post('dsm'),
-                    'currency'=> $this->input->post('cur'),
+                    'currency'=> 'IDR',
                     'amount_debit'=> $this->input->post('debit'),
-                    'amount_credit'=> $this->input->post('credit'),
+                    'amount_credit'=> 0,
                     'status' => 'no',
                     'id_bdgt' => $idbdgt,
-                    'budget_year' => $this->input->post('date')
+                    'budget_year' => $periode
                 ];
                 // var_dump($db);die;
                 // id_account,subacc,product,id_user,description,source,category,doc_ref,doc_number,desc_source,currency,amount_debit,amount_credit,create_date,status
@@ -412,7 +413,7 @@ class User extends CI_Controller
                         echo "<script>location.href='" . base_url('admin') . "';alert('Anda Berhasil Masuk Sebagai Admin');</script>";
                     } else if ($user['id_role'] != '1') {
                         echo "USER";
-                        echo "<script>location.href='" . base_url('User') . "';alert('Anda Berhasil Masuk Sebagai User');</script>";
+                        echo "<script>location.href='" . base_url('user') . "';alert('Anda Berhasil Masuk Sebagai User');</script>";
                     }
                 } else {
                     echo "<script>location.href='" . base_url('auth/') . "';alert('Password Salah');</script>";
@@ -444,20 +445,22 @@ class User extends CI_Controller
         $this->form_validation->set_rules('tujuan', 'Destination', 'required');
         $this->form_validation->set_rules('qty', 'Qty', 'required');
         $this->form_validation->set_rules('periode', 'Periode', 'required');
-
+	
+        // $periode = date("Y", strtotime($this->input->post('date')));
         if ($this->form_validation->run() == true) {
+	    $periode = date("Y", strtotime($this->input->post('periode')));
             $db = [
                 'grade' => $this->input->post('grade'),
                 'hari' => $this->input->post('hari'),
                 'tujuan' => $this->input->post('tujuan'),
                 'qty' => $this->input->post('qty'),
-                'periode_year' => $this->input->post('periode')
+                'periode_year' => $periode
             ];
             
             $account1 = '104';
             $account2 = '106';
             $account3 = '107';
-            $periode = date("Y", strtotime($this->input->post('periode')));
+            
             $grade = $this->Travelda_model->getidbygrade($db['grade']) ;
 
             $travel_da = $this->Travelda_model->selectAll();
@@ -485,7 +488,7 @@ class User extends CI_Controller
                     'amount_credit'=> 0,
                     'status' => 'no',
                     'id_bdgt' => $find[0]['id_bdgt'],
-                    'budget_year' => $this->input->post('periode')
+                    'budget_year' => $periode
                 ];
                 $da2 = $this->DetailBudget_model->create($db);
                 $p = $this->Budget_model->selectheader($find[0]['id_bdgt']);
@@ -504,7 +507,7 @@ class User extends CI_Controller
                     'product' => '00000',
                     'id_user' => $id,
                     'total_budget' => 0,
-                    'periode_year' => $this->input->post('periode')
+                    'periode_year' => $periode
                 ];
                 $da = $this->Budget_model->create($da);
 
@@ -518,13 +521,13 @@ class User extends CI_Controller
                     'category'=> '',
                     'doc_ref'=> '',
                     'doc_number'=> '',
-                    'desc_source'=> 'Daily Allowance ' .$this->input->post('tujuan'),
+                    'desc_source'=> 'Daily Allowance ' .$this->input->post('tujuan').' '.$this->input->post('grade'),
                     'currency'=> 'IDR',
                     'amount_debit'=> $hotel,
                     'amount_credit'=> 0,
                     'status' => 'no',
                     'id_bdgt' => $da,
-                    'budget_year' => $this->input->post('periode')
+                    'budget_year' => $periode
                 ];
                 $da2 = $this->DetailBudget_model->create($db);
                 $p = $this->Budget_model->selectheader($da);
@@ -553,13 +556,13 @@ class User extends CI_Controller
                     'category'=> '',
                     'doc_ref'=> '',
                     'doc_number'=> '',
-                    'desc_source'=> 'Travel Expense Domestic ' .$this->input->post('tujuan'),
+                    'desc_source'=> 'Travel Expense Domestic ' .$this->input->post('tujuan').' '.$this->input->post('grade'),
                     'currency'=> 'IDR',
                     'amount_debit'=> $ted,
                     'amount_credit'=> 0,
                     'status' => 'no',
                     'id_bdgt' => $find[0]['id_bdgt'],
-                    'budget_year' => $this->input->post('periode')
+                    'budget_year' => $periode
                 ];
                 $da2 = $this->DetailBudget_model->create($db);
                 $p = $this->Budget_model->selectheader($find[0]['id_bdgt']);
@@ -578,7 +581,7 @@ class User extends CI_Controller
                     'product' => '00000',
                     'id_user' => $id,
                     'total_budget' => 0,
-                    'periode_year' => $this->input->post('periode')
+                    'periode_year' => $periode
                 ];
                 $da = $this->Budget_model->create($da);
 
@@ -592,13 +595,13 @@ class User extends CI_Controller
                     'category'=> '',
                     'doc_ref'=> '',
                     'doc_number'=> '',
-                    'desc_source'=> 'Travel Expense Domestic ' .$this->input->post('tujuan'),
+                    'desc_source'=> 'Travel Expense Domestic ' .$this->input->post('tujuan').' '.$this->input->post('grade'),
                     'currency'=> 'IDR',
                     'amount_debit'=> $ted,
                     'amount_credit'=> 0,
                     'status' => 'no',
                     'id_bdgt' => $da,
-                    'budget_year' => $this->input->post('periode')
+                    'budget_year' => $periode
                 ];
                 $da2 = $this->DetailBudget_model->create($db);
                 $p = $this->Budget_model->selectheader($da);
@@ -627,13 +630,13 @@ class User extends CI_Controller
                     'category'=> '',
                     'doc_ref'=> '',
                     'doc_number'=> '',
-                    'desc_source'=> 'Ticket ' .$this->input->post('tujuan'),
+                    'desc_source'=> 'Ticket ' .$this->input->post('tujuan').' '.$this->input->post('grade'),
                     'currency'=> 'IDR',
                     'amount_debit'=> $ticket,
                     'amount_credit'=> 0,
                     'status' => 'no',
                     'id_bdgt' => $find[0]['id_bdgt'],
-                    'budget_year' => $this->input->post('periode')
+                    'budget_year' => $periode
                 ];
                 $da2 = $this->DetailBudget_model->create($db);
                 $p = $this->Budget_model->selectheader($find[0]['id_bdgt']);
@@ -652,7 +655,7 @@ class User extends CI_Controller
                     'product' => '00000',
                     'id_user' => $id,
                     'total_budget' => 0,
-                    'periode_year' => $this->input->post('periode')
+                    'periode_year' => $periode
                 ];
                 $da = $this->Budget_model->create($da);
 
@@ -666,13 +669,13 @@ class User extends CI_Controller
                     'category'=> '',
                     'doc_ref'=> '',
                     'doc_number'=> '',
-                    'desc_source'=> 'Ticket ' .$this->input->post('tujuan'),
+                    'desc_source'=> 'Ticket ' .$this->input->post('tujuan').' '.$this->input->post('grade'),
                     'currency'=> 'IDR',
                     'amount_debit'=> $ticket,
                     'amount_credit'=> 0,
                     'status' => 'no',
                     'id_bdgt' => $da,
-                    'budget_year' => $this->input->post('periode')
+                    'budget_year' => $periode
                 ];
                 $da2 = $this->DetailBudget_model->create($db);
                 $p = $this->Budget_model->selectheader($da);

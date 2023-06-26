@@ -7,20 +7,26 @@
                         <h6 class="m-0 font-weight-bold text-primary">Add Budget</h6>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="<?= base_url('budget/addbudget/'.$id) ?>" class="row g-3">
+                        <form method="POST" action="<?= base_url('budget/addbudget/') ?>" class="row g-3">
 
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Account</label>
-                                <select name="acc" class="form-control" id="exampleFormControlSelect1" name="cc" disabled>
-                                        <option value="<?= $h['acc'] ?>">[<?= $h['id_acc'] ?>] <?= $h['remark_acc'] ?></option>
+                                <select name="acc" class="form-control" id="acc" class="selectpicker" data-live-search="true">
+                                    <?php
+                                    foreach ($account as $h) : ?>
+                                        <option value="<?= $h['id_account'] ?>">[<?= $h['id_acc'] ?>] <?= $h['remark_acc'] ?></option>
+                                    <?php endforeach; ?>
                                 </select>
                                 <?= form_error('Account', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>PIC</label>
-                                <select name="user" class="form-control" id="exampleFormControlSelect1" name="user" disabled>
-                                        <option value="<?= $h['user'] ?>"><?= $h['name_user'] ?> [<?= $h['division'] ?> - <?= $h['name_station'] ?>]</option>
+                                <select name="user" class="form-control" id="exampleFormControlSelect1" class="selectpicker" data-live-search="true">
+                                    <?php
+                                    foreach ($user as $h) : ?>
+                                        <option value="<?= $h['id_user'] ?>"><?= $h['name_user'] ?> [<?= $h['division'] ?> - <?= $h['name_station'] ?>]</option>
+                                    <?php endforeach; ?>
                                 </select>
                                 <?= form_error('user', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
@@ -29,7 +35,7 @@
                                 <input type="text" name="desc" class="form-control" id="desc">
                                 <?= form_error('desc', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
-                            <div class="col-12">
+                            <!-- <div class="col-12">
                                 <label for="inputNanme4" class="form-label">Source</label>
                                 <input type="text" name="source" class="form-control" id="source">
                                 <?= form_error('source', '<small class="form-text text-danger">', '</small>'); ?>
@@ -48,7 +54,7 @@
                                 <label for="inputNanme4" class="form-label">Doc. Number of Source</label>
                                 <input type="text" name="dns" class="form-control" id="dns">
                                 <?= form_error('dns', '<small class="form-text text-danger">', '</small>'); ?>
-                            </div>
+                            </div> -->
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Desc. of source module</label>
                                 <input type="text" name="dsm" class="form-control" id="dsm">
@@ -56,19 +62,24 @@
                             </div>
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Currency</label>
-                                <input type="text" name="cur" class="form-control" id="cur">
+                                <input type="text" name="cur" class="form-control" id="cur" value="IDR" disabled>
                                 <?= form_error('cur', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Accounted DR Amount</label>
-                                <input type="number" name="debit" class="form-control" id="debit">
+                                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" name="debit" class="form-control" id="debit">
                                 <?= form_error('debit', '<small class="form-text text-danger">', '</small>'); ?>
                             </div> 
-                            <div class="col-12">
+                            <!-- <div class="col-12">
                                 <label for="inputNanme4" class="form-label">Accounted CR Amount</label>
                                 <input type="number" name="credit" class="form-control" id="credit">
                                 <?= form_error('credit', '<small class="form-text text-danger">', '</small>'); ?>
-                            </div>                         
+                            </div>                          -->
+			    <div class="col-12">
+                            	<label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Date</label>
+                            	<input type="text" name="date" class="form-control" id="datepicker" placeholder="00/00/0000">
+                             	<?= form_error('date', '<small class="form-text text-danger">', '</small>'); ?>
+                            </div> 
                             <div class="text-center col-12 mt-3  ">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
@@ -82,4 +93,11 @@
     </div>
 
 </div> -->
+
+<script>
+$(function () {
+    $('select').selectpicker();
+    $('#datepicker').datepicker();
+});
+</script>
 </main><!-- End #main -->

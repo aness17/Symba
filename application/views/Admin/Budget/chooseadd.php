@@ -21,7 +21,7 @@
         </div>
         <div class="col-xl-4 col-md-6 mb-4">
             <div class="card border-bottom-primary shadow py-2 effect">
-                <a href="<?= base_url('budget/addheaderbudget')?>">
+                <a href="<?= base_url('budget/addbudget')?>">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">

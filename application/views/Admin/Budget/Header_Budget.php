@@ -8,9 +8,20 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-2">
-            <div class="d-flex justify-content-between">
-                <h6 class="m-2 font-weight-bold text-primary">Budget Data</h6>
-                <a href="<?= base_url('admin/chooseadd') ?>" class="btn btn-primary">Add Data</a>
+            <div class="d-flex">
+                <h6 class="mr-auto p-2 font-weight-bold text-primary">Budget Data</h6>
+                <form action="" method="post" class="p-2">
+                    <select id="tahun" name="tahun" class="ml-3">
+                        <!-- <option value="-">Pilih Tahun</option>   -->
+                        <?php foreach ($tahun as $r) : ?>
+                        <option value="<?= $r['tahun'] ?>" <?= ($r['tahun'] == $thn) ? "selected" : "" ?>><?= $r['tahun'] ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                <?= form_error('tahun', '<small class="form-text text-danger">', '</small>'); ?>
+                <button type="submit" id="tombol">Cek</button>
+                </form>
+                
+                <a href="<?= base_url('admin/chooseadd') ?>" class="btn btn-primary p-2">Add Data</a>
                 <!-- <a href="<?= base_url('budget/addheaderbudget') ?>" class="btn btn-primary">Add Data</a> -->
             </div>
         </div>

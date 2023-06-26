@@ -1,8 +1,10 @@
+let base_url = "http://192.168.4.169/symba/";
+
 function dtl_actual(id, user) {
 	let id_budget = id;
 	let id_user = user;
 	$.ajax({
-		url: "http://192.168.11.116/Symba/user/json_detail_actual",
+		url: base_url + "user/json_detail_actual",
 		type: "POST",
 		data: {
 			id_budget: id_budget,
@@ -30,7 +32,7 @@ function dtl_budget(id, idbudget) {
 	let id_user = id;
 	let id_bdgt = idbudget;
 	$.ajax({
-		url: "http://192.168.11.116/Symba/user/dtl_budget",
+		url: base_url + "user/dtl_budget",
 		type: "POST",
 		data: {
 			id_bdgt: id_bdgt,
@@ -57,7 +59,7 @@ function budget(id, tahun) {
 	let id_user = id;
 	let thn = tahun;
 	$.ajax({
-		url: "http://192.168.11.116/Symba/admin/budget_detail",
+		url: base_url + "admin/budget_detail",
 		type: "POST",
 		data: {
 			id_user: id_user,
@@ -86,7 +88,7 @@ function actual(id, tahun) {
 	let id_user = id;
 	let thn = tahun;
 	$.ajax({
-		url: "http://192.168.11.116/Symba/admin/actual_detail",
+		url: base_url + "admin/actual_detail",
 		type: "POST",
 		data: {
 			id_user: id_user,
@@ -114,7 +116,7 @@ function creditactual(id, tahun) {
 	let thn = tahun;
 	// console.log(thn);
 	$.ajax({
-		url: "http://192.168.11.116/Symba/admin/creditactual_detail",
+		url: base_url + "admin/creditactual_detail",
 		type: "POST",
 		data: {
 			id_user: id_user,
