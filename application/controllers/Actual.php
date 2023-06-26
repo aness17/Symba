@@ -1,5 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Shared;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
 class Actual extends CI_Controller
 {
@@ -166,7 +170,8 @@ class Actual extends CI_Controller
             // 'user' => $user,
             'account' => $account,
             'heading' => 'actual'
-        ];
+            ];
+        // var_dump($bg);die;
 
         if ($this->form_validation->run() == true) {
             $db = [
@@ -204,7 +209,6 @@ class Actual extends CI_Controller
                 // }
                 // redirect('admin/pelanggan/tambahpelanggan');
         } else {
-
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin',$data);
             $this->load->view('admin/actual/edit_actual',$data);
@@ -227,6 +231,86 @@ class Actual extends CI_Controller
         redirect('budget/detailbudget/'. $id_budget);
             // }
     }
+    public function upload(){
+		$this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
+		if($this->form_validation->run() == true){
+			// START UPLOAD
+			$msg = '';
+			$file_mimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+			$config['upload_path'] = './upload/';
+			$config['allowed_types'] = 'xls|xlsx';
+			$config['max_size'] = 1000;
+			$this->load->library('upload');
+			$this->upload->initialize($config);
+			if(!$this->upload->do_upload('file_upload')){
+				$msg_x = array('error' => $this->upload->display_errors());
+				$this->session->set_flashdata('msg_x',$msg_x);
+				redirect('certificate/create','refresh');
+			}else{
+				$actual = $this->Pattern_model->find(['id'=>$this->input->post('pattern',TRUE)]);
+				foreach($actual as $p){
+					$pattern = $p->format;
+				}
+				$data = array('upload_data' => $this->upload->data());
+				$inputFileName = $data['upload_data']['full_path']; //ambil path file
+				$inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($inputFileName);
+				/**  Create a new Reader of the type that has been identified  **/
+				$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
+				$reader->setReadDataOnly(true);
+				/**  Load $inputFileName to a Spreadsheet Object  **/
+				$spreadsheet = $reader->load($inputFileName);
+				$sheet = $spreadsheet->getSheet(0)->toArray();
+				unset($sheet[0]);
+				foreach($sheet as $s){
+					$records = array(
+						'id_budget'=>$s[0],
+						'sub_acc'=>$s[1],
+						'product'=>$s[2],
+						'description'=>$s[3],
+						'source'=>$s[4],
+						'category'=>$s[5],
+						'doc_ref'=>$s[6],
+						'doc_number'=>$s[7],
+						'desc_source'=>$s[8],
+						'currency'=>$s[9],
+						'amount_debit'=>$s[11],
+						'amount_credit'=>$s[12],
+						'actual_date'=>date('Y-m-d H:i:s')
+					);
+					//jika ada record yang sama maka terupdate
+					$duplicate = $this->Cert_model->find(['pattern_id'=>$records['pattern_id'],'participant_name'=>$records['participant_name'],
+					'start_date'=>$records['start_date'],'end_date'=>$records['end_date']]);
+					if(count($duplicate) > 0){
+						foreach($duplicate as $d){
+							$cert_id = $d->id;
+							$cert_no = $d->cert_no;
+						}
+						$records['cert_no'] = $cert_no;
+						$process = $this->Cert_model->update($cert_id,$records);
+						$msg .= "<p>Success update data certificate no = ".$cert_no;
+					}else{
+
+						// $cert_no = $this->getCertificateNo($pattern,$location);
+						// $records['cert_no'] = $cert_no;
+						// $records['token'] = hash('crc32c',$cert_no);
+						// $process = $this->Cert_model->insert($records);
+						// $msg .= "<p>Success insert data certificate no = ".$cert_no;
+					}
+				}
+				$this->session->set_flashdata('msg',$msg);
+				return redirect('certificate','refresh');		
+			}
+			//END UPLOAD
+		}else{
+            $data = [
+                'heading' => 'actual'
+            ];
+            $this->load->view('templates/header');
+            $this->load->view('templates/sidebar_admin',$data);
+            $this->load->view('admin/actual/upload_actual');
+            $this->load->view('templates/footer');
+        }
+	}
     public function flasher($class, $message)
     {
         return
