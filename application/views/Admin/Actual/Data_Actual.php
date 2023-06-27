@@ -10,7 +10,7 @@
         <div class="card-header py-2">
             <div class="d-flex justify-content-between">
                 <h6 class="m-2 font-weight-bold text-primary">Actual Data</h6>
-               <a href="<?= base_url('actual/upload') ?>" class="btn btn-primary">Upload Data</a>
+               <a href="<?= base_url('actual/upload2') ?>" class="btn btn-primary">Upload Data</a>
            </div>
 
         </div>

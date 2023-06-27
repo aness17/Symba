@@ -311,23 +311,41 @@ class Actual extends CI_Controller
     //         }
 	// }
     public function upload(){
-		$this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
-		if($this->form_validation->run() == TRUE){
+		// $this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
+        // $this->form_validation->set_rules('file_upload', 'File Upload', '');
+        
+        // $id = $this->input->post('file_upload');
+        // echo $id;die;
+		
 			// START UPLOAD
+                    //    var_dump($id);die;
 			$msg = '';
 			$file_mimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 			$config['upload_path'] = './upload/';
 			$config['allowed_types'] = 'xls|xlsx';
-			$config['max_size'] = 1000;
-			$this->load->library('upload');
-			$this->upload->initialize($config);
-			if(!$this->upload->do_upload('file_upload')){
-				$msg_x = array('error' => $this->upload->display_errors());
-				$this->session->set_flashdata('msg_x',$msg_x);
-				redirect('/actual/upload','refresh');
-			}else{
+			$config['max_size'] = 3600;
+                            $this->load->library('upload', $config);
+
+			// $this->load->library('upload');
+			// $this->upload->initialize($config);
+            // var_dump($config);die;
+			// if(!$this->upload->do_upload('file_upload')){
+			// 	$msg_x = array('error' => $this->upload->display_errors());
+			// 	$this->session->set_flashdata('msg_x',$msg_x);
+            //     $data = [
+            //         'heading' => 'actual'
+            //     ];
+            //     // echo "Masuk ini";
+
+            //     $this->load->view('templates/header');
+            //     $this->load->view('templates/sidebar_admin',$data);
+            //     $this->load->view('admin/actual/upload_actual');
+            //     $this->load->view('templates/footer');			
+            // }else{
 				$data = array('upload_data' => $this->upload->data());
 				$inputFileName = $data['upload_data']['full_path']; //ambil path file
+                                var_dump($inputFileName);die;
+
 				$inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($inputFileName);
 				/**  Create a new Reader of the type that has been identified  **/
 				$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
@@ -338,7 +356,7 @@ class Actual extends CI_Controller
 				unset($sheet[0]);
 				foreach($sheet as $s){
 					$data = array(
-                        'id_budget'         => $s[0],
+                        'id_budget'         =>$s[0],
                         'subacc'            =>$s[1],
                         'product'           =>$s[2],
                         'description'       =>$s[3],
@@ -359,21 +377,21 @@ class Actual extends CI_Controller
                     }else{
                         echo "<script>location.href='" . base_url('admin/') . "';alert('Failed to Add Transaction List');</script>";
                     }
-				}
-				$this->session->set_flashdata('msg',$msg);
-				return redirect('certificate','refresh');		
-			}
+				}	
+			// }
 			//END UPLOAD
-		}else{
-            $data = [
+	}
+    public function upload2(){
+        $data = [
                     'heading' => 'actual'
                 ];
+                // echo "Masuk ini";
+
                 $this->load->view('templates/header');
                 $this->load->view('templates/sidebar_admin',$data);
                 $this->load->view('admin/actual/upload_actual');
-                $this->load->view('templates/footer');
-        }
-	}
+                $this->load->view('templates/footer');	
+    }
     public function flasher($class, $message)
     {
         return
