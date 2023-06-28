@@ -10,6 +10,10 @@ class Actual_model extends CI_Model
     {
         return $this->db->insert($this->table, $data);
     }
+    public function add_data($data)
+    {
+        return $this->db->insert_batch($this->table, $data);
+    }
 
     public function Actualperbulan($id,$thn){
         // SELECT concat(month(actual_date)," - ",year(actual_date)) as Bulan, sum(tactual.amount_debit)-sum(tactual.amount_credit) as jumlah  

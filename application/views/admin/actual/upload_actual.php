@@ -10,11 +10,11 @@
                         <form method="POST" action="<?= base_url('actual/upload')?>" class="row g-3" enctype="multipart/form-data">           
                             <div class="col-12">
                                 <label class="col-form-label text-md-left"><span class="text-danger">*</span>Upload File</label> 
-                                <input type="file" class="form-control" name="file_upload" accept=".xls, .xlsx" id="exampleInputFile" required>
+                                <input type="file" class="form-control" name="upload" accept=".xls, .xlsx" id="exampleInputFile" required>
                                 <div class="mt-1">
                                     <span class="text-secondary">File yang harus diupload : .xls, .xlsx</span>
                                 </div>
-                                <?= form_error('file_upload', '<small class="form-text text-danger">', '</small>'); ?>
+                                <?= form_error('upload', '<small class="form-text text-danger">', '</small>'); ?>
                                     
                                 <!-- <label for="exampleInputFile" class="form-label"><span class="text-danger">*</span>File Upload</label>
                                 <div class="custom-file">

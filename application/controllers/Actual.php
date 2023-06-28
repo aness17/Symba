@@ -1,9 +1,14 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+require 'vendor/autoload.php';
+
+date_default_timezone_set("Asia/Jakarta");
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Shared;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Reader\Csv;
 
 class Actual extends CI_Controller
 {
@@ -232,7 +237,7 @@ class Actual extends CI_Controller
         redirect('budget/detailbudget/'. $id_budget);
             // }
     }
-    // public function upload(){
+    // public function upload(){ upload by PHPExcel
 	// 	// $this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
 	// 	if(isset($_FILES["file"]["name"])){
     //               // upload
@@ -310,75 +315,56 @@ class Actual extends CI_Controller
     //             $this->load->view('templates/footer');
     //         }
 	// }
-    public function upload(){
-		// $this->form_validation->set_error_delimiters('<div class="alert alert-danger">', '</div>');
-        // $this->form_validation->set_rules('file_upload', 'File Upload', '');
-        
-        // $id = $this->input->post('file_upload');
-        // echo $id;die;
-		
-			// START UPLOAD
-                    //    var_dump($id);die;
-			$msg = '';
-			$file_mimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-			$config['upload_path'] = './upload/';
-			$config['allowed_types'] = 'xls|xlsx';
-			$config['max_size'] = 3600;
-                            $this->load->library('upload', $config);
+    public function upload(){ //upload use spreadsheets
+        $file_mimes = array('application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 
-			// $this->load->library('upload');
-			// $this->upload->initialize($config);
-            // var_dump($config);die;
-			// if(!$this->upload->do_upload('file_upload')){
-			// 	$msg_x = array('error' => $this->upload->display_errors());
-			// 	$this->session->set_flashdata('msg_x',$msg_x);
-            //     $data = [
-            //         'heading' => 'actual'
-            //     ];
-            //     // echo "Masuk ini";
+			if(in_array($_FILES['upload']['type'], $file_mimes)) {
+                $config['upload_path']          = './upload/';
+                $config['allowed_types']        = 'xls|xlsx';
+                $config['max_size']             = 3600;
 
-            //     $this->load->view('templates/header');
-            //     $this->load->view('templates/sidebar_admin',$data);
-            //     $this->load->view('admin/actual/upload_actual');
-            //     $this->load->view('templates/footer');			
-            // }else{
-				$data = array('upload_data' => $this->upload->data());
-				$inputFileName = $data['upload_data']['full_path']; //ambil path file
-                                var_dump($inputFileName);die;
+                $this->load->library('upload', $config);
 
-				$inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($inputFileName);
-				/**  Create a new Reader of the type that has been identified  **/
-				$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
-				$reader->setReadDataOnly(true);
-				/**  Load $inputFileName to a Spreadsheet Object  **/
-				$spreadsheet = $reader->load($inputFileName);
-				$sheet = $spreadsheet->getSheet(0)->toArray();
-				unset($sheet[0]);
-				foreach($sheet as $s){
-					$data = array(
-                        'id_budget'         =>$s[0],
-                        'subacc'            =>$s[1],
-                        'product'           =>$s[2],
-                        'description'       =>$s[3],
-                        'source'            =>$s[4],
-                        'category'          =>$s[5],
-                        'doc_ref'           =>$s[6],
-                        'doc_number'        =>$s[7],
-                        'desc_source'       =>$s[8],
-                        'currency'          =>$s[9],
-                        'amount_debit'      =>$s[10],
-                        'amount_credit'     =>$s[11],
-                        'actual_date'       =>date("Y-m-d",\PhpOffice\PhpSpreadsheet\Shared\Date::excelToTimestamp($s[12])),
-					);
-                    var_dump($data);die;
-					//insert data to database
-					if($this->db->insert_batch('tactual', $data) > 0){
-                        echo "<script>location.href='" . base_url('actual/dataactual') . "';alert('Success to Add Transaction List');</script>";
-                    }else{
-                        echo "<script>location.href='" . base_url('admin/') . "';alert('Failed to Add Transaction List');</script>";
-                    }
-				}	
-			// }
+                if ($this->upload->do_upload('upload')) {
+			        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+                    $spreadsheet = $reader->load($_FILES['upload']['tmp_name']);
+                    
+                    $d = $spreadsheet->getActiveSheet()->toArray();
+                    unset($d[0]);
+                    $datas = array();
+                
+                    foreach($d as $s){
+                        $data = [
+                            'id_budget'         =>$s[0],
+                            'subacc'            =>$s[1],
+                            'product'           =>$s[2],
+                            'description'       =>$s[3],
+                            'source'            =>$s[4],
+                            'category'          =>$s[5],
+                            'doc_ref'           =>$s[6],
+                            'doc_number'        =>$s[7],
+                            'desc_source'       =>$s[8],
+                            'currency'          =>$s[9],
+                            'amount_debit'      =>$s[10],
+                            'amount_credit'     =>$s[11],
+                            'actual_date'       =>date("Y-m-d",strtotime($s[12])),
+                        ];
+                        // array_push($datas,$data);
+                        // var_dump($data);die;
+                        //insert data to database
+                        if($this->Actual_model->create($data) > 0){
+                            echo "<script>location.href='" . base_url('admin/dashboard') . "';alert('Success to Add Transaction List');</script>";
+                        }else{
+                            echo "<script>location.href='" . base_url('actual/upload2') . "';alert('Failed to Add Transaction List');</script>";
+                        }
+                    }	
+                }else{
+                    echo "<script>location.href='" . base_url('actual/upload2') . "';alert('Failed to Add Transaction List');</script>";
+
+                }
+			}else{
+                echo "<script>location.href='" . base_url('actual/upload2') . "';alert('Failed to Add Transaction List');</script>";
+            }
 			//END UPLOAD
 	}
     public function upload2(){
