@@ -132,6 +132,14 @@ class Actual_model extends CI_Model
         JOIN `tuser` ON tuser.id_user = tdetail_budget.id_user JOIN `tdivision` on tdivision.id_dvn = tuser.id_dvn JOIN `tstation` 
         ON tstation.id_station = tdivision.id_station WHERE tdetail_budget.budget_year = '.$thn.' GROUP BY tdetail_budget.id_user ASC ORDER BY tstation.code_station asc')->result_array();
         // return $this->db->query('select tdivision.division,sum(tdetail_budget.amount_debit) debitbgt, sum(a.amount_debit) as debit ,SUM(a.amount_credit) as credit,sum(tdetail_budget.amount_debit)debitbgt from tactual a RIGHT join tdetail_budget on a.id_budget = tdetail_budget.id_budget join tuser ON tuser.id_user = tdetail_budget.id_user join tdivision on tdivision.id_dvn = tuser.id_dvn GROUP BY tuser.id_user')->result_array();
+    // SELECT tdetail_budget.category_budget,tdetail_budget.currency bd,tactual.currency cr,tdivision.division,tstation.code_station,tdetail_budget.id_user, 
+    //tdetail_budget.id_budget,debit_budget,credit_budget,SUM(tactual.amount_debit) debit_actual, SUM(tactual.amount_credit) credit_actual FROM `tactual` 
+    // RIGHT JOIN `tdetail_budget` on tdetail_budget.id_budget = tactual.id_budget JOIN (SELECT tdetail_budget.currency,tdetail_budget.id_user, 
+    // SUM(tdetail_budget.amount_debit) debit_budget,SUM(tdetail_budget.amount_credit)credit_budget FROM tdetail_budget JOIN tuser 
+    // ON tuser.id_user = tdetail_budget.id_user WHERE tdetail_budget.budget_year = 2023 GROUP BY tdetail_budget.id_user) tbl_budget_user 
+    // ON tbl_budget_user.id_user = tdetail_budget.id_user JOIN `tuser` ON tuser.id_user = tdetail_budget.id_user JOIN `tdivision` 
+    // on tdivision.id_dvn = tuser.id_dvn JOIN `tstation` ON tstation.id_station = tdivision.id_station WHERE tdetail_budget.budget_year = 2023 
+    // GROUP BY tdetail_budget.id_user, tdetail_budget.category_budget ASC ORDER BY tstation.code_station asc;
     }
     public function getactdetail($id,$iduser)
     {

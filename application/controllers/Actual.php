@@ -44,7 +44,6 @@ class Actual extends CI_Controller
         $this->load->model('Actual_model');
         $this->load->model('DetailBudget_model');
         $this->load->model('Budget_model');
-        $this->load->library('PHPExcel');
         $this->cekauth();
 
         if ($this->session->userdata('id') === null) {
@@ -360,7 +359,6 @@ class Actual extends CI_Controller
                     }	
                 }else{
                     echo "<script>location.href='" . base_url('actual/upload2') . "';alert('Failed to Add Transaction List');</script>";
-
                 }
 			}else{
                 echo "<script>location.href='" . base_url('actual/upload2') . "';alert('Failed to Add Transaction List');</script>";

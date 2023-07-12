@@ -26,7 +26,7 @@
                                 <div class="col-lg-6">
 
                                     <div class="text-s font-weight-bold text-primary text-uppercase mb-1">
-                                        Halo <?= $user['name_user'] ?>,
+                                        Hello <?= $user['name_user'] ?>,
                                     </div>
                                 </div>
                             </div>
@@ -214,7 +214,7 @@
             </div>
         </div>
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-4 col-md-6 mb-4">
+        <div class="col-xl-4 col-md-6 mb-4" data-toggle="modal" data-target=".sisabudget">
             <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
@@ -330,7 +330,7 @@
                                         </div>
                                         <div class="modal-body" id="bodyMyModal2"></div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" id="close" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                         </div>
                                     </div>
                                 </div>
@@ -340,5 +340,6 @@
 <!-- Content Row -->
 <!-- /.container-fluid -->
 </div>
+
 
         <!-- End of Main Content -->

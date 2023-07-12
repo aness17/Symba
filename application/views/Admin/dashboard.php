@@ -1,5 +1,4 @@
 
-
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <div class="d-sm-flex mb-4">
@@ -16,7 +15,7 @@
 
                     </select>
                 <?= form_error('tahun', '<small class="form-text text-danger">', '</small>'); ?>
-                <button type="submit" id="tombol">Cek</button>
+                <button type="submit" id="tombol">Find</button>
                 </form>
             <!-- </span> -->
     </div>
