@@ -26,15 +26,25 @@ class Budget_model extends CI_Model
     }
     public function selectbudgettahun($thn)
     {
-        $this->db->join('tbudget H', 'A.id_bdgt = H.id_bdgt');
-        $this->db->join('tuser G', 'A.id_user = G.id_user');
-        $this->db->join('tdivision B', 'G.id_dvn = B.id_dvn');
-        $this->db->join('tdepartement F', 'B.id_dpt=F.id_dpt');
-        $this->db->join('tcostcen C', 'B.id_costcen=C.id_costcen');
-        $this->db->join('tstation D', 'B.id_station=D.id_station');
-        $this->db->join('taccount E', 'A.id_acc = E.id_account');
-        $this->db->where('H.periode_year',$thn);
-        return $this->db->get($this->table . " as A")->result_array();
+        // $this->db->select('sum(');
+        // $this->db->join('tdetail_budget H', 'A.id_bdgt = H.id_bdgt');
+        // $this->db->join('tactual I', 'H.id_budget = I.id_budget');
+        // $this->db->join('tuser G', 'A.id_user = G.id_user');
+        // $this->db->join('tdivision B', 'G.id_dvn = B.id_dvn');
+        // $this->db->join('tdepartement F', 'B.id_dpt=F.id_dpt');
+        // $this->db->join('tcostcen C', 'B.id_costcen=C.id_costcen');
+        // $this->db->join('tstation D', 'B.id_station=D.id_station');
+        // $this->db->join('taccount E', 'A.id_acc = E.id_account');
+        // $this->db->where('A.periode_year',$thn);
+        return $this->db->query("SELECT * FROM `tbudget` as `A` JOIN (SELECT tdetail_budget.id_bdgt,tdetail_budget.status,
+        SUM(tactual.amount_debit) debit_actual,SUM(tactual.amount_credit)credit_actual FROM tdetail_budget 
+        JOIN tactual ON tactual.id_budget = tdetail_budget.id_budget GROUP BY tdetail_budget.id_bdgt) tbl_actual_user 
+        ON tbl_actual_user.id_bdgt = A.id_bdgt JOIN `tuser` `G` ON `A`.`id_user` = `G`.`id_user` 
+        JOIN `tdivision` `B` ON `G`.`id_dvn` = `B`.`id_dvn` JOIN `tdepartement` `F` ON `B`.`id_dpt`=`F`.`id_dpt` 
+        JOIN `tcostcen` `C` ON `B`.`id_costcen`=`C`.`id_costcen` JOIN `tstation` `D` ON `B`.`id_station`=`D`.`id_station` 
+        JOIN `taccount` `E` ON `A`.`id_acc` = `E`.`id_account` WHERE `A`.`periode_year` = $thn 
+        ORDER BY `tbl_actual_user`.`status`, G.id_user")->result_array();
+        //return $this->db->get($this->table . " as A")->result_array();
     }
     public function selectbudgetuser($id,$thn)
     {
