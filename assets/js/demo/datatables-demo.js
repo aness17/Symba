@@ -112,4 +112,5 @@ $(document).ready(function () {
 		dom: "Bfrtip",
 		buttons: ["copy", "excel", "pdf", "print"],
 	});
+	$("#dataTable9").DataTable();
 });

@@ -24,6 +24,7 @@ class Auth extends CI_Controller
     {
         parent::__construct();
         $this->load->model('User_model');
+        $this->load->model('Log_model');
     }
 
     public function index()
@@ -31,10 +32,10 @@ class Auth extends CI_Controller
         // echo "TEST WORK !";
         $ci = get_instance();
         if ($ci->session->userdata('id_role') == '1') {
-            redirect('admin');   
+            redirect('admin');
         } elseif ($ci->session->userdata('id_role') == '2' || $ci->session->userdata('id_role') == '3') {
             redirect('user');
-        } else{
+        } else {
             redirect('auth/login');
         }
     }
@@ -55,9 +56,24 @@ class Auth extends CI_Controller
                     $this->session->set_userdata('username', $user['username_user']);
                     $this->session->set_userdata('id_role', $user['id_role']);
                     if ($user['id_role'] == '1') {
+                        $ip = $this->input->ip_address();
+                        $data = [
+                            'id_user' => $user['id_user'],
+                            'remarks' => 'Login ke dalam system',
+                            'ip_add' => $ip
+                        ];
+                        // var_dump($data);die;
+                        $this->Log_model->create($data);
                         echo "<script>location.href='" . base_url('admin') . "';alert('Anda Berhasil Masuk Sebagai Admin');</script>";
                     } else if ($user['id_role'] != '1') {
-                        echo "USER";
+                        $ip = $this->input->ip_address();
+                        $data = [
+                            'id_user' => $user['id_user'],
+                            'remarks' => 'Login ke dalam system',
+                            'ip_add' => $ip
+                        ];
+                        // var_dump($data);die;
+                        $this->Log_model->create($data);
                         echo "<script>location.href='" . base_url('user') . "';alert('Anda Berhasil Masuk Sebagai User');</script>";
                     }
                 } else {
@@ -109,6 +125,18 @@ class Auth extends CI_Controller
 
     public function logout()
     {
+        $ci = get_instance();
+
+        $id = $ci->session->userdata('id');
+        $ip = $this->input->ip_address();
+        // var_dump($user);die;
+        $data = [
+            'id_user' => $id,
+            'remarks' => 'Logout dari system',
+            'ip_add' => $ip
+        ];
+        // var_dump($data);die;
+        $this->Log_model->create($data);
         $this->session->set_flashdata('message_login', $this->flasher('success', 'User has been logged out'));
         $this->session->unset_userdata('id_user');
         $this->session->unset_userdata('id_role');
@@ -123,7 +151,7 @@ class Auth extends CI_Controller
     public function flasher($class, $message)
     {
         return
-        '<div class="alert alert-' . $class . ' alert-dismissible fade show" role="alert">
+            '<div class="alert alert-' . $class . ' alert-dismissible fade show" role="alert">
         ' . $message . '
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>

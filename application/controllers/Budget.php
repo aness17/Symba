@@ -43,7 +43,8 @@ class Budget extends CI_Controller
             redirect('auth');
         }
     }
-    public function cekauth(){
+    public function cekauth()
+    {
         $ci = get_instance();
         if ($ci->session->userdata('id_role') == '2') {
             $this->session->set_flashdata('message_login', $this->flasher('success', 'Your not authorized'));
@@ -53,7 +54,8 @@ class Budget extends CI_Controller
             redirect('auth/');
         }
     }
-    public function databudget(){
+    public function databudget()
+    {
         $ci = get_instance();
         if ($ci->session->userdata('id_role') == '1') {
             $this->form_validation->set_rules('tahun', 'tahun', 'required');
@@ -61,9 +63,9 @@ class Budget extends CI_Controller
             $thn = $this->input->post('tahun');
             $thn = '';
 
-            if($this->form_validation->run()== true){
+            if ($this->form_validation->run() == true) {
                 $thn = $this->input->post('tahun');
-            }else{
+            } else {
                 $thn = date('Y');
             }
             $bg = $this->Budget_model->selectbudgettahun($thn);
@@ -74,21 +76,23 @@ class Budget extends CI_Controller
                 'tahun' => $tahun,
                 'thn' => $thn
             ];
-            // var_dump($data['tahun']);die;
+            // var_dump($bg);
+            // die;
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin',$data);
-            $this->load->view('admin/budget/header_budget',$data);
+            $this->load->view('templates/sidebar_admin', $data);
+            $this->load->view('admin/budget/header_budget', $data);
             $this->load->view('templates/footer');
         } else {
             redirect('auth/login');
-        } 
+        }
     }
-    public function datadetailbudget($id){
+    public function datadetailbudget($id)
+    {
         $ci = get_instance();
         if ($ci->session->userdata('id_role') == '1') {
             $bg = $this->DetailBudget_model->selectbudget($id);
             $sisa = $this->DetailBudget_model->sisabudget($id);
-            
+
             $data = [
                 'bg' => $bg,
                 'sisa' => $sisa,
@@ -97,14 +101,15 @@ class Budget extends CI_Controller
             ];
             // var_dump($sisa);die;
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin',$data);
-            $this->load->view('admin/budget/data_budget',$data);
+            $this->load->view('templates/sidebar_admin', $data);
+            $this->load->view('admin/budget/data_budget', $data);
             $this->load->view('templates/footer');
         } else {
             redirect('auth/login');
-        } 
+        }
     }
-    public function detailbudget($id){
+    public function detailbudget($id)
+    {
         $ci = get_instance();
         if ($ci->session->userdata('id_role') == '1') {
             $bgs = $this->DetailBudget_model->sisabudgett($id);
@@ -117,252 +122,256 @@ class Budget extends CI_Controller
                 'bg' => $bgs,
                 'actdetail' => $actdetail,
                 'totaltx' => $totaltx,
-                'id' => $idbudgets['id_bdgt']     ,
-                'heading' => 'budget'     
+                'id' => $idbudgets['id_bdgt'],
+                'heading' => 'budget'
             ];
             // var_dump($bgs);
             // echo "<br />";
             // var_dump($idbudgets);die;
-                $this->load->view('templates/header');
-                $this->load->view('templates/sidebar_admin',$data);
-                $this->load->view('admin/budget/detailbudget',$data);
-                $this->load->view('templates/footer');
+            $this->load->view('templates/header');
+            $this->load->view('templates/sidebar_admin', $data);
+            $this->load->view('admin/budget/detailbudget', $data);
+            $this->load->view('templates/footer');
         } else {
             redirect('auth/login');
-        } 
+        }
     }
-    
-        // public function addbudget($id){
-        //     $ci = get_instance();
-        //     if ($ci->session->userdata('id_role') != '1') {
-        //         redirect('auth/');
-        //     } else {
-        //         // $this->form_validation->set_rules('acc', 'Account', '');
-        //         // $this->form_validation->set_rules('user', 'Division', '');
-        //         $this->form_validation->set_rules('desc', 'Description', 'required');
-        //         // $this->form_validation->set_rules('source', 'Departement', '');
-        //         // $this->form_validation->set_rules('category', 'Departement', '');
-        //         // $this->form_validation->set_rules('docref', 'Departement', '');
-        //         // $this->form_validation->set_rules('dns', 'Departement', '');
-        //         $this->form_validation->set_rules('dsm', 'Doc. of source module', 'required');
-        //         // $this->form_validation->set_rules('cur', 'Currency', 'required');
-        //         $this->form_validation->set_rules('debit', 'Departement', 'required');
-        //         $this->form_validation->set_rules('date', 'Date', 'required');
-        //         $this->form_validation->set_rules('credit', 'Departement', '');
 
-        //         $h = $this->Budget_model->selectuser($id);
-        //         $user = $this->User_model->selectAll($id);
-        //         $account = $this->Account_model->selectAll($id);
-        //         // $id = $id;
-        //         $t = date("Y-m-d H:i:s");
-        //         $periode = date("Y", strtotime($this->input->post('date')));
-        //         $data = [
-        //             'user' => $user,
-        //             'account' => $account,
-        //             'h' => $h,
-        //             'id' => $id,
-        //             'heading' => 'budget'
-        //         ];
-        //         // var_dump($h);die;
-        //         if ($this->form_validation->run() == true) {
-        //             $db = [
-        //                 'id_account' => $h['acc'],
-        //                 'subacc' => '000',
-        //                 'product' => '00000',
-        //                 'id_user' => $h['user'],
-        //                 'description'=> $this->input->post('desc'),
-        //                 // 'source'=> $this->input->post('source'),
-        //                 // 'category'=> $this->input->post('category'),
-        //                 // 'doc_ref'=> $this->input->post('docref'),
-        //                 // 'doc_number'=> $this->input->post('dns'),
-        //                 'desc_source'=> $this->input->post('dsm'),
-        //                 'currency'=> 'IDR',
-        //                 'amount_debit'=> $this->input->post('debit'),
-        //                 'amount_credit'=> $this->input->post('credit'),
-        //                 'status' => 'no',
-		// 	'create_date' => $t,
-        //                 'id_bdgt' => $id,
-        //                 'budget_year' => $periode
-        //             ];
+    // public function addbudget($id){
+    //     $ci = get_instance();
+    //     if ($ci->session->userdata('id_role') != '1') {
+    //         redirect('auth/');
+    //     } else {
+    //         // $this->form_validation->set_rules('acc', 'Account', '');
+    //         // $this->form_validation->set_rules('user', 'Division', '');
+    //         $this->form_validation->set_rules('desc', 'Description', 'required');
+    //         // $this->form_validation->set_rules('source', 'Departement', '');
+    //         // $this->form_validation->set_rules('category', 'Departement', '');
+    //         // $this->form_validation->set_rules('docref', 'Departement', '');
+    //         // $this->form_validation->set_rules('dns', 'Departement', '');
+    //         $this->form_validation->set_rules('dsm', 'Doc. of source module', 'required');
+    //         // $this->form_validation->set_rules('cur', 'Currency', 'required');
+    //         $this->form_validation->set_rules('debit', 'Departement', 'required');
+    //         $this->form_validation->set_rules('date', 'Date', 'required');
+    //         $this->form_validation->set_rules('credit', 'Departement', '');
 
-        //         // var_dump($db);die;
-        //         // id_account,subacc,product,id_user,description,source,category,doc_ref,doc_number,desc_source,currency,amount_debit,amount_credit,create_date,status
-        //             if ($this->DetailBudget_model->create($db) > 0) {
-        //                     // $id = $id;
-        //                     $p = $this->Budget_model->selectheader($id);
-        //                     // var_dump($id);die;
-        //                     $data = [
-        //                         'id_bdgt' => $id,
-        //                         'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
-        //                     ];
-        //                     $this->Budget_model->update($data);                        
-        //                 $this->session->set_flashdata('message_login', $this->flasher('success', 'User has been registered!'));
-        //                 redirect('budget/datadetailbudget/'. $id);
-        //             } else {
-        //                 echo "Failed to create Budget";
-        //                 die;
-        //                 $this->session->set_flashdata('message_login', $this->flasher('danger', 'Failed to create Budget'));
-        //             }
+    //         $h = $this->Budget_model->selectuser($id);
+    //         $user = $this->User_model->selectAll($id);
+    //         $account = $this->Account_model->selectAll($id);
+    //         // $id = $id;
+    //         $t = date("Y-m-d H:i:s");
+    //         $periode = date("Y", strtotime($this->input->post('date')));
+    //         $data = [
+    //             'user' => $user,
+    //             'account' => $account,
+    //             'h' => $h,
+    //             'id' => $id,
+    //             'heading' => 'budget'
+    //         ];
+    //         // var_dump($h);die;
+    //         if ($this->form_validation->run() == true) {
+    //             $db = [
+    //                 'id_account' => $h['acc'],
+    //                 'subacc' => '000',
+    //                 'product' => '00000',
+    //                 'id_user' => $h['user'],
+    //                 'description'=> $this->input->post('desc'),
+    //                 // 'source'=> $this->input->post('source'),
+    //                 // 'category'=> $this->input->post('category'),
+    //                 // 'doc_ref'=> $this->input->post('docref'),
+    //                 // 'doc_number'=> $this->input->post('dns'),
+    //                 'desc_source'=> $this->input->post('dsm'),
+    //                 'currency'=> 'IDR',
+    //                 'amount_debit'=> $this->input->post('debit'),
+    //                 'amount_credit'=> $this->input->post('credit'),
+    //                 'status' => 'no',
+    // 	'create_date' => $t,
+    //                 'id_bdgt' => $id,
+    //                 'budget_year' => $periode
+    //             ];
 
-        //         // }
-        //         // redirect('admin/pelanggan/tambahpelanggan');
-        //         } else {
-        //             $this->load->view('templates/header');
-        //             $this->load->view('templates/sidebar_admin',$data);
-        //             $this->load->view('admin/budget/addbudget',$data);
-        //             $this->load->view('templates/footer');
-        //         }
-        //     }
-        // }
-        public function addbudget(){
-            $ci = get_instance();
-            // $id = $ci->session->userdata('id');
+    //         // var_dump($db);die;
+    //         // id_account,subacc,product,id_user,description,source,category,doc_ref,doc_number,desc_source,currency,amount_debit,amount_credit,create_date,status
+    //             if ($this->DetailBudget_model->create($db) > 0) {
+    //                     // $id = $id;
+    //                     $p = $this->Budget_model->selectheader($id);
+    //                     // var_dump($id);die;
+    //                     $data = [
+    //                         'id_bdgt' => $id,
+    //                         'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
+    //                     ];
+    //                     $this->Budget_model->update($data);                        
+    //                 $this->session->set_flashdata('message_login', $this->flasher('success', 'User has been registered!'));
+    //                 redirect('budget/datadetailbudget/'. $id);
+    //             } else {
+    //                 echo "Failed to create Budget";
+    //                 die;
+    //                 $this->session->set_flashdata('message_login', $this->flasher('danger', 'Failed to create Budget'));
+    //             }
 
-            $this->form_validation->set_rules('acc', 'Account', '');
-            $this->form_validation->set_rules('user', 'Division', '');
-            $this->form_validation->set_rules('desc', 'Description', 'required');
-            // $this->form_validation->set_rules('source', 'Source', '');
-            // $this->form_validation->set_rules('category', 'Category', '');
-            // $this->form_validation->set_rules('docref', 'References', '');
-            // $this->form_validation->set_rules('dns', 'Desc Source', '');
-            $this->form_validation->set_rules('dsm', 'Desc Module', 'required');
-            // $this->form_validation->set_rules('cur', 'Currency', 'required');
-            $this->form_validation->set_rules('debit', 'Debit', 'required');
-            // $this->form_validation->set_rules('credit', 'Credit', '');
-            $this->form_validation->set_rules('date', 'Date', 'required');
+    //         // }
+    //         // redirect('admin/pelanggan/tambahpelanggan');
+    //         } else {
+    //             $this->load->view('templates/header');
+    //             $this->load->view('templates/sidebar_admin',$data);
+    //             $this->load->view('admin/budget/addbudget',$data);
+    //             $this->load->view('templates/footer');
+    //         }
+    //     }
+    // }
+    public function addbudget()
+    {
+        $ci = get_instance();
+        // $id = $ci->session->userdata('id');
 
-            $user = $this->User_model->selectAll();
-            $account = $this->Account_model->selectAll();
-            $data = [
-                'user' => $user,
-                'account' => $account,
-                // 'usr' => $usr,
-                // 'id' => $id,
-                'heading'=>'budget'
-            ];
-            // var_dump($data['h'][0]);die;
-            $account = $this->input->post('acc');
-            $id = $this->input->post('user');
+        $this->form_validation->set_rules('acc', 'Account', '');
+        $this->form_validation->set_rules('user', 'Division', '');
+        $this->form_validation->set_rules('desc', 'Description', 'required');
+        // $this->form_validation->set_rules('source', 'Source', '');
+        // $this->form_validation->set_rules('category', 'Category', '');
+        // $this->form_validation->set_rules('docref', 'References', '');
+        // $this->form_validation->set_rules('dns', 'Desc Source', '');
+        $this->form_validation->set_rules('dsm', 'Desc Module', 'required');
+        // $this->form_validation->set_rules('cur', 'Currency', 'required');
+        $this->form_validation->set_rules('debit', 'Debit', 'required');
+        $this->form_validation->set_rules('cat_bdgt', 'Budget Category', 'required');
+        $this->form_validation->set_rules('date', 'Date', 'required');
 
-            $periode = date("Y", strtotime($this->input->post('date')));
-        
-            if ($this->form_validation->run() == true) {
-                $find = $this->Budget_model->findheader($id,$account,$periode);
-                // var_dump($periode);die;
-                // var_dump($hotel);die;
+        $user = $this->User_model->selectAll();
+        $account = $this->Account_model->selectAll();
+        $data = [
+            'user' => $user,
+            'account' => $account,
+            // 'usr' => $usr,
+            // 'id' => $id,
+            'heading' => 'budget'
+        ];
+        // var_dump($data['h'][0]);die;
+        $account = $this->input->post('acc');
+        $id = $this->input->post('user');
+
+        $periode = date("Y", strtotime($this->input->post('date')));
+
+        if ($this->form_validation->run() == true) {
+            $find = $this->Budget_model->findheader($id, $account, $periode);
+            // var_dump($periode);die;
+            // var_dump($hotel);die;
+            // var_dump($find[0]['id_bdgt']);die;
+            if (count($find) > 0) {
+                $db = [
+                    'id_account' => $this->input->post('acc'),
+                    'subacc' => '000',
+                    'product' => '00000',
+                    'id_user' => $id,
+                    'description' => $this->input->post('desc'),
+                    // 'source'=> $this->input->post('source'),
+                    // 'category'=> $this->input->post('category'),
+                    // 'doc_ref'=> $this->input->post('docref'),
+                    // 'doc_number'=> $this->input->post('dns'),
+                    'desc_source' => $this->input->post('dsm'),
+                    'currency' => 'IDR',
+                    'amount_debit' => $this->input->post('debit'),
+                    'amount_credit' => 0,
+                    'status' => 'no',
+                    'category_budget' => $this->input->post('cat_bdgt'),
+                    'id_bdgt' => $find[0]['id_bdgt'],
+                    'budget_year' => $periode
+                ];
+                // var_dump($db);die;
+                $budget = $this->DetailBudget_model->create($db);
+                $header = $find[0]['id_bdgt'];
+                $p = $this->Budget_model->selectheader($header);
+                // var_dump($p);
+                $data = [
+                    'id_bdgt' => $find[0]['id_bdgt'],
+                    'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
+                ];
                 // var_dump($find[0]['id_bdgt']);die;
-                if(count($find) > 0){
-                    $db = [
-                        'id_account' => $this->input->post('acc'),
-                        'subacc' => '000',
-                        'product' => '00000',
-                        'id_user' => $id,
-                        'description'=> $this->input->post('desc'),
-                        // 'source'=> $this->input->post('source'),
-                        // 'category'=> $this->input->post('category'),
-                        // 'doc_ref'=> $this->input->post('docref'),
-                        // 'doc_number'=> $this->input->post('dns'),
-                        'desc_source'=> $this->input->post('dsm'),
-                        'currency'=> 'IDR',
-                        'amount_debit'=> $this->input->post('debit'),
-                        'amount_credit'=> 0,
-                        'status' => 'no',
-                        'id_bdgt' => $find[0]['id_bdgt'],
-                        'budget_year' => $periode                
-                    ];
-                    // var_dump($db);die;
-                    $budget = $this->DetailBudget_model->create($db);
-                    $header = $find[0]['id_bdgt'];
-                    $p = $this->Budget_model->selectheader($header);
-                    // var_dump($p);
+                $this->Budget_model->update($data);
+                echo "<script>location.href='" . base_url('budget/datadetailbudget/' . $header) . "';alert('Success to Add Data');</script>";
+            } else {
+                $db = [
+                    'id_acc' => $this->input->post('acc'),
+                    'subacc' => '000',
+                    'product' => '00000',
+                    'id_user' => $id,
+                    'total_budget' => 0,
+                    'periode_year' => $periode
+                ];
+
+                $idbdgt = $this->Budget_model->create($db);
+                // $idbdgt = $this->Budget_model->getLastId()["id_bdgt"];
+
+                $db = [
+                    'id_account' => $this->input->post('acc'),
+                    'subacc' => '000',
+                    'product' => '00000',
+                    'id_user' => $id,
+                    'description' => $this->input->post('desc'),
+                    // 'source'=> $this->input->post('source'),
+                    // 'category'=> $this->input->post('category'),
+                    // 'doc_ref'=> $this->input->post('docref'),
+                    // 'doc_number'=> $this->input->post('dns'),
+                    'desc_source' => $this->input->post('dsm'),
+                    'currency' => 'IDR',
+                    'amount_debit' => $this->input->post('debit'),
+                    'amount_credit' => 0,
+                    'status' => 'no',
+                    'category_budget' => $this->input->post('cat_bdgt'),
+                    'id_bdgt' => $idbdgt,
+                    'budget_year' => $periode
+                ];
+                // var_dump($db);die;
+                // id_account,subacc,product,id_user,description,source,category,doc_ref,doc_number,desc_source,currency,amount_debit,amount_credit,create_date,status
+                if ($this->DetailBudget_model->create($db) > 0) {
+                    // $id = $id;
+                    $p = $this->Budget_model->selectheader($idbdgt);
+                    // var_dump($id);
                     $data = [
-                        'id_bdgt' => $find[0]['id_bdgt'],
+                        'id_bdgt' => $idbdgt,
                         'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
                     ];
-                    // var_dump($find[0]['id_bdgt']);die;
-                    $this->Budget_model->update($data);  
-                    echo "<script>location.href='" . base_url('budget/datadetailbudget/'.$header) . "';alert('Success to Add Data');</script>";
-                }else{
-                    $db = [
-                        'id_acc' => $this->input->post('acc'),
-                        'subacc' => '000',
-                        'product' => '00000',
-                        'id_user' => $id,
-                        'total_budget' => 0,
-                        'periode_year' => $periode
-                    ];
-                        
-                    $idbdgt = $this->Budget_model->create($db);
-                    // $idbdgt = $this->Budget_model->getLastId()["id_bdgt"];
-
-                    $db = [
-                        'id_account' => $this->input->post('acc'),
-                        'subacc' => '000',
-                        'product' => '00000',
-                        'id_user' => $id,
-                        'description'=> $this->input->post('desc'),
-                        // 'source'=> $this->input->post('source'),
-                        // 'category'=> $this->input->post('category'),
-                        // 'doc_ref'=> $this->input->post('docref'),
-                        // 'doc_number'=> $this->input->post('dns'),
-                        'desc_source'=> $this->input->post('dsm'),
-                        'currency'=> 'IDR',
-                        'amount_debit'=> $this->input->post('debit'),
-                        'amount_credit'=> 0,
-                        'status' => 'no',
-                        'id_bdgt' => $idbdgt,
-                        'budget_year' => $periode
-                    ];
-                    // var_dump($db);die;
-                    // id_account,subacc,product,id_user,description,source,category,doc_ref,doc_number,desc_source,currency,amount_debit,amount_credit,create_date,status
-                    if ($this->DetailBudget_model->create($db) > 0) {
-                        // $id = $id;
-                        $p = $this->Budget_model->selectheader($idbdgt);
-                        // var_dump($id);
-                        $data = [
-                            'id_bdgt' => $idbdgt,
-                            'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
-                        ];
-                        // var_dump($data);die;
-                        $this->Budget_model->update($data);                        
-                        $this->session->set_flashdata('message_login', $this->flasher('success', 'User has been registered!'));
-                        echo "<script>alert('Success to Update Data');</script>";
-                        redirect('budget/datadetailbudget/'.$idbdgt);
-                    } else {
-                        echo "Failed to create Budget";
-                        die;
-                        $this->session->set_flashdata('message_login', $this->flasher('danger', 'Failed to create Budget'));
-                    }
-
-                    // }
-                    // redirect('admin/pelanggan/tambahpelanggan');
+                    // var_dump($data);die;
+                    $this->Budget_model->update($data);
+                    $this->session->set_flashdata('message_login', $this->flasher('success', 'User has been registered!'));
+                    echo "<script>alert('Success to Update Data');</script>";
+                    redirect('budget/datadetailbudget/' . $idbdgt);
+                } else {
+                    echo "Failed to create Budget";
+                    die;
+                    $this->session->set_flashdata('message_login', $this->flasher('danger', 'Failed to create Budget'));
                 }
-            } else {
-                $this->load->view('templates/header');
-                $this->load->view('templates/sidebar_admin',$data);
-                $this->load->view('admin/budget/addbudget',$data);
-                $this->load->view('templates/footer');
+
+                // }
+                // redirect('admin/pelanggan/tambahpelanggan');
             }
+        } else {
+            $this->load->view('templates/header');
+            $this->load->view('templates/sidebar_admin', $data);
+            $this->load->view('admin/budget/addbudget', $data);
+            $this->load->view('templates/footer');
         }
-        public function deleteheaderbudget($id){
+    }
+    public function deleteheaderbudget($id)
+    {
         // $ci = get_instance();
         // if ($ci->session->userdata('id') != '1') {
         //     redirect('admin/');
         // } else {
-            $b = $this->DetailBudget_model->deletebudget($id);
-            $idbudget = $this->DetailBudget_model->selectiddetail($id);
-            // var_dump($idbudget['id_bdgt']);die;
-            $p = $this->Budget_model->selectheader($b['id_bdgt']);
-            $total = $b['total_budget']-$b['amount_debit'];
-            // var_dump($total);die;
-             $data = [
-                    'id_bdgt' => $b['id_bdgt'],
-                    'total_budget' => $total
-                ];
-                $this->Budget_model->update($data);
+        $b = $this->DetailBudget_model->deletebudget($id);
+        $idbudget = $this->DetailBudget_model->selectiddetail($id);
+        // var_dump($idbudget['id_bdgt']);die;
+        $p = $this->Budget_model->selectheader($b['id_bdgt']);
+        $total = $b['total_budget'] - $b['amount_debit'];
+        // var_dump($total);die;
+        $data = [
+            'id_bdgt' => $b['id_bdgt'],
+            'total_budget' => $total
+        ];
+        $this->Budget_model->update($data);
         if ($id) {
             if ($this->DetailBudget_model->delete($id) > 0) {
-                                redirect('budget/datadetailbudget/'. $idbudget['id_bdgt'] );
+                redirect('budget/datadetailbudget/' . $idbudget['id_bdgt']);
                 $this->session->set_flashdata('message', $this->flasher('success', 'Success To Add Data'));
             } else {
                 // echo mysqli_error($con);
@@ -374,79 +383,82 @@ class Budget extends CI_Controller
         redirect('budget/databudget');
         // }
     }
-        public function addheaderbudget(){
-            $ci = get_instance();
-            if ($ci->session->userdata('id_role') != '1') {
-                echo "halooooooo";
-                // redirect('auth/');
-            } else {
-                
-                $this->form_validation->set_rules('acc', 'Account', 'required');
-                $this->form_validation->set_rules('user', 'Division', 'required');
+    public function addheaderbudget()
+    {
+        $ci = get_instance();
+        if ($ci->session->userdata('id_role') != '1') {
+            echo "halooooooo";
+            // redirect('auth/');
+        } else {
 
-                $user = $this->User_model->selectAll();
-                $account = $this->Account_model->selectAll();
-                $data = [
-                    'user' => $user,
-                    'account' => $account,
-                    'heading' => 'budget'
+            $this->form_validation->set_rules('acc', 'Account', 'required');
+            $this->form_validation->set_rules('user', 'Division', 'required');
+
+            $user = $this->User_model->selectAll();
+            $account = $this->Account_model->selectAll();
+            $data = [
+                'user' => $user,
+                'account' => $account,
+                'heading' => 'budget'
+            ];
+            // var_dump($account);die;
+            if ($this->form_validation->run() == true) {
+                $db = [
+                    'id_acc' => $this->input->post('acc'),
+                    'subacc' => '000',
+                    'product' => '00000',
+                    'id_user' => $this->input->post('user'),
+                    'total_budget' => 0
                 ];
-                // var_dump($account);die;
-                if ($this->form_validation->run() == true) {
-                    $db = [
-                        'id_acc' => $this->input->post('acc'),
-                        'subacc' => '000',
-                        'product' => '00000',
-                        'id_user' => $this->input->post('user'),
-                        'total_budget' => 0
-                    ];
-                    $id_bdgt = $this->Budget_model->create($db);
+                $id_bdgt = $this->Budget_model->create($db);
                 // var_dump($data);die;
                 // id_account,subacc,product,id_user,description,source,category,doc_ref,doc_number,desc_source,currency,amount_debit,amount_credit,create_date,status
-                    if ( $id_bdgt > 0) {
-                        $this->session->set_flashdata('message_login', $this->flasher('success', 'User has been registered!'));
-                        redirect('budget/datadetailbudget/'.$id_bdgt);
-                    } else {
-                        echo "Failed to create Budget";
-                        die;
-                        $this->session->set_flashdata('message_login', $this->flasher('danger', 'Failed to create Budget'));
-                    }
+                if ($id_bdgt > 0) {
+                    $this->session->set_flashdata('message_login', $this->flasher('success', 'User has been registered!'));
+                    redirect('budget/datadetailbudget/' . $id_bdgt);
+                } else {
+                    echo "Failed to create Budget";
+                    die;
+                    $this->session->set_flashdata('message_login', $this->flasher('danger', 'Failed to create Budget'));
+                }
 
                 // }
                 // redirect('admin/pelanggan/tambahpelanggan');
-                } else {
-                                    // var_dump($data);die;
+            } else {
+                // var_dump($data);die;
 
-                    $this->load->view('templates/header');
-                    $this->load->view('templates/sidebar_admin',$data);
-                    $this->load->view('admin/budget/addheaderbudget',$data);
-                    $this->load->view('templates/footer');
-                }
+                $this->load->view('templates/header');
+                $this->load->view('templates/sidebar_admin', $data);
+                $this->load->view('admin/budget/addheaderbudget', $data);
+                $this->load->view('templates/footer');
             }
         }
-        public function editbudget($id){
-            $ci = get_instance();
-            if ($ci->session->userdata('id_role') != '1') {
-                redirect('auth/');
-            } else {
+    }
+    public function editbudget($id)
+    {
+        $ci = get_instance();
+        if ($ci->session->userdata('id_role') != '1') {
+            redirect('auth/');
+        } else {
             //    $this->form_validation->set_rules('acc', 'Account', '');
             //    $this->form_validation->set_rules('user', 'Division', '');
-               $this->form_validation->set_rules('desc', 'Description', 'required');
+            $this->form_validation->set_rules('desc', 'Description', 'required');
             //    $this->form_validation->set_rules('source', 'Departement', '');
             //    $this->form_validation->set_rules('category', 'Departement', '');
             //    $this->form_validation->set_rules('docref', 'Departement', '');
             //    $this->form_validation->set_rules('dns', 'Departement', '');
-               $this->form_validation->set_rules('dsm', 'Desc of source module', '');
+            $this->form_validation->set_rules('dsm', 'Desc of source module', '');
             //    $this->form_validation->set_rules('cur', 'Currency', 'required');
-               $this->form_validation->set_rules('debit', 'Departement', '');
+            $this->form_validation->set_rules('debit', 'Departement', '');
+            $this->form_validation->set_rules('cat_bdgt', 'Budget Category', 'required');
             //    $this->form_validation->set_rules('date', 'Date', 'required');
             //    $this->form_validation->set_rules('credit', 'Departement', '');
 
-               $bdgt = $this->DetailBudget_model->selectiddetail($id);
-               $bg = $this->DetailBudget_model->getbgById($id);
-               $user = $this->User_model->selectAll();
-               $account = $this->Account_model->selectAll();
-               $data = [
+            $bdgt = $this->DetailBudget_model->selectiddetail($id);
+            $bg = $this->DetailBudget_model->getbgById($id);
+            $user = $this->User_model->selectAll();
+            $account = $this->Account_model->selectAll();
+            $data = [
                 'bg' => $bg,
                 'user' => $user,
                 'account' => $account,
@@ -461,53 +473,54 @@ class Budget extends CI_Controller
                     'subacc' => '000',
                     'product' => '00000',
                     'id_user' => $bg['id_user'],
-                    'description'=> $this->input->post('desc'),
+                    'description' => $this->input->post('desc'),
                     // 'source'=> $this->input->post('source'),
                     // 'category'=> $this->input->post('category'),
                     // 'doc_ref'=> $this->input->post('docref'),
                     // 'doc_number'=> $this->input->post('dns'),
-                    'desc_source'=> $this->input->post('dsm'),
-                    'currency'=> 'IDR',
-                    'amount_debit'=> $this->input->post('debit'),
-                    'amount_credit'=> 0,
+                    'desc_source' => $this->input->post('dsm'),
+                    'currency' => 'IDR',
+                    'amount_debit' => $this->input->post('debit'),
+                    'amount_credit' => 0,
                     'status' => 'yes',
-		            'budget_year' => $bg['budget_year'],
-                    'id_bdgt' => $bdgt['id_bdgt']          
+                    'category_budget' => $this->input->post('cat_bdgt'),
+                    'budget_year' => $bg['budget_year'],
+                    'id_bdgt' => $bdgt['id_bdgt']
                 ];
-                                // var_dump($db);die;
+                // var_dump($db);die;
 
-            // echo "<br/>";
+                // echo "<br/>";
                 if ($this->DetailBudget_model->update($db) > 0) {
 
                     $p = $this->Budget_model->selectheader($bdgt['id_bdgt']);
-                            // var_dump($bg['amount_debit']);echo "<br/>";
-                            // var_dump(intval($p["total_budget"])- $bg['amount_debit']);            echo "<br/>";
-                        if($p['total_budget'] <= $db['amount_debit']){
-                            $data = [
-                                'id_bdgt' => $bdgt['id_bdgt'],
-                                'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
-                            ];
-                        }else{
-                            $data = [
-                                'id_bdgt' => $bdgt['id_bdgt'],
-                                'total_budget' => (intval($p["total_budget"]) - $bg['amount_debit']) + $db["amount_debit"]
-                            ];
-                        }
-                            // var_dump($data);die;
-                            $this->Budget_model->update($data); 
+                    // var_dump($bg['amount_debit']);echo "<br/>";
+                    // var_dump(intval($p["total_budget"])- $bg['amount_debit']);            echo "<br/>";
+                    if ($p['total_budget'] <= $db['amount_debit']) {
+                        $data = [
+                            'id_bdgt' => $bdgt['id_bdgt'],
+                            'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
+                        ];
+                    } else {
+                        $data = [
+                            'id_bdgt' => $bdgt['id_bdgt'],
+                            'total_budget' => (intval($p["total_budget"]) - $bg['amount_debit']) + $db["amount_debit"]
+                        ];
+                    }
+                    // var_dump($data);die;
+                    $this->Budget_model->update($data);
                     $this->session->set_flashdata('message', $this->flasher('success', 'Success To Edit Data'));
                 } else {
                     $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Edit Data'));
                 }
-                redirect('budget/datadetailbudget/'.$bdgt['id_bdgt']);
+                redirect('budget/datadetailbudget/' . $bdgt['id_bdgt']);
 
                 // }
                 // redirect('admin/pelanggan/tambahpelanggan');
             } else {
                 // var_dump($data);die;
                 $this->load->view('templates/header');
-                $this->load->view('templates/sidebar_admin',$data);
-                $this->load->view('admin/budget/edit_budget',$data);
+                $this->load->view('templates/sidebar_admin', $data);
+                $this->load->view('admin/budget/edit_budget', $data);
                 $this->load->view('templates/footer');
             }
         }
@@ -519,7 +532,8 @@ class Budget extends CI_Controller
         //     redirect('admin/');
         // } else {
         $idbudget = $this->Detailbudget_model->selectiddetail($id);
-        var_dump($idbudget);die;
+        var_dump($idbudget);
+        die;
         if ($id) {
             if ($this->DetailBudget_model->delete($id) > 0) {
                 redirect('budget/databudget');
@@ -558,13 +572,13 @@ class Budget extends CI_Controller
     // }
     public function travelda()
     {
-        
+
         $user = $this->User_model->selectAll();
         $tahun = $this->Travelda_model->tahun();
 
         $data = [
             'user' => $user,
-            'heading'=>'budget',
+            'heading' => 'budget',
             'tahun' => $tahun
 
         ];
@@ -588,38 +602,38 @@ class Budget extends CI_Controller
                 'qty' => $this->input->post('qty'),
                 'periode_year' => $periode
             ];
-            
+
             $account1 = '104';
             $account2 = '106';
             $account3 = '107';
-            $grade = $this->Travelda_model->getidbygrade($db2['grade'],$periode) ;
+            $grade = $this->Travelda_model->getidbygrade($db2['grade'], $periode);
 
             $travel_da = $this->Travelda_model->selectAll();
-            $hotel = $db2['hari']*$db2['qty']*$travel_da[implode($grade)-1]['hotel'];
-            $ted = $db2['hari']*$db2['qty']*$travel_da[implode($grade)-1]['daily_allowance'];
-            $ticket = $db2['qty']*2*$travel_da[implode($grade)-1]['ticket'];
-            $find = $this->Budget_model->findheader($db2['id_user'],$account1,$periode);
-	//	var_dump($grade);die;
-             // var_dump($travel_da[8]['hotel']);die;
+            $hotel = $db2['hari'] * $db2['qty'] * $travel_da[implode($grade) - 1]['hotel'];
+            $ted = $db2['hari'] * $db2['qty'] * $travel_da[implode($grade) - 1]['daily_allowance'];
+            $ticket = $db2['qty'] * 2 * $travel_da[implode($grade) - 1]['ticket'];
+            $find = $this->Budget_model->findheader($db2['id_user'], $account1, $periode);
+            //	var_dump($grade);die;
+            // var_dump($travel_da[8]['hotel']);die;
 
-             // var_dump($travel_da[implode($grade)-1]['hotel']);die;
+            // var_dump($travel_da[implode($grade)-1]['hotel']);die;
             // var_dump('Daily Allowance ' .$this->input->post('tujuan') .' '.$db['grade']);die;
-            
-            if(count($find) > 0){
+
+            if (count($find) > 0) {
                 $db = [
                     'id_account' => $account1,
                     'subacc' => '000',
                     'product' => '00000',
                     'id_user' => $db2['id_user'],
-                    'description'=> 'Daily Allowance',
-                    'source'=> '',
-                    'category'=> '',
-                    'doc_ref'=> '',
-                    'doc_number'=> '',
-                    'desc_source'=> 'Daily Allowance ' .$db2['tujuan'] .' '.$db2['grade'],
-                    'currency'=> 'IDR',
-                    'amount_debit'=> $hotel,
-                    'amount_credit'=> 0,
+                    'description' => 'Daily Allowance',
+                    'source' => '',
+                    'category' => '',
+                    'doc_ref' => '',
+                    'doc_number' => '',
+                    'desc_source' => 'Daily Allowance ' . $db2['tujuan'] . ' ' . $db2['grade'],
+                    'currency' => 'IDR',
+                    'amount_debit' => $hotel,
+                    'amount_credit' => 0,
                     'status' => 'no',
                     'id_bdgt' => $find[0]['id_bdgt'],
                     'budget_year' => $periode
@@ -633,9 +647,9 @@ class Budget extends CI_Controller
                     'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
                 ];
                 // var_dump($find[0]['id_bdgt']);die;
-                $this->Budget_model->update($data);  
+                $this->Budget_model->update($data);
                 echo "<script>alert('Success to Update Data Daily Allowance');</script>";
-            }else{
+            } else {
                 $da = [
                     'id_acc' => $account1,
                     'subacc' => '000',
@@ -651,15 +665,15 @@ class Budget extends CI_Controller
                     'subacc' => '000',
                     'product' => '00000',
                     'id_user' => $db2['id_user'],
-                    'description'=> 'Daily Allowance',
-                    'source'=> '',
-                    'category'=> '',
-                    'doc_ref'=> '',
-                    'doc_number'=> '',
-                    'desc_source'=> 'Daily Allowance ' .$db2['tujuan'] .' '.$db2['grade'],
-                    'currency'=> 'IDR',
-                    'amount_debit'=> $hotel,
-                    'amount_credit'=> 0,
+                    'description' => 'Daily Allowance',
+                    'source' => '',
+                    'category' => '',
+                    'doc_ref' => '',
+                    'doc_number' => '',
+                    'desc_source' => 'Daily Allowance ' . $db2['tujuan'] . ' ' . $db2['grade'],
+                    'currency' => 'IDR',
+                    'amount_debit' => $hotel,
+                    'amount_credit' => 0,
                     'status' => 'no',
                     'id_bdgt' => $da,
                     'budget_year' => $periode
@@ -672,29 +686,29 @@ class Budget extends CI_Controller
                     'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
                 ];
                 // var_dump($data['id_bdgt']);die;
-                $this->Budget_model->update($data);  
+                $this->Budget_model->update($data);
                 echo "<script>alert('Success to Add Data Daily Allowance');</script>";
             }
 
-            $find = $this->Budget_model->findheader($db2['id_user'],$account2,$periode);
-            
+            $find = $this->Budget_model->findheader($db2['id_user'], $account2, $periode);
+
             // var_dump($hotel);die;
             // var_dump(count($find));die;
-            if(count($find) > 0){
+            if (count($find) > 0) {
                 $db = [
                     'id_account' => $account2,
                     'subacc' => '000',
                     'product' => '00000',
                     'id_user' => $db2['id_user'],
-                    'description'=> 'Travel Expense Domestic',
-                    'source'=> '',
-                    'category'=> '',
-                    'doc_ref'=> '',
-                    'doc_number'=> '',
-                    'desc_source'=> 'Travel Expense Domestic ' .$db2['tujuan'] .' '.$db2['grade'],
-                    'currency'=> 'IDR',
-                    'amount_debit'=> $ted,
-                    'amount_credit'=> 0,
+                    'description' => 'Travel Expense Domestic',
+                    'source' => '',
+                    'category' => '',
+                    'doc_ref' => '',
+                    'doc_number' => '',
+                    'desc_source' => 'Travel Expense Domestic ' . $db2['tujuan'] . ' ' . $db2['grade'],
+                    'currency' => 'IDR',
+                    'amount_debit' => $ted,
+                    'amount_credit' => 0,
                     'status' => 'no',
                     'id_bdgt' => $find[0]['id_bdgt'],
                     'budget_year' => $periode
@@ -707,9 +721,9 @@ class Budget extends CI_Controller
                     'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
                 ];
                 // var_dump($find[0]['id_bdgt']);die;
-                $this->Budget_model->update($data);  
+                $this->Budget_model->update($data);
                 echo "<script>alert('Success to Update Data Travel Expense Domestic');</script>";
-            }else{
+            } else {
                 $da = [
                     'id_acc' => $account2,
                     'subacc' => '000',
@@ -725,15 +739,15 @@ class Budget extends CI_Controller
                     'subacc' => '000',
                     'product' => '00000',
                     'id_user' => $db2['id_user'],
-                    'description'=> 'Travel Expense Domestic',
-                    'source'=> '',
-                    'category'=> '',
-                    'doc_ref'=> '',
-                    'doc_number'=> '',
-                    'desc_source'=> 'Travel Expense Domestic ' .$db2['tujuan'] .' '.$db2['grade'],
-                    'currency'=> 'IDR',
-                    'amount_debit'=> $ted,
-                    'amount_credit'=> 0,
+                    'description' => 'Travel Expense Domestic',
+                    'source' => '',
+                    'category' => '',
+                    'doc_ref' => '',
+                    'doc_number' => '',
+                    'desc_source' => 'Travel Expense Domestic ' . $db2['tujuan'] . ' ' . $db2['grade'],
+                    'currency' => 'IDR',
+                    'amount_debit' => $ted,
+                    'amount_credit' => 0,
                     'status' => 'no',
                     'id_bdgt' => $da,
                     'budget_year' => $periode
@@ -746,29 +760,29 @@ class Budget extends CI_Controller
                     'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
                 ];
                 // var_dump($data['id_bdgt']);die;
-                $this->Budget_model->update($data);  
+                $this->Budget_model->update($data);
                 echo "<script>alert('Success to Add Travel Expense Domestic');</script>";
             }
-            
-            $find = $this->Budget_model->findheader($db2['id_user'],$account3,$periode);
-            
+
+            $find = $this->Budget_model->findheader($db2['id_user'], $account3, $periode);
+
             // var_dump($hotel);die;
             // var_dump(count($find));die;
-            if(count($find) > 0){
+            if (count($find) > 0) {
                 $db = [
                     'id_account' => $account3,
                     'subacc' => '000',
                     'product' => '00000',
                     'id_user' => $db2['id_user'],
-                    'description'=> 'Ticket',
-                    'source'=> '',
-                    'category'=> '',
-                    'doc_ref'=> '',
-                    'doc_number'=> '',
-                    'desc_source'=> 'Ticket ' .$db2['tujuan'] .' '.$db2['grade'],
-                    'currency'=> 'IDR',
-                    'amount_debit'=> $ticket,
-                    'amount_credit'=> 0,
+                    'description' => 'Ticket',
+                    'source' => '',
+                    'category' => '',
+                    'doc_ref' => '',
+                    'doc_number' => '',
+                    'desc_source' => 'Ticket ' . $db2['tujuan'] . ' ' . $db2['grade'],
+                    'currency' => 'IDR',
+                    'amount_debit' => $ticket,
+                    'amount_credit' => 0,
                     'status' => 'no',
                     'id_bdgt' => $find[0]['id_bdgt'],
                     'budget_year' => $periode
@@ -781,9 +795,9 @@ class Budget extends CI_Controller
                     'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
                 ];
                 // var_dump($find[0]['id_bdgt']);die;
-                $this->Budget_model->update($data);  
+                $this->Budget_model->update($data);
                 echo "<script>location.href='" . base_url('admin/') . "';alert('Success to Update Data Ticket');</script>";
-            }else{
+            } else {
                 $da = [
                     'id_acc' => $account3,
                     'subacc' => '000',
@@ -799,15 +813,15 @@ class Budget extends CI_Controller
                     'subacc' => '000',
                     'product' => '00000',
                     'id_user' => $db2['id_user'],
-                    'description'=> 'Ticket',
-                    'source'=> '',
-                    'category'=> '',
-                    'doc_ref'=> '',
-                    'doc_number'=> '',
-                    'desc_source'=> 'Ticket ' .$db2['tujuan'] .' '.$db2['grade'],
-                    'currency'=> 'IDR',
-                    'amount_debit'=> $ticket,
-                    'amount_credit'=> 0,
+                    'description' => 'Ticket',
+                    'source' => '',
+                    'category' => '',
+                    'doc_ref' => '',
+                    'doc_number' => '',
+                    'desc_source' => 'Ticket ' . $db2['tujuan'] . ' ' . $db2['grade'],
+                    'currency' => 'IDR',
+                    'amount_debit' => $ticket,
+                    'amount_credit' => 0,
                     'status' => 'no',
                     'id_bdgt' => $da,
                     'budget_year' => $periode
@@ -820,12 +834,12 @@ class Budget extends CI_Controller
                     'total_budget' => intval($p["total_budget"]) + $db["amount_debit"]
                 ];
                 // var_dump($data['id_bdgt']);die;
-                $this->Budget_model->update($data);  
+                $this->Budget_model->update($data);
                 echo "<script>location.href='" . base_url('admin/') . "';alert('Success to Add Ticket');</script>";
             }
 
-                // $this->session->set_flashdata('message_login', $this->flasher('success', 'account has been registered!'));
-                // redirect('user/    ');
+            // $this->session->set_flashdata('message_login', $this->flasher('success', 'account has been registered!'));
+            // redirect('user/    ');
             // } else {
             //     echo "Failed to create Travel DA";
             //     die;
@@ -836,8 +850,8 @@ class Budget extends CI_Controller
             // redirect('admin/pelanggan/tambahpelanggan');
         } else {
             $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin',$data);
-            $this->load->view('admin/budget/add_TravelDA',$data);
+            $this->load->view('templates/sidebar_admin', $data);
+            $this->load->view('admin/budget/add_TravelDA', $data);
             $this->load->view('templates/footer');
         }
         // }
@@ -845,7 +859,7 @@ class Budget extends CI_Controller
     public function flasher($class, $message)
     {
         return
-        '<div class="alert alert-' . $class . ' alert-dismissible fade show" role="alert">
+            '<div class="alert alert-' . $class . ' alert-dismissible fade show" role="alert">
         ' . $message . '
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>

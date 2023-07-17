@@ -55,23 +55,29 @@ function dtl_budget(id, idbudget) {
 	});
 }
 
-function budget(id, tahun) {
+function budget(id, tahun, category) {
 	let id_user = id;
 	let thn = tahun;
+	let cat = category;
+	// console.log(cat);
+
 	$.ajax({
 		url: base_url + "admin/budget_detail",
 		type: "POST",
 		data: {
 			id_user: id_user,
 			thn: thn,
+			cat: cat,
 		},
-		success: function (r) {
-			let obj = JSON.parse(r);
+		success: function (x) {
+			// console.log(x);
+
+			let obj = JSON.parse(x);
 			let tbl =
 				'<table class="table table-bordered" id="dataTableActual" width="100%" cellspacing="0"><thead><tr style="text-align: center;"><th>No</th><th>Description Budget</th><th>Description source of module</th><th>Source</th><th>Budget Amount</th><th>Status</th><th>Budget Date</th></tr></thead><tbody class="list">' +
 				obj +
 				"</tbody></table>";
-			// console.log(tbl);
+			// console.log(obj);
 			// $(".modal-body").html('');
 			// $(".modal-body").append(tbl);
 			$(".budget").html("");
@@ -84,15 +90,18 @@ function budget(id, tahun) {
 	});
 }
 
-function actual(id, tahun) {
+function actual(id, tahun, category) {
 	let id_user = id;
 	let thn = tahun;
+	let cat = category;
+
 	$.ajax({
 		url: base_url + "admin/actual_detail",
 		type: "POST",
 		data: {
 			id_user: id_user,
 			thn: thn,
+			cat: cat,
 		},
 		success: function (r) {
 			let obj = JSON.parse(r);
@@ -111,9 +120,10 @@ function actual(id, tahun) {
 	});
 }
 
-function creditactual(id, tahun) {
+function creditactual(id, tahun, category) {
 	let id_user = id;
 	let thn = tahun;
+	let cat = category;
 	// console.log(thn);
 	$.ajax({
 		url: base_url + "admin/creditactual_detail",
@@ -121,8 +131,10 @@ function creditactual(id, tahun) {
 		data: {
 			id_user: id_user,
 			thn: thn,
+			cat: cat,
 		},
 		success: function (r) {
+			// console.log(r);
 			let obj = JSON.parse(r);
 			let tbl =
 				'<table class="table table-bordered" id="dataTableActual" width="100%" cellspacing="0"><thead><tr style="text-align: center;"><th>No</th><th>Description Budget</th><th>Description source of module</th><th>Source</th><th>Budget Amount</th><th>Actual Amount</th><th>Actual Date</th></tr></thead><tbody class="list">' +
