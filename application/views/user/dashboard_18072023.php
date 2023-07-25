@@ -14,6 +14,9 @@
                             <div class="col md-3">
                                 <img src="<?= base_url('fotouser/') . $user['fotouser'] ?>" style="width:30%;margin: auto; display: block;">
                             </div>
+                            <!-- <div class="chart-pie pt-6 pb-4">
+                            <canvas id="myPieChart"></canvas>
+                        </div> -->
                             <!-- <div class="col-auto">
                                     <i class="fas fa-info-circle fa-2x text-gray-300"></i>
                                 </div> -->
@@ -23,7 +26,7 @@
                         <div class="col-lg-6">
 
                             <div class="text-s font-weight-bold text-primary text-uppercase mb-1">
-                                Halo <?= $user['name_user'] ?>,
+                                Hello <?= $user['name_user'] ?>,
                             </div>
                         </div>
                     </div>
@@ -72,6 +75,25 @@
 
                         <?php $no++;
                         endforeach; ?>
+                        <a class="btn btn-primary btn-icon-split ">
+                            <span class="icon text-white-50">
+                                Periode :
+                            </span>
+                            <span class="text shadow py-2 effect">
+                                <form action="" method="post">
+                                    <select id="tahun" name="tahun" class="ml-3">
+                                        <option value="-">Pilih Tahun</option>
+                                        <?php foreach ($tahun as $r) : ?>
+                                            <option value="<?= $r['tahun'] ?>" <?= ($r['tahun'] == $thn) ? "selected" : "" ?>><?= $r['tahun'] ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <?= form_error('tahun', '<small class="form-text text-danger">', '</small>'); ?>
+
+                                    <button type="submit" id="tombol">Cek</button>
+                                </form>
+                            </span>
+                        </a>
+                        <div class="my-2"></div>
                         </div>
                     </div>
                 </div>
@@ -86,9 +108,25 @@
                 </div>
                 <!-- Card Body -->
                 <div class="card-body">
-                    <div class="chart-pie pt-6 pb-4">
-                        <canvas id="myPieChart"></canvas>
+                    <!-- <div class="chart-pie pt-6 pb-4">
+                            <canvas id="myPieChart"></canvas>
+                        </div> -->
+
+                    <div class="chart-bar">
+                        <canvas id="myBarChart"></canvas>
                     </div>
+                    <?php
+                    $hasil = '';
+                    foreach ($diagram as $d) {
+                        $flatArray = array_column($diagram, 'jumlah');
+                        if (count($diagram) > 0) {
+                            $hasil = implode(",", $flatArray);
+                        } else {
+                            $hasil = $flatArray;
+                        }
+                    }
+                    ?>
+                    <input type="hidden" id="diagram" value="<?= $hasil; ?>">
                     <div class="mt-4 text-center small">
                         <!-- Button trigger modal -->
                         <div class="modal fade sisabudget" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-dismiss="modal">
@@ -166,33 +204,33 @@
                 <div class="card-body ">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Budget Amount
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Budget
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?= number_format($totalbudget, 0, ",", "."); ?></div>
                             <input type="hidden" id="totalbudget" value="<?= $totalbudget ?>">
 
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            <i class="fas fa-money fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-4 col-md-6 mb-4">
+        <div class="col-xl-4 col-md-6 mb-4" data-toggle="modal" data-target=".sisabudget">
             <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Actual Amount</div>
+                                Actual</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?= number_format($debitactual, 0, ",", "."); ?></div>
                             <input type="hidden" id="totalactual" value="<?= $debitactual ?>">
 
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            <i class="fas fa-money fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -207,19 +245,17 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Remaining Budget</div>
+                                Remaining</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?= number_format($sisa, 0, ",", "."); ?>
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            <i class="fas fa-money fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
     </div>
 
 
@@ -296,7 +332,7 @@
                 </div>
                 <div class="modal-body" id="bodyMyModal2"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="close" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -306,5 +342,6 @@
 <!-- Content Row -->
 <!-- /.container-fluid -->
 </div>
+
 
 <!-- End of Main Content -->

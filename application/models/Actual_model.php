@@ -208,7 +208,7 @@ class Actual_model extends CI_Model
         GROUP BY tdetail_budget.id_user, tdetail_budget.category_budget ASC  
         ORDER BY `tdetail_budget`.`id_user` ASC;')->result_array();
     }
-    public function getactdetail($id, $iduser)
+    public function getactdetail($iduser, $thn)
     {
         $this->db->select('G.name_user,H.id_acc,C.code_costcen,D.code_station,B.company,B.division, D.name_station,A.*');
         $this->db->join('tdetail_budget E', 'A.id_budget = E.id_budget');
@@ -219,7 +219,8 @@ class Actual_model extends CI_Model
         $this->db->join('tstation D', 'B.id_station=D.id_station');
         $this->db->join('taccount H', 'E.id_account = H.id_account');
         $this->db->where('E.id_user', $iduser);
-        $this->db->where('A.id_budget', $id);
+        // $this->db->where('A.id_budget', $id);
+        $this->db->where('E.budget_year', $thn);
         return $this->db->get($this->table . " as A")->result_array();
     }
     public function getactdetail_budget($id)
