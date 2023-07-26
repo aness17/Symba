@@ -8,12 +8,14 @@
 	width: inherit;
 }
 
-.effect:hover{
+.effect:hover {
 	/*box-shadow: 0 .15rem 1.75rem 0 rgba(58,59,69,.15)!important;*/
-	     transform: scale(1.05);
-
+	transform: scale(1.05);
 }
 
+.table {
+	color: black;
+}
 /*.card{
     border-radius: 4px;
     background: #fff;

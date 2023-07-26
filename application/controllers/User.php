@@ -65,15 +65,18 @@ class User extends CI_Controller
         $id = $ci->session->userdata('id');
         $user = $this->User_model->selectUser($id);
         $bg = $this->DetailBudget_model->selectbyiduser($id, $thn);
-        $sisabudget = $this->DetailBudget_model->sisabudgetuser($id, $thn);
+        $sisabudgetcapex = $this->DetailBudget_model->sisabudgetuser($id, $thn, 'CAPEX');
+        $sisabudgetopex = $this->DetailBudget_model->sisabudgetuser($id, $thn, 'OPEX');
         $actual = $this->Actual_model->useractById($id, $thn);
         $debitbudget = $this->DetailBudget_model->sumdebit($id, $thn)[0]->amount_debit;
         $debitactual = $this->Actual_model->sumdebit($id, $thn)[0]->amount_debit;
         $creditbudget = $this->DetailBudget_model->sumcredit($id, $thn)[0]->amount_credit;
         $creditactual = $this->Actual_model->sumcredit($id, $thn)[0]->amount_credit;
         $sisa = ($debitbudget - $debitactual) + ($creditbudget - $creditactual);
-        $detailactual = $this->Actual_model->getactdetail($id, $thn);
-        $budget = $this->Budget_model->selectbudgetuser($id, $thn);
+        $detailactcapex = $this->Actual_model->getactdet($id, $thn, 'CAPEX');
+        $detailactopex = $this->Actual_model->getactdet($id, $thn, 'OPEX');
+        $budgetcapex = $this->Budget_model->selectbudgetuser($id, $thn, 'CAPEX');
+        $budgetopex = $this->Budget_model->selectbudgetuser($id, $thn, 'OPEX');
         $diagram = $this->Actual_model->Actualperbulan($id, $thn);
         $tahun = $this->DetailBudget_model->tahun();
         // $pengajuan = $this->DetailBudget_model->sumpengajuan($id);
@@ -82,19 +85,22 @@ class User extends CI_Controller
             // 'pengajuan' => $pengajuan,
             'debit' => $debitbudget - $debitactual,
             'debitactual' => $debitactual,
-            'detailactual' => $detailactual,
+            'detailactcapex' => $detailactcapex,
+            'detailactopex' => $detailactopex,
             'totalbudget' => $debitbudget,
             'diagram' => $diagram,
             'sisa' => $sisa,
-            'bgs' => $sisabudget,
+            'sisabudgetcapex' => $sisabudgetcapex,
+            'sisabudgetopex' => $sisabudgetopex,
             'actual' => $actual,
             'bgg' => $bg,
-            'budget' => $budget,
+            'budgetcapex' => $budgetcapex,
+            'budgetopex' => $budgetopex,
             'tahun' => $tahun,
             'heading' => 'dashboard',
             'thn' => $thn
         ];
-        // var_dump($detailactual);
+        // var_dump($detailact);
         // die;
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar_user', $data);
@@ -105,9 +111,13 @@ class User extends CI_Controller
     {
         $id = (int)$_POST['id_budget'];
         $iduser = (int)$_POST['id_user'];
-        $data = $this->Actual_model->getactdetail($id, $iduser);
-        $credit = $this->Actual_model->sumcredittuser($id, $iduser)[0]->amount_credit;
-        $budget = $this->Actual_model->sumdebittuser($id, $iduser)[0]->amount_debit;
+        $thn = (int)$_POST['thn'];
+
+        $data = $this->Actual_model->getactdetail($id, $iduser, $thn);
+        $credit = $this->Actual_model->sumcredittuser($id, $iduser, $thn)[0]->amount_credit;
+        $budget = $this->Actual_model->sumdebittuser($id, $iduser, $thn)[0]->amount_debit;
+
+        $division = $this->User_model->selectdpt($iduser)[0]->division;
         $sisa = $budget - $credit;
         $totalActual = "<b>Total Transaction : " . number_format($sisa, 0, ",", ".") . " IDR </b>";
         $content =  '';
@@ -119,6 +129,7 @@ class User extends CI_Controller
             foreach ($data as $d) :
                 $isi_table .= '<tr>';
                 $isi_table .= '<td>' . $no . '</td>';
+                $isi_table .= '<td>' . $d['id_acc'] . '.' . $d['subacc'] . '.' . $d['product'] . '.' . $d['code_costcen'] . '.' . $d['code_station'] . '.' . $d['company'] . '</td>';
                 $isi_table .= '<td>' . $d['desc_source'] . '</td>';
                 $isi_table .= '<td>' . $d['description'] . '</td>';
                 $isi_table .= '<td>' . $d['source'] . '</td>';
@@ -131,7 +142,7 @@ class User extends CI_Controller
             endforeach;
         }
         $content .=  $isi_table;
-        $dt = array("isi" => $content, "total" => $totalActual);
+        $dt = array("isi" => $content, "total" => $totalActual, "division" => $division);
         $output = json_encode($dt);
         // $isi = json_encode($data);
         echo $output;
@@ -140,7 +151,11 @@ class User extends CI_Controller
     {
         $iduser = (int)$_POST['id_user'];
         $id = (int)$_POST['id_bdgt'];
-        $data = $this->DetailBudget_model->sisabudgetusermodal($id, $iduser);
+        $thn = (int)$_POST['thn'];
+
+        $data = $this->DetailBudget_model->sisabudgetusermodal($id, $iduser, $thn);
+        $division = $this->User_model->selectdpt($iduser)[0]->division;
+
         $content =  '';
         // var_dump($data);
         // die;
@@ -152,9 +167,10 @@ class User extends CI_Controller
             foreach ($data as $d) :
                 $isi_table .= '<tr>';
                 $isi_table .= '<td>' . $no . '</td>';
+                $isi_table .= '<td>' . $d['id_acc'] . '.' . $d['subacc'] . '.' . $d['product'] . '.' . $d['code_costcen'] . '.' . $d['code_station'] . '.' . $d['company'] . '</td>';
                 $isi_table .= '<td>' . $d['description'] . '</td>';
                 $isi_table .= '<td>' . $d['desc_source'] . '</td>';
-                $isi_table .= '<td>' . $d['source'] . '</td>';
+                // $isi_table .= '<td>' . $d['source'] . '</td>';
                 $isi_table .= '<td>' .  number_format($d['amount_debit'], 0, ",", ".") . ' ' . $d['currency'] . '</td>';
                 // $isi_table .= '<td>' . date('M d, Y', strtotime($d['create_date'])) . '</td>';
                 // $isi_table .= '<td>' . $d['status'] . '</td>';
@@ -164,7 +180,9 @@ class User extends CI_Controller
             endforeach;
         }
         $content .= $isi_table;
-        $isi = json_encode($content);
+        $dt = array("isi" => $content, "division" => $division);
+
+        $isi = json_encode($dt);
         // $isi = json_encode($data);
         echo $isi;
         // var_dump($isi);

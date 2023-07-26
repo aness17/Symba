@@ -90,18 +90,19 @@ class DetailBudget_model extends CI_Model
             where tdetail_budget.id_budget = ' . $id   . '   
             GROUP BY tdetail_budget.id_budget')->row_array();
     }
-    public function sisabudgetuser($id, $thn)
+    public function sisabudgetuser($id, $thn, $cat)
     {
-        return $this->db->query('SELECT taccount.id_acc,tcostcen.code_costcen,tstation.*,tdivision.*,tuser.name_user,SUM(tactual.amount_debit) debit, SUM(tactual.amount_credit) credit,tdetail_budget.* FROM `tdetail_budget`
+        return $this->db->query("SELECT taccount.id_acc,tcostcen.code_costcen,tstation.*,tdivision.*,tuser.name_user,SUM(tactual.amount_debit) debit, SUM(tactual.amount_credit) credit,tdetail_budget.* FROM `tdetail_budget`
             LEFT JOIN tactual ON tactual.id_budget = tdetail_budget.id_budget
             join tuser on tuser.id_user  = tdetail_budget.id_user  
             join tdivision  on tdivision.id_dvn = tuser.id_dvn
             join taccount   on taccount.id_account  = tdetail_budget.id_account
             join tcostcen on tcostcen.id_costcen = tdivision.id_costcen        
             join tstation   on tstation.id_station  = tdivision.id_station
-            where tdetail_budget.id_user = ' . $id . ' and
-             tdetail_budget.budget_year = ' . $thn . '
-            GROUP BY tdetail_budget.id_budget')->result_array();
+            where tdetail_budget.id_user = $id and
+             tdetail_budget.budget_year = $thn and
+             tdetail_budget.category_budget = '$cat'
+            GROUP BY tdetail_budget.id_budget")->result_array();
     }
 
     public function selectbyId($id, $thn, $category)

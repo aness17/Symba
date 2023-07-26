@@ -272,13 +272,13 @@
                     <div class="d-flex justify-content-between">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tab-1">BUDGET DATA</a>
+                                <a class="nav-link active" data-toggle="tab" href="#tab-1">Budget Data</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tab-2">ACTUAL DATA</a>
+                                <a class="nav-link" data-toggle="tab" href="#tab-2">Actual Data</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tab-3">REMAINING DATA</a>
+                                <a class="nav-link" data-toggle="tab" href="#tab-3">Remaining Data</a>
                             </li>
                         </ul>
                         <!-- <h6 class="m-2 font-weight-bold text-primary">Budget Data</h6> -->
@@ -294,12 +294,12 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="budcapex" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr style="text-align: center;">
                                             <th>No</th>
-                                            <th style="width: 202px;">Account</th>
-                                            <th style="width: 315px;">Description</th>
+                                            <th width="30%">Account</th>
+                                            <th>Description</th>
                                             <th>Balance</th>
                                             <th>Action</th>
                                         </tr>
@@ -328,48 +328,44 @@
                                 <h6 class="m-2 font-weight-bold text-primary">SUMMARY ACTUAL DATA CAPEX</h6>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="actcapex" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr style="text-align: center;">
-                                            <th>No</th>
-                                            <th style="width: 75px;">Account</th>
-                                            <th style="width: 350px;">Description source of module</th>
-                                            <th style="width: 150px;">Description</th>
-                                            <!-- <th>Source</th> -->
-                                            <!-- <th>Category</th> -->
-                                            <!-- <th>Currency</th> -->
-                                            <th>Amount Debit</th>
-                                            <th>Amount Credit</th>
-                                            <!-- <th>Remaining Balance</th> -->
-                                            <!-- <th>Used</th> -->
-                                            <th>Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="list">
-                                        <?php $no = 1;
-                                        // $user = $this->db->query("SELECT * FROM user where fk_role = '2'");
-                                        foreach ($detailactcapex as $bg) : ?>
-                                            <tr style="text-align: center;">
-                                                <!-- <input type="hidden" id="id_budget" value="<?= $bg['id_budget'] ?>">
+                        <table class="table table-bordered" id="dataTable5" width="100%" cellspacing="0">
+                            <thead>
+                                <tr style="text-align: center;">
+                                    <th>No</th>
+                                    <th>Account</th>
+                                    <th>Description source of module</th>
+                                    <th>Description</th>
+                                    <!-- <th>Source</th> -->
+                                    <!-- <th>Category</th> -->
+                                    <!-- <th>Currency</th> -->
+                                    <th>Amount Debit</th>
+                                    <th>Amount Credit</th>
+                                    <!-- <th>Remaining Balance</th> -->
+                                    <!-- <th>Used</th> -->
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+                                <?php $no = 1;
+                                // $user = $this->db->query("SELECT * FROM user where fk_role = '2'");
+                                foreach ($detailactual as $bg) : ?>
+                                    <tr style="text-align: center;">
+                                        <!-- <input type="hidden" id="id_budget" value="<?= $bg['id_budget'] ?>">
                                 <input type="hidden" id="id_user" value="<?= $bg['id_user'] ?>"> -->
-                                                <td><?= $no; ?></td>
-                                                <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
-                                                <td><?= $bg['desc_source'] ?></td>
-                                                <td><?= $bg['description'] ?></td>
-                                                <!-- <td><?= $bg['source'] ?></td> -->
-                                                <!-- <td><?= $bg['currency'] ?></td> -->
-                                                <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
-                                                <td><?= number_format($bg['amount_credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
-                                                <td><?php echo date('d-M-Y', strtotime($bg['actual_date'])) ?></td>
-                                            </tr>
-                                        <?php $no++;
-                                        endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                        <td><?= $no; ?></td>
+                                        <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
+                                        <td><?= $bg['desc_source'] ?></td>
+                                        <td><?= $bg['description'] ?></td>
+                                        <!-- <td><?= $bg['source'] ?></td> -->
+                                        <!-- <td><?= $bg['currency'] ?></td> -->
+                                        <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
+                                        <td><?= number_format($bg['amount_credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
+                                        <td><?php echo date('d-M-Y', strtotime($bg['actual_date'])) ?></td>
+                                    </tr>
+                                <?php $no++;
+                                endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
 
                     <div id="tab-3" class="ml-4 mr-4 mb-2 tab-pane fade"><br>
@@ -378,68 +374,64 @@
                                 <h6 class="m-2 font-weight-bold text-primary">SUMMARY REMAINING DATA CAPEX</h6>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="remcapex" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr style="text-align: center;">
-                                            <th style="width: 22px;">No</th>
-                                            <th style="width: 202px;">Account</th>
-                                            <th style="width: 215px;">Description source of module</th>
-                                            <th style="width: 315px;">Description</th>
-                                            <!-- <th>Source</th> -->
-                                            <!-- <th>Category</th> -->
-                                            <!-- <th>Currency</th> -->
-                                            <th style="width: 100px;">Budget Amount</th>
-                                            <th style="width: 100px;">Remaining Balance</th>
-                                            <th style="width: 25px;">Used</th>
-                                            <!-- <th>Date</th> -->
-                                        </tr>
-                                    </thead>
-                                    <tbody class="list">
-                                        <?php $no = 1;
-                                        // $user = $this->db->query("SELECT * FROM user where fk_role = '2'");
-                                        foreach ($sisabudgetcapex as $bg) : ?>
-                                            <tr style="text-align: center;">
-                                                <input type="hidden" id="id_budget" value="<?= $bg['id_budget'] ?>">
-                                                <input type="hidden" id="id_user" value="<?= $bg['id_user'] ?>">
-                                                <td><?= $no; ?></td>
-                                                <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
-                                                <td><?= $bg['desc_source'] ?></td>
-                                                <td><?= $bg['description'] ?></td>
-                                                <!-- <td><?= $bg['source'] ?></td> -->
-                                                <!-- <td><?= $bg['currency'] ?></td> -->
-                                                <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
-                                                <td><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
-                                                <td><a href="#myModal2" <?php if ($bg['status'] == 'yes') {
-                                                                            echo 'class="btn btn-success"';
-                                                                        } else {
-                                                                            echo 'class="btn btn-danger"';
-                                                                        } ?> onclick="dtl_actual(<?= $bg['id_budget'] ?>,<?= $thn ?>,<?= $bg['id_user'] ?>)" data-toggle="modal"><?= $bg['status'] ?></a></td>
-                                                <!-- <td><?= $bg['create_date']; ?></td> -->
-                                            </tr>
-                                        <?php $no++;
-                                        endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        <table class="table table-bordered" id="dataTable6" width="100%" cellspacing="0">
+                            <thead>
+                                <tr style="text-align: center;">
+                                    <th>No</th>
+                                    <th>Account</th>
+                                    <th>Description source of module</th>
+                                    <th>Description</th>
+                                    <!-- <th>Source</th> -->
+                                    <!-- <th>Category</th> -->
+                                    <!-- <th>Currency</th> -->
+                                    <th>Budget Amount</th>
+                                    <th>Remaining Balance</th>
+                                    <th>Used</th>
+                                    <!-- <th>Date</th> -->
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+                                <?php $no = 1;
+                                // $user = $this->db->query("SELECT * FROM user where fk_role = '2'");
+                                foreach ($bgs as $bg) : ?>
+                                    <tr style="text-align: center;">
+                                        <input type="hidden" id="id_budget" value="<?= $bg['id_budget'] ?>">
+                                        <input type="hidden" id="id_user" value="<?= $bg['id_user'] ?>">
+                                        <td><?= $no; ?></td>
+                                        <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
+                                        <td><?= $bg['desc_source'] ?></td>
+                                        <td><?= $bg['description'] ?></td>
+                                        <!-- <td><?= $bg['source'] ?></td> -->
+                                        <!-- <td><?= $bg['currency'] ?></td> -->
+                                        <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
+                                        <td><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
+                                        <td><a href="#myModal2" <?php if ($bg['status'] == 'yes') {
+                                                                    echo 'class="btn btn-success"';
+                                                                } else {
+                                                                    echo 'class="btn btn-danger"';
+                                                                } ?> onclick="dtl_actual(<?= $bg['id_budget'] ?>,<?= $thn ?>,<?= $bg['id_user'] ?>)" data-toggle="modal"><?= $bg['status'] ?></a></td>
+                                        <!-- <td><?= $bg['create_date']; ?></td> -->
+                                    </tr>
+                                <?php $no++;
+                                endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <!-- DataTales Example -->
             </div>
-            <div id="opex" class="ml-4 mr-4 mb-2 tab-pane"><br>
+            <div id="opex" class="ml-4 mr-4 mb-2 tab-pane active"><br>
                 <div class="card-header py-2">
                     <div class="d-flex justify-content-between">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#opex-1">BUDGET DATA</a>
+                                <a class="nav-link active" data-toggle="tab" href="#tab-1">Budget Data</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#opex-2">ACTUAL DATA</a>
+                                <a class="nav-link" data-toggle="tab" href="#tab-2">Actual Data</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#opex-3">REMAINING DATA</a>
+                                <a class="nav-link" data-toggle="tab" href="#tab-3">Remaining Data</a>
                             </li>
                         </ul>
                         <!-- <h6 class="m-2 font-weight-bold text-primary">Budget Data</h6> -->
@@ -447,7 +439,7 @@
                 </div>
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div id="opex-1" class="ml-4 mr-4 mb-2 tab-pane active"><br>
+                    <div id="tab-1" class="ml-4 mr-4 mb-2 tab-pane active"><br>
                         <div class="card-header py-2">
                             <div class="d-flex justify-content-between">
                                 <h6 class="m-2 font-weight-bold text-primary">SUMMARY BUDGET DATA OPEX</h6>
@@ -455,12 +447,12 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="budopex" width="100%" cellspacing="0">
+                                <table class="table table-bordered" id="dataTable3" width="100%" cellspacing="0">
                                     <thead>
                                         <tr style="text-align: center;">
                                             <th>No</th>
-                                            <th style="width: 202px;">Account</th>
-                                            <th style="width: 315px;">Description</th>
+                                            <th width="30%">Account</th>
+                                            <th>Description</th>
                                             <th>Balance</th>
                                             <th>Action</th>
                                         </tr>
@@ -483,155 +475,133 @@
                             </div>
                         </div>
                     </div>
-                    <div id="opex-2" class="ml-4 mr-4 mb-2 tab-pane fade"><br>
-                        <div class="card-header py-2">
-                            <div class="d-flex justify-content-between">
-                                <h6 class="m-2 font-weight-bold text-primary">SUMMARY ACTUAL DATA OPEX</h6>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="actopex" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr style="text-align: center;">
-                                            <th>No</th>
-                                            <th style="width: 202px;">Account</th>
-                                            <th style="width: 350px;">Description source of module</th>
-                                            <th style="width: 150px;">Description</th>
-                                            <!-- <th>Source</th> -->
-                                            <!-- <th>Category</th> -->
-                                            <!-- <th>Currency</th> -->
-                                            <th>Amount Debit</th>
-                                            <th>Amount Credit</th>
-                                            <!-- <th>Remaining Balance</th> -->
-                                            <!-- <th>Used</th> -->
-                                            <th>Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="list">
-                                        <?php $no = 1;
-                                        // $user = $this->db->query("SELECT * FROM user where fk_role = '2'");
-                                        foreach ($detailactopex as $bg) : ?>
-                                            <tr style="text-align: center;">
-                                                <!-- <input type="hidden" id="id_budget" value="<?= $bg['id_budget'] ?>">
+                    <div id="tab-2" class="ml-4 mr-4 mb-2 tab-pane fade"><br>
+                        <table class="table table-bordered" id="dataTable5" width="100%" cellspacing="0">
+                            <thead>
+                                <tr style="text-align: center;">
+                                    <th>No</th>
+                                    <th>Account</th>
+                                    <th>Description source of module</th>
+                                    <th>Description</th>
+                                    <!-- <th>Source</th> -->
+                                    <!-- <th>Category</th> -->
+                                    <!-- <th>Currency</th> -->
+                                    <th>Amount Debit</th>
+                                    <th>Amount Credit</th>
+                                    <!-- <th>Remaining Balance</th> -->
+                                    <!-- <th>Used</th> -->
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+                                <?php $no = 1;
+                                // $user = $this->db->query("SELECT * FROM user where fk_role = '2'");
+                                foreach ($detailactual as $bg) : ?>
+                                    <tr style="text-align: center;">
+                                        <!-- <input type="hidden" id="id_budget" value="<?= $bg['id_budget'] ?>">
                                 <input type="hidden" id="id_user" value="<?= $bg['id_user'] ?>"> -->
-                                                <td><?= $no; ?></td>
-                                                <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
-                                                <td><?= $bg['desc_source'] ?></td>
-                                                <td><?= $bg['description'] ?></td>
-                                                <!-- <td><?= $bg['source'] ?></td> -->
-                                                <!-- <td><?= $bg['currency'] ?></td> -->
-                                                <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
-                                                <td><?= number_format($bg['amount_credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
-                                                <td><?php echo date('d-M-Y', strtotime($bg['actual_date'])) ?></td>
-                                            </tr>
-                                        <?php $no++;
-                                        endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                        <td><?= $no; ?></td>
+                                        <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
+                                        <td><?= $bg['desc_source'] ?></td>
+                                        <td><?= $bg['description'] ?></td>
+                                        <!-- <td><?= $bg['source'] ?></td> -->
+                                        <!-- <td><?= $bg['currency'] ?></td> -->
+                                        <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
+                                        <td><?= number_format($bg['amount_credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
+                                        <td><?php echo date('d-M-Y', strtotime($bg['actual_date'])) ?></td>
+                                    </tr>
+                                <?php $no++;
+                                endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
-                    <div id="opex-3" class="ml-4 mr-4 mb-2 tab-pane fade"><br>
-                        <div class="card-header py-2">
-                            <div class="d-flex justify-content-between">
-                                <h6 class="m-2 font-weight-bold text-primary">SUMMARY REMAINING DATA OPEX</h6>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="remopex" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr style="text-align: center;">
-                                            <th style="width: 22px;">No</th>
-                                            <th style="width: 202px;">Account</th>
-                                            <th style="width: 215px;">Description source of module</th>
-                                            <th style="width: 315px;">Description</th>
-                                            <!-- <th>Source</th> -->
-                                            <!-- <th>Category</th> -->
-                                            <!-- <th>Currency</th> -->
-                                            <th style="width: 100px;">Budget Amount</th>
-                                            <th style="width: 100px;">Remaining Balance</th>
-                                            <th style="width: 25px;">Used</th>
-                                            <!-- <th>Date</th> -->
-                                        </tr>
-                                    </thead>
-                                    <tbody class="list">
-                                        <?php $no = 1;
-                                        // $user = $this->db->query("SELECT * FROM user where fk_role = '2'");
-                                        foreach ($sisabudgetopex as $bg) : ?>
-                                            <tr style="text-align: center;">
-                                                <input type="hidden" id="id_budget" value="<?= $bg['id_budget'] ?>">
-                                                <input type="hidden" id="id_user" value="<?= $bg['id_user'] ?>">
-                                                <td><?= $no; ?></td>
-                                                <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
-                                                <td><?= $bg['desc_source'] ?></td>
-                                                <td><?= $bg['description'] ?></td>
-                                                <!-- <td><?= $bg['source'] ?></td> -->
-                                                <!-- <td><?= $bg['currency'] ?></td> -->
-                                                <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
-                                                <td><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
-                                                <td><a href="#myModal2" <?php if ($bg['status'] == 'yes') {
-                                                                            echo 'class="btn btn-success"';
-                                                                        } else {
-                                                                            echo 'class="btn btn-danger"';
-                                                                        } ?> onclick="dtl_actual(<?= $bg['id_budget'] ?>,<?= $thn ?>,<?= $bg['id_user'] ?>)" data-toggle="modal"><?= $bg['status'] ?></a></td>
-                                                <!-- <td><?= $bg['create_date']; ?></td> -->
-                                            </tr>
-                                        <?php $no++;
-                                        endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+
+                    <div id="tab-3" class="ml-4 mr-4 mb-2 tab-pane fade"><br>
+                        <table class="table table-bordered" id="dataTable6" width="100%" cellspacing="0">
+                            <thead>
+                                <tr style="text-align: center;">
+                                    <th>No</th>
+                                    <th>Account</th>
+                                    <th>Description source of module</th>
+                                    <th>Description</th>
+                                    <!-- <th>Source</th> -->
+                                    <!-- <th>Category</th> -->
+                                    <!-- <th>Currency</th> -->
+                                    <th>Budget Amount</th>
+                                    <th>Remaining Balance</th>
+                                    <th>Used</th>
+                                    <!-- <th>Date</th> -->
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+                                <?php $no = 1;
+                                // $user = $this->db->query("SELECT * FROM user where fk_role = '2'");
+                                foreach ($bgs as $bg) : ?>
+                                    <tr style="text-align: center;">
+                                        <input type="hidden" id="id_budget" value="<?= $bg['id_budget'] ?>">
+                                        <input type="hidden" id="id_user" value="<?= $bg['id_user'] ?>">
+                                        <td><?= $no; ?></td>
+                                        <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
+                                        <td><?= $bg['desc_source'] ?></td>
+                                        <td><?= $bg['description'] ?></td>
+                                        <!-- <td><?= $bg['source'] ?></td> -->
+                                        <!-- <td><?= $bg['currency'] ?></td> -->
+                                        <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
+                                        <td><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
+                                        <td><a href="#myModal2" <?php if ($bg['status'] == 'yes') {
+                                                                    echo 'class="btn btn-success"';
+                                                                } else {
+                                                                    echo 'class="btn btn-danger"';
+                                                                } ?> onclick="dtl_actual(<?= $bg['id_budget'] ?>,<?= $thn ?>,<?= $bg['id_user'] ?>)" data-toggle="modal"><?= $bg['status'] ?></a></td>
+                                        <!-- <td><?= $bg['create_date']; ?></td> -->
+                                    </tr>
+                                <?php $no++;
+                                endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <!-- DataTales Example -->
             </div>
         </div>
-    </div>
-    <!-- Content Row -->
-    <!-- Content Row -->
-    <!-- /.container-fluid -->
-    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" data-dismiss="modal" data-toggle="modal">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Transaction List</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="bodyMyModal2">
-                    <div class="table-responsive">
+
+        <!-- Content Row -->
+        <!-- Content Row -->
+        <!-- /.container-fluid -->
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" data-dismiss="modal" data-toggle="modal">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Transaction List</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="bodyMyModal2"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <div class="modal fade" id="detailbudget" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-dismiss="modal">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Detail Budget</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="bodydetailbudget">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="detailbudget" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-dismiss="modal">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Detail Budget</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="bodydetailbudget">
-                    <div class="table-responsive">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 
-<!-- End of Main Content -->
+    <!-- End of Main Content -->

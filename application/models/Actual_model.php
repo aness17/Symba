@@ -208,7 +208,7 @@ class Actual_model extends CI_Model
         GROUP BY tdetail_budget.id_user, tdetail_budget.category_budget ASC  
         ORDER BY `tdetail_budget`.`id_user` ASC;')->result_array();
     }
-    public function getactdetail($iduser, $thn)
+    public function getactdetail($id, $iduser, $thn)
     {
         $this->db->select('G.name_user,H.id_acc,C.code_costcen,D.code_station,B.company,B.division, D.name_station,A.*');
         $this->db->join('tdetail_budget E', 'A.id_budget = E.id_budget');
@@ -219,8 +219,24 @@ class Actual_model extends CI_Model
         $this->db->join('tstation D', 'B.id_station=D.id_station');
         $this->db->join('taccount H', 'E.id_account = H.id_account');
         $this->db->where('E.id_user', $iduser);
+        $this->db->where('A.id_budget', $id);
+        $this->db->where('E.budget_year', $thn);
+        return $this->db->get($this->table . " as A")->result_array();
+    }
+    public function getactdet($id, $thn, $cat)
+    {
+        $this->db->select('G.name_user,H.id_acc,C.code_costcen,D.code_station,B.company,B.division, D.name_station,A.*');
+        $this->db->join('tdetail_budget E', 'A.id_budget = E.id_budget');
+        $this->db->join('tuser G', 'E.id_user = G.id_user');
+        $this->db->join('tdivision B', 'G.id_dvn = B.id_dvn');
+        $this->db->join('tdepartement F', 'B.id_dpt=F.id_dpt');
+        $this->db->join('tcostcen C', 'B.id_costcen=C.id_costcen');
+        $this->db->join('tstation D', 'B.id_station=D.id_station');
+        $this->db->join('taccount H', 'E.id_account = H.id_account');
+        $this->db->where('E.id_user', $id);
         // $this->db->where('A.id_budget', $id);
         $this->db->where('E.budget_year', $thn);
+        $this->db->where('E.category_budget', $cat);
         return $this->db->get($this->table . " as A")->result_array();
     }
     public function getactdetail_budget($id)
@@ -264,22 +280,26 @@ class Actual_model extends CI_Model
         $this->db->where('id_budget', $id);
         return $this->db->get($this->table . " as A")->result();
     }
-    public function sumcredittuser($id, $iduser)
+    public function sumcredittuser($id, $iduser, $thn)
     {
         $this->db->select_sum('A.amount_credit');
         $this->db->join('tdetail_budget B', 'A.id_budget = B.id_budget');
         $this->db->join('tuser C', 'B.id_user = C.id_user');
         $this->db->where('A.id_budget', $id);
         $this->db->where('B.id_user', $iduser);
+        $this->db->where('B.budget_year', $thn);
+
         return $this->db->get($this->table . " as A")->result();
     }
-    public function sumdebittuser($id, $iduser)
+    public function sumdebittuser($id, $iduser, $thn)
     {
         $this->db->select_sum('A.amount_debit');
         $this->db->join('tdetail_budget B', 'A.id_budget = B.id_budget');
         $this->db->join('tuser C', 'B.id_user = C.id_user');
         $this->db->where('A.id_budget', $id);
         $this->db->where('B.id_user', $iduser);
+        $this->db->where('B.budget_year', $thn);
+
         return $this->db->get($this->table . " as A")->result();
     }
 }

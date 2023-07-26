@@ -48,9 +48,10 @@ class Budget_model extends CI_Model
         ORDER BY `tbl_actual_user`.`status`, G.id_user")->result_array();
         //return $this->db->get($this->table . " as A")->result_array();
     }
-    public function selectbudgetuser($id, $thn)
+    public function selectbudgetuser($id, $thn, $cat)
     {
         $this->db->join('tbudget H', 'A.id_bdgt = H.id_bdgt');
+        $this->db->join('tdetail_budget I', 'I.id_bdgt = H.id_bdgt');
         $this->db->join('tuser G', 'A.id_user = G.id_user');
         $this->db->join('tdivision B', 'G.id_dvn = B.id_dvn');
         $this->db->join('tdepartement F', 'B.id_dpt=F.id_dpt');
@@ -59,7 +60,8 @@ class Budget_model extends CI_Model
         $this->db->join('taccount E', 'A.id_acc = E.id_account');
         $this->db->where('A.id_user', $id);
         $this->db->where('H.periode_year', $thn);
-
+        $this->db->where('I.category_budget', $cat);
+        $this->db->group_by('H.id_bdgt');
         return $this->db->get($this->table . " as A")->result_array();
     }
     public function getLastId()
