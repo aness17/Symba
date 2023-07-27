@@ -143,7 +143,7 @@ class Admin extends CI_Controller
 
         // echo $thn;
         $data = $this->DetailBudget_model->selectbyid($iduser, $thn, $category);
-        // var_dump($iduser);
+        // var_dump($data);
         // die;
         $content =  '';
         $isi_table = '';
@@ -154,6 +154,7 @@ class Admin extends CI_Controller
             foreach ($data as $d) :
                 $isi_table .= '<tr>';
                 $isi_table .= '<td>' . $no . '</td>';
+                $isi_table .= '<td>' . $d['id_acc'] . '.' . $d['subacc'] . '.' . $d['product'] . '.' . $d['code_costcen'] . '.' . $d['code_station'] . '.' . $d['company'] . '</td>';
                 $isi_table .= '<td>' . $d['desc_source'] . '</td>';
                 $isi_table .= '<td>' . $d['description'] . '</td>';
                 $isi_table .= '<td>' . $d['source'] . '</td>';
@@ -185,6 +186,7 @@ class Admin extends CI_Controller
             foreach ($data as $d) :
                 $isi_table .= '<tr>';
                 $isi_table .= '<td>' . $no . '</td>';
+                $isi_table .= '<td>' . $d['id_acc'] . '.' . $d['subacc'] . '.' . $d['product'] . '.' . $d['code_costcen'] . '.' . $d['code_station'] . '.' . $d['company'] . '</td>';
                 $isi_table .= '<td>' . $d['desc'] . '</td>';
                 $isi_table .= '<td>' . $d['desc_source'] . '</td>';
                 $isi_table .= '<td>' . $d['source'] . '</td>';
@@ -218,6 +220,7 @@ class Admin extends CI_Controller
             foreach ($data as $d) :
                 $isi_table .= '<tr>';
                 $isi_table .= '<td>' . $no . '</td>';
+                $isi_table .= '<td>' . $d['id_acc'] . '.' . $d['subacc'] . '.' . $d['product'] . '.' . $d['code_costcen'] . '.' . $d['code_station'] . '.' . $d['company'] . '</td>';
                 $isi_table .= '<td>' . $d['desc'] . '</td>';
                 $isi_table .= '<td>' . $d['desc_source'] . '</td>';
                 $isi_table .= '<td>' . $d['source'] . '</td>';

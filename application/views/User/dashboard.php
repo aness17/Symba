@@ -603,8 +603,6 @@
                     </button>
                 </div>
                 <div class="modal-body" id="bodyMyModal2">
-                    <div class="table-responsive">
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -622,8 +620,6 @@
                     </button>
                 </div>
                 <div class="modal-body" id="bodydetailbudget">
-                    <div class="table-responsive">
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -135,11 +135,8 @@
 
     <!-- Page Heading -->
 
-
-
     <!-- Content Row -->
     <div class="row">
-
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-4 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
@@ -198,14 +195,11 @@
         </div>
     </div>
 
-
-
     <div class="card shadow mb-4">
         <div class="card-header py-2">
             <div class="d-flex justify-content-between">
                 <h6 class="m-2 font-weight-bold text-primary">SUMMARY CAPEX</h6>
             </div>
-
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -238,22 +232,6 @@
                         endforeach; ?>
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <div class="modal" id="budget" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-dismiss="modal">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Detail</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body budget"></div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
             </div>
         </div>
         <!-- Content Row -->
@@ -298,7 +276,7 @@
                 </table>
             </div>
         </div>
-        <div class="modal" id="budget" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-dismiss="modal">
+        <div class="modal fade" id="budget" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-dismiss="modal">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -307,15 +285,22 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body budget"></div>
+                    <div class="modal-body detailbudget"></div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Content Row -->
     </div>
-    <!-- /.container-fluid -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+</div>
+</div>
+</div> -->
+<!-- Content Row -->
+</div>
+<!-- /.container-fluid -->
 </div>
 <!-- End of Main Content -->
