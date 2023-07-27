@@ -309,7 +309,6 @@ class Admin extends CI_Controller
         }
     }
 
-
     public function edituser($id)
     {
 
@@ -372,68 +371,44 @@ class Admin extends CI_Controller
             $this->load->view('templates/footer');
         }
     }
-    // public function resetpassworduser($id)
-    // {
+    public function resetpassworduser($id)
+    {
+        $this->form_validation->set_rules('username', 'Username', '');
+        $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
 
-    //         $this->form_validation->set_rules('nameuser', 'Nama User', 'required');
-    //         $this->form_validation->set_rules('username', 'Username', 'required');
-    //         // $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
-    //         $this->form_validation->set_rules('dvn', 'Division', 'required');
-    //         $this->form_validation->set_rules('role', 'Role', 'required');
+        $user = $this->User_model->getUserById($id);
+        $data = [
+            'user' => $user,
+            'heading' => 'user'
+        ];
+        // if ($id == "") {
+        // var_dump($user);
+        // die;
+        if ($this->form_validation->run() == true) {
+            $db = [
+                'id_user' => $id,
+                'username_user' => $user['username_user'],
+                'password_user' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+            ];
+            // var_dump($db);
+            // die;
+            if ($this->User_model->update($db) > 0) {
+                $this->session->set_flashdata('message', $this->flasher('success', 'Success To Edit Data'));
+                redirect('admin/user');
+            } else {
+                $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Edit Data'));
+                redirect('admin/resetpassworduser/' . $data['id_user']);
+            }
 
-    //         $user = $this->User_model->getUserById($id);
-    //         $dvn = $this->Division_model->selectAll();
-    //         $role = $this->Roles_model->selectAll();
-    //         $data = [
-    //             'user' => $user,
-    //             'dvn' => $dvn,
-    //             'role' => $role
-    //         ];
-    //         // if ($id == "") {
-    //         // var_dump($user['id_station']);die;
-    //         if ($this->form_validation->run() == true) {
-    //             $db = [
-    //                 'id_user' => $id,
-    //                 'name_user' => $this->input->post('nameuser'),
-    //                 'username_user' => $this->input->post('username'),
-    //                 // 'password_user' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-    //                 'id_dvn' => $this->input->post('dvn'),
-    //                 'id_role' => $this->input->post('role')
-    //             ];
-    //             if ($_FILES["fotouser"]["name"] != "") {
-    //                 $config['upload_path']          = './fotouser/';
-    //                 $config['allowed_types']        = 'gif|jpg|png';
-    //                 $config['max_size']             = 1000;
-
-    //                 $this->load->library('upload', $config);
-    //                 if ($this->upload->do_upload('fotouser')) {
-    //                     unlink(FCPATH . 'fotouser/' . $user["fotouser"]);
-    //                     $db['fotouser'] = $this->upload->data()["file_name"];
-    //                 } else {
-    //                     $this->session->set_flashdata('message_login', $this->flasher('danger', $this->upload->display_errors()));
-    //                     var_dump($this->upload->display_errors());
-    //                     die;
-    //                     redirect('admin/edituser/' . $id);
-    //                 }
-    //             }
-    //             // var_dump($db);die;
-    //             if ($this->User_model->update($db) > 0) {
-    //                 $this->session->set_flashdata('message', $this->flasher('success', 'Success To Edit Data'));
-    //             } else {
-    //                 $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Edit Data'));
-    //             }
-    //             redirect('admin/user');
-
-    //             // }
-    //             // redirect('admin/pelanggan/tambahpelanggan');
-    //         } else {
-    //             $this->load->view('templates/header');
-    //             $this->load->view('templates/sidebar_admin');
-    //             $this->load->view('admin/user/edit_user', $data);
-    //             $this->load->view('templates/footer');
-    //         }
-
-    // }
+            // }
+            // redirect('admin/pelanggan/tambahpelanggan');
+        } else {
+            $this->load->view('templates/header');
+            $this->load->view('templates/sidebar_admin', $data);
+            $this->load->view('admin/user/change_password', $data);
+            $this->load->view('templates/footer');
+        }
+    }
     public function deleteuser($id)
     {
         if ($id) {

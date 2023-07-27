@@ -301,6 +301,7 @@
                                             <th style="width: 202px;">Account</th>
                                             <th style="width: 315px;">Description</th>
                                             <th>Balance</th>
+                                            <th>Remaining</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -312,6 +313,7 @@
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
                                                 <td><?= $bg['remark_acc'] ?></td>
                                                 <td><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
+                                                <td><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", "."); ?> IDR</td>
                                                 <td><a href="#detailbudget" onclick="dtl_budget(<?= $bg['id_user'] ?>,<?= $thn ?>,<?= $bg['id_bdgt'] ?>)" class="fa fa-binoculars" style="color:blue" data-toggle="modal">
                                                     </a></td>
                                             </tr>
@@ -462,6 +464,7 @@
                                             <th style="width: 202px;">Account</th>
                                             <th style="width: 315px;">Description</th>
                                             <th>Balance</th>
+                                            <th>Remaining</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -473,6 +476,7 @@
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
                                                 <td><?= $bg['remark_acc'] ?></td>
                                                 <td><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
+                                                <td><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", "."); ?> IDR</td>
                                                 <td><a href="#detailbudget" onclick="dtl_budget(<?= $bg['id_user'] ?>,<?= $thn ?>,<?= $bg['id_bdgt'] ?>)" class="fa fa-binoculars" style="color:blue" data-toggle="modal">
                                                     </a></td>
                                             </tr>

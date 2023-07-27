@@ -50,8 +50,9 @@ class Budget_model extends CI_Model
     }
     public function selectbudgetuser($id, $thn, $cat)
     {
-        $this->db->join('tbudget H', 'A.id_bdgt = H.id_bdgt');
-        $this->db->join('tdetail_budget I', 'I.id_bdgt = H.id_bdgt');
+        $this->db->select('sum(J.amount_debit) debit, sum(J.amount_credit) credit,A.*,B.*,C.code_costcen,D.code_station,E.remark_acc,E.id_acc');
+        $this->db->join('tdetail_budget I', 'I.id_bdgt = A.id_bdgt');
+        $this->db->join('tactual J', 'J.id_budget = I.id_budget', 'left');
         $this->db->join('tuser G', 'A.id_user = G.id_user');
         $this->db->join('tdivision B', 'G.id_dvn = B.id_dvn');
         $this->db->join('tdepartement F', 'B.id_dpt=F.id_dpt');
@@ -59,9 +60,9 @@ class Budget_model extends CI_Model
         $this->db->join('tstation D', 'B.id_station=D.id_station');
         $this->db->join('taccount E', 'A.id_acc = E.id_account');
         $this->db->where('A.id_user', $id);
-        $this->db->where('H.periode_year', $thn);
+        $this->db->where('A.periode_year', $thn);
         $this->db->where('I.category_budget', $cat);
-        $this->db->group_by('H.id_bdgt');
+        $this->db->group_by('A.id_bdgt');
         return $this->db->get($this->table . " as A")->result_array();
     }
     public function getLastId()

@@ -100,7 +100,7 @@ class User extends CI_Controller
             'heading' => 'dashboard',
             'thn' => $thn
         ];
-        // var_dump($detailact);
+        // var_dump($budgetopex);
         // die;
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar_user', $data);
