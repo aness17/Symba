@@ -70,20 +70,6 @@
         </div>
     </div>
 </div>
-<!-- <table>
-<tr id='strawberry-planta' data-fruit='12'>
-    <td>1</td>
-</tr>
-</table> -->
-<!-- <script>
-    // 'Getting' data-attributes using getAttribute
-    var plant = document.getElementById('bdgt1');
-    var fruitCount = plant.getAttribute('data-value'); // fruitCount = '12'
-    console.log(fruitCount)
-
-    // 'Setting' data-attributes using setAttribute
-    plant.setAttribute('data-fruit', '7'); // Pesky birds
-</script> -->
 <script>
     const nodes = document.getElementsByTagName("tr");
     // console.log(nodes);
@@ -98,7 +84,7 @@
         var bdgtCount = bdgt.getAttribute('data-value');
         // console.log(bdgtCount);
         // console.log(bdgt, bdgt.getAttribute('data-value'));
-        if (remCount > (bdgtCount * 0.5)) {
+        if (remCount >= (bdgtCount * 0.5)) {
             document.getElementById("remaining" + [i]).style.backgroundColor = '#BED7D1	';
         } else if (remCount < (bdgtCount * 0.5) && (remCount > bdgtCount * 0.1)) {
             document.getElementById("remaining" + [i]).style.backgroundColor = '#F7EBC3';

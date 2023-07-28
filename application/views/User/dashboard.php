@@ -272,13 +272,13 @@
                     <div class="d-flex justify-content-between">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#tab-1">BUDGET DATA</a>
+                                <a class="nav-link" data-toggle="tab" onclick="budcapex()" href="#tab-1">BUDGET DATA</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tab-2">ACTUAL DATA</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tab-3">REMAINING DATA</a>
+                                <a class="nav-link" data-toggle="tab" onclick="remcapex()" href="#tab-3">REMAINING DATA</a>
                             </li>
                         </ul>
                         <!-- <h6 class="m-2 font-weight-bold text-primary">Budget Data</h6> -->
@@ -308,11 +308,11 @@
                                     <tbody class="list">
                                         <?php $no = 1;
                                         foreach ($budgetcapex as $bg) : ?>
-                                            <tr style="text-align: center;">
+                                            <tr style="text-align: center;" id="budcapex">
                                                 <td><?= $no; ?></td>
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
                                                 <td><?= $bg['remark_acc'] ?></td>
-                                                <td id="bdgt<?= $no ?>" data-value="<?= $bg['total_budget'] ?>"><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
+                                                <td id="budget<?= $no ?>" data-value="<?= $bg['total_budget'] ?>"><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
                                                 <td id="remaining<?= $no ?>" data-value="<?= $bg['total_budget'] - $bg['debit'] + $bg['credit'] ?>"><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", "."); ?> IDR</td>
                                                 <td><a href="#detailbudget" onclick="dtl_budget(<?= $bg['id_user'] ?>,<?= $thn ?>,<?= $bg['id_bdgt'] ?>)" class="fa fa-binoculars" style="color:blue" data-toggle="modal">
                                                     </a></td>
@@ -402,7 +402,7 @@
                                         <?php $no = 1;
                                         // $user = $this->db->query("SELECT * FROM user where fk_role = '2'");
                                         foreach ($sisabudgetcapex as $bg) : ?>
-                                            <tr style="text-align: center;">
+                                            <tr style="text-align: center;" id="remcapex">
                                                 <input type="hidden" id="id_budget" value="<?= $bg['id_budget'] ?>">
                                                 <input type="hidden" id="id_user" value="<?= $bg['id_user'] ?>">
                                                 <td><?= $no; ?></td>
@@ -411,8 +411,8 @@
                                                 <td><?= $bg['description'] ?></td>
                                                 <!-- <td><?= $bg['source'] ?></td> -->
                                                 <!-- <td><?= $bg['currency'] ?></td> -->
-                                                <td id="bdgt<?= $no ?>" data-value="<?= $bg['amount_debit'] ?>"><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
-                                                <td id="remaining<?= $no ?>" data-value="<?= $bg['amount_debit'] - $bg['debit'] + $bg['credit'] ?>"><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
+                                                <td id="cabudget<?= $no ?>" data-value="<?= $bg['amount_debit'] ?>"><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
+                                                <td id="caremaining<?= $no ?>" data-value="<?= $bg['amount_debit'] - $bg['debit'] + $bg['credit'] ?>"><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
                                                 <td><a href="#myModal2" <?php if ($bg['status'] == 'yes') {
                                                                             echo 'class="btn btn-success"';
                                                                         } else {
@@ -435,13 +435,13 @@
                     <div class="d-flex justify-content-between">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#opex-1">BUDGET DATA</a>
+                                <a class="nav-link" data-toggle="tab" onclick="budopex()" href="#opex-1">BUDGET DATA</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#opex-2">ACTUAL DATA</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#opex-3">REMAINING DATA</a>
+                                <a class="nav-link" data-toggle="tab" onclick="remopex()" href="#opex-3">REMAINING DATA</a>
                             </li>
                         </ul>
                         <!-- <h6 class="m-2 font-weight-bold text-primary">Budget Data</h6> -->
@@ -471,12 +471,12 @@
                                     <tbody class="list">
                                         <?php $no = 1;
                                         foreach ($budgetopex as $bg) : ?>
-                                            <tr style="text-align: center;">
+                                            <tr style="text-align: center;" id="budopex">
                                                 <td><?= $no; ?></td>
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
                                                 <td><?= $bg['remark_acc'] ?></td>
-                                                <td id="bdgt<?= $no ?>" data-value="<?= $bg['total_budget'] ?>"><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
-                                                <td id="remaining<?= $no ?>" data-value="<?= $bg['total_budget'] - $bg['debit'] + $bg['credit'] ?>"><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", "."); ?> IDR</td>
+                                                <td id="bobudget<?= $no ?>" data-value="<?= $bg['total_budget'] ?>"><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
+                                                <td id="boremaining<?= $no ?>" data-value="<?= $bg['total_budget'] - $bg['debit'] + $bg['credit'] ?>"><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", "."); ?> IDR</td>
                                                 <td><a href="#detailbudget" onclick="dtl_budget(<?= $bg['id_user'] ?>,<?= $thn ?>,<?= $bg['id_bdgt'] ?>)" class="fa fa-binoculars" style="color:blue" data-toggle="modal">
                                                     </a></td>
                                             </tr>
@@ -564,7 +564,7 @@
                                         <?php $no = 1;
                                         // $user = $this->db->query("SELECT * FROM user where fk_role = '2'");
                                         foreach ($sisabudgetopex as $bg) : ?>
-                                            <tr style="text-align: center;">
+                                            <tr style="text-align: center;" id="remopex">
                                                 <input type="hidden" id="id_budget" value="<?= $bg['id_budget'] ?>">
                                                 <input type="hidden" id="id_user" value="<?= $bg['id_user'] ?>">
                                                 <td><?= $no; ?></td>
@@ -573,8 +573,8 @@
                                                 <td><?= $bg['description'] ?></td>
                                                 <!-- <td><?= $bg['source'] ?></td> -->
                                                 <!-- <td><?= $bg['currency'] ?></td> -->
-                                                <td id="bdgt<?= $no ?>" data-value="<?= $bg['amount_debit'] ?>"><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
-                                                <td id="remaining<?= $no ?>" data-value="<?= $bg['amount_debit'] - $bg['debit'] + $bg['credit'] ?>"><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
+                                                <td id="robudget<?= $no ?>" data-value="<?= $bg['amount_debit'] ?>"><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
+                                                <td id="roremaining<?= $no ?>" data-value="<?= $bg['amount_debit'] - $bg['debit'] + $bg['credit'] ?>"><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
                                                 <td><a href="#myModal2" <?php if ($bg['status'] == 'yes') {
                                                                             echo 'class="btn btn-success"';
                                                                         } else {
@@ -634,25 +634,101 @@
 </div>
 
 <script>
-    const nodes = document.getElementsByTagName("tr");
-    // console.log(nodes);
-    for (let i = 1; i < nodes.length; i++) {
-        //nodes[i].style.backgroundColor = "red";
-        let remaining = document.getElementById("remaining" + [i]);
-        let bdgt = document.getElementById("bdgt" + i);
-        // console.log(i);
-        var bdgtCount = bdgt.getAttribute('data-value');
-        var remCount = remaining.getAttribute('data-value');
-        console.log(remCount, bdgtCount * 0.5);
-        // console.log(bdgt, bdgt.getAttribute('data-value'));
-        if (remCount > (bdgtCount * 0.5)) {
-            // console.log(remCount > bdgtCount * 0.5);
-            document.getElementById("remaining" + [i]).style.backgroundColor = '#BED7D1	';
-        } else if (remCount < (bdgtCount * 0.5) && (remCount > bdgtCount * 0.1)) {
-            document.getElementById("remaining" + [i]).style.backgroundColor = '#F7EBC3';
-        } else {
-            // console.log(remaining); 
-            document.getElementById("remaining" + [i]).style.backgroundColor = '#ff85a2';
+    function budcapex() {
+        const nodes = document.getElementsByTagName("tr");
+        for (let i = 1; i < nodes.length; i++) {
+            //nodes[i].style.backgroundColor = "red";
+            let remaining = document.getElementById("remaining" + i);
+            let budget = document.getElementById("budget" + i);
+
+            // console.log(document.getElementById("remaining" + i));
+            var bdgtCount = budget.getAttribute('data-value');
+            var remCount = remaining.getAttribute('data-value');
+
+            // console.log(budget);
+            // console.log(bdgt, bdgt.getAttribute('data-value'));
+            if (remCount > (bdgtCount * 0.5)) {
+                // console.log(remCount > bdgtCount * 0.5);
+                document.getElementById("remaining" + [i]).style.backgroundColor = '#BED7D1	';
+            } else if (remCount < (bdgtCount * 0.5) && (remCount > bdgtCount * 0.1)) {
+                document.getElementById("remaining" + [i]).style.backgroundColor = '#F7EBC3';
+            } else {
+                // console.log(remaining); 
+                document.getElementById("remaining" + [i]).style.backgroundColor = '#ff85a2';
+            }
+        }
+    }
+
+    function remcapex() {
+        const nodes = document.getElementsByTagName("tr");
+        // console.log(nodes);
+        for (let i = 1; i < nodes.length; i++) {
+            //nodes[i].style.backgroundColor = "red";
+            let caremaining = document.getElementById("caremaining" + i);
+            let cabdgt = document.getElementById("cabudget" + i);
+
+            var cabdgtCount = cabdgt.getAttribute('data-value');
+            var caremCount = caremaining.getAttribute('data-value');
+
+            if (caremCount > (cabdgtCount * 0.5)) {
+                // console.log(remCount > bdgtCount * 0.5);
+                document.getElementById("caremaining" + [i]).style.backgroundColor = '#BED7D1	';
+            } else if (caremCount < (cabdgtCount * 0.5) && (caremCount > cabdgtCount * 0.1)) {
+                document.getElementById("caremaining" + [i]).style.backgroundColor = '#F7EBC3';
+            } else {
+                // console.log(remaining); 
+                document.getElementById("caremaining" + [i]).style.backgroundColor = '#ff85a2';
+            }
+        }
+    }
+
+    function budopex() {
+        const nodes = document.getElementsByTagName("tr");
+        // console.log(nodes);
+        for (let i = 1; i < nodes.length; i++) {
+            //nodes[i].style.backgroundColor = "red";
+            let boremaining = document.getElementById("boremaining" + i);
+            let bobdgt = document.getElementById("bobudget" + i);
+
+            var bobdgtCount = bobdgt.getAttribute('data-value');
+            var boremCount = boremaining.getAttribute('data-value');
+
+            console.log(budget);
+            // console.log(bdgt, bdgt.getAttribute('data-value'));
+            if (boremCount > (bobdgtCount * 0.5)) {
+                // console.log(remCount > bdgtCount * 0.5);
+                document.getElementById("boremaining" + [i]).style.backgroundColor = '#BED7D1	';
+            } else if (boremCount < (bobdgtCount * 0.5) && (boremCount > bobdgtCount * 0.1)) {
+                document.getElementById("boremaining" + [i]).style.backgroundColor = '#F7EBC3';
+            } else {
+                // console.log(remaining); 
+                document.getElementById("boremaining" + [i]).style.backgroundColor = '#ff85a2';
+            }
+        }
+    }
+
+    function remopex() {
+        let nodes = document.getElementsByTagName('tr');
+        let nodes2 = nodes.getElementById('remopex');
+        console.log(nodes);
+        for (let i = 1; i < nodes.length; i++) {
+            //nodes[i].style.backgroundColor = "red";
+            let roremaining = document.getElementById("roremaining" + i);
+            let robdgt = document.getElementById("robudget" + i);
+
+            var robdgtCount = robdgt.getAttribute('data-value');
+            var roremCount = roremaining.getAttribute('data-value');
+            console.log(budget);
+            // console.log(bdgt, bdgt.getAttribute('data-value'));
+            if (roremCount > (robdgtCount * 0.5)) {
+                // console.log(remCount > bdgtCount * 0.5);
+                document.getElementById("roremaining" + [i]).style.backgroundColor = '#BED7D1	';
+            } else if (roremCount < (robdgtCount * 0.5) && (roremCount > robdgtCount * 0.1)) {
+                document.getElementById("roremaining" + [i]).style.backgroundColor = '#F7EBC3';
+            } else {
+                // console.log(remaining); 
+                document.getElementById("roremaining" + [i]).style.backgroundColor = '#ff85a2';
+            }
         }
     }
 </script>
