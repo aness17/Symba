@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 require APPPATH . "libraries/format.php";
-require APPPATH . "libraries/RestController.php";
+// require APPPATH . "libraries/RestController.php";
 
 use chriskacerguis\RestServer\RestController;
 
@@ -110,6 +110,18 @@ class Admin extends CI_Controller
         $this->load->view('templates/header');
         $this->load->view('templates/sidebar_admin', $data);
         $this->load->view('admin/dashboard', $data);
+        $this->load->view('templates/footer');
+    }
+    public function Log()
+    {
+        $log = $this->Log_model->selectAll();
+        $data = [
+            'log' => $log,
+            'heading' => ''
+        ];
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar_admin', $data);
+        $this->load->view('admin/log', $data);
         $this->load->view('templates/footer');
     }
     public function chooseadd()

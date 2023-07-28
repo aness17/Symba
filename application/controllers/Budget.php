@@ -277,7 +277,8 @@ class Budget extends CI_Controller
                     'id_bdgt' => $find[0]['id_bdgt'],
                     'budget_year' => $periode
                 ];
-                // var_dump($db);die;
+                // var_dump($db);
+                // die;
                 $budget = $this->DetailBudget_model->create($db);
                 $header = $find[0]['id_bdgt'];
                 $p = $this->Budget_model->selectheader($header);
@@ -321,7 +322,8 @@ class Budget extends CI_Controller
                     'id_bdgt' => $idbdgt,
                     'budget_year' => $periode
                 ];
-                // var_dump($db);die;
+                // var_dump($db);
+                // die;
                 // id_account,subacc,product,id_user,description,source,category,doc_ref,doc_number,desc_source,currency,amount_debit,amount_credit,create_date,status
                 if ($this->DetailBudget_model->create($db) > 0) {
                     // $id = $id;

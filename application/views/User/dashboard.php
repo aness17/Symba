@@ -312,8 +312,8 @@
                                                 <td><?= $no; ?></td>
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
                                                 <td><?= $bg['remark_acc'] ?></td>
-                                                <td><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
-                                                <td><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", "."); ?> IDR</td>
+                                                <td id="bdgt<?= $no ?>" data-value="<?= $bg['total_budget'] ?>"><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
+                                                <td id="remaining<?= $no ?>" data-value="<?= $bg['total_budget'] - $bg['debit'] + $bg['credit'] ?>"><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", "."); ?> IDR</td>
                                                 <td><a href="#detailbudget" onclick="dtl_budget(<?= $bg['id_user'] ?>,<?= $thn ?>,<?= $bg['id_bdgt'] ?>)" class="fa fa-binoculars" style="color:blue" data-toggle="modal">
                                                     </a></td>
                                             </tr>
@@ -411,8 +411,8 @@
                                                 <td><?= $bg['description'] ?></td>
                                                 <!-- <td><?= $bg['source'] ?></td> -->
                                                 <!-- <td><?= $bg['currency'] ?></td> -->
-                                                <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
-                                                <td><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
+                                                <td id="bdgt<?= $no ?>" data-value="<?= $bg['amount_debit'] ?>"><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
+                                                <td id="remaining<?= $no ?>" data-value="<?= $bg['amount_debit'] - $bg['debit'] + $bg['credit'] ?>"><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
                                                 <td><a href="#myModal2" <?php if ($bg['status'] == 'yes') {
                                                                             echo 'class="btn btn-success"';
                                                                         } else {
@@ -475,8 +475,8 @@
                                                 <td><?= $no; ?></td>
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
                                                 <td><?= $bg['remark_acc'] ?></td>
-                                                <td><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
-                                                <td><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", "."); ?> IDR</td>
+                                                <td id="bdgt<?= $no ?>" data-value="<?= $bg['total_budget'] ?>"><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
+                                                <td id="remaining<?= $no ?>" data-value="<?= $bg['total_budget'] - $bg['debit'] + $bg['credit'] ?>"><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", "."); ?> IDR</td>
                                                 <td><a href="#detailbudget" onclick="dtl_budget(<?= $bg['id_user'] ?>,<?= $thn ?>,<?= $bg['id_bdgt'] ?>)" class="fa fa-binoculars" style="color:blue" data-toggle="modal">
                                                     </a></td>
                                             </tr>
@@ -573,8 +573,8 @@
                                                 <td><?= $bg['description'] ?></td>
                                                 <!-- <td><?= $bg['source'] ?></td> -->
                                                 <!-- <td><?= $bg['currency'] ?></td> -->
-                                                <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
-                                                <td><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
+                                                <td id="bdgt<?= $no ?>" data-value="<?= $bg['amount_debit'] ?>"><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
+                                                <td id="remaining<?= $no ?>" data-value="<?= $bg['amount_debit'] - $bg['debit'] + $bg['credit'] ?>"><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
                                                 <td><a href="#myModal2" <?php if ($bg['status'] == 'yes') {
                                                                             echo 'class="btn btn-success"';
                                                                         } else {
@@ -633,5 +633,27 @@
     </div>
 </div>
 
-
+<script>
+    const nodes = document.getElementsByTagName("tr");
+    // console.log(nodes);
+    for (let i = 1; i < nodes.length; i++) {
+        //nodes[i].style.backgroundColor = "red";
+        let remaining = document.getElementById("remaining" + [i]);
+        let bdgt = document.getElementById("bdgt" + i);
+        // console.log(i);
+        var bdgtCount = bdgt.getAttribute('data-value');
+        var remCount = remaining.getAttribute('data-value');
+        console.log(remCount, bdgtCount * 0.5);
+        // console.log(bdgt, bdgt.getAttribute('data-value'));
+        if (remCount > (bdgtCount * 0.5)) {
+            // console.log(remCount > bdgtCount * 0.5);
+            document.getElementById("remaining" + [i]).style.backgroundColor = '#BED7D1	';
+        } else if (remCount < (bdgtCount * 0.5) && (remCount > bdgtCount * 0.1)) {
+            document.getElementById("remaining" + [i]).style.backgroundColor = '#F7EBC3';
+        } else {
+            // console.log(remaining); 
+            document.getElementById("remaining" + [i]).style.backgroundColor = '#ff85a2';
+        }
+    }
+</script>
 <!-- End of Main Content -->
