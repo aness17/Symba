@@ -272,7 +272,7 @@
                     <div class="d-flex justify-content-between">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" onclick="budcapex()" href="#tab-1">BUDGET DATA</a>
+                                <a class="nav-link active" data-toggle="tab" onclick="budcapex()" href="#tab-1">BUDGET DATA</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tab-2">ACTUAL DATA</a>
@@ -308,12 +308,18 @@
                                     <tbody class="list">
                                         <?php $no = 1;
                                         foreach ($budgetcapex as $bg) : ?>
-                                            <tr style="text-align: center;" id="budcapex">
+                                            <tr style="text-align: center;" id="trbudcapex">
                                                 <td><?= $no; ?></td>
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
                                                 <td><?= $bg['remark_acc'] ?></td>
                                                 <td id="budget<?= $no ?>" data-value="<?= $bg['total_budget'] ?>"><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
-                                                <td id="remaining<?= $no ?>" data-value="<?= $bg['total_budget'] - $bg['debit'] + $bg['credit'] ?>"><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", "."); ?> IDR</td>
+                                                <td <?php if (($bg['total_budget'] - $bg['debit'] + $bg['credit']) > ($bg['total_budget'] * 0.5)) {
+                                                        echo "style='background-color: #BED7D1'";
+                                                    } else if (($bg['total_budget'] - $bg['debit'] + $bg['credit']) < ($bg['total_budget'] * 0.5) && (($bg['total_budget'] - $bg['debit'] + $bg['credit']) > $bg['amount_debit'] * 0.1)) {
+                                                        echo "style='background-color: #F7EBC3'";
+                                                    } else {
+                                                        echo "style='background-color: #ff85a2'";
+                                                    } ?>><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> IDR</td>
                                                 <td><a href="#detailbudget" onclick="dtl_budget(<?= $bg['id_user'] ?>,<?= $thn ?>,<?= $bg['id_bdgt'] ?>)" class="fa fa-binoculars" style="color:blue" data-toggle="modal">
                                                     </a></td>
                                             </tr>
@@ -387,8 +393,8 @@
                                         <tr style="text-align: center;">
                                             <th style="width: 22px;">No</th>
                                             <th style="width: 202px;">Account</th>
-                                            <th style="width: 215px;">Description source of module</th>
-                                            <th style="width: 315px;">Description</th>
+                                            <th style="width: 215px;">Description Budget</th>
+                                            <th style="width: 315px;">Description Actual</th>
                                             <!-- <th>Source</th> -->
                                             <!-- <th>Category</th> -->
                                             <!-- <th>Currency</th> -->
@@ -402,7 +408,7 @@
                                         <?php $no = 1;
                                         // $user = $this->db->query("SELECT * FROM user where fk_role = '2'");
                                         foreach ($sisabudgetcapex as $bg) : ?>
-                                            <tr style="text-align: center;" id="remcapex">
+                                            <tr style="text-align: center;" id="trremcapex">
                                                 <input type="hidden" id="id_budget" value="<?= $bg['id_budget'] ?>">
                                                 <input type="hidden" id="id_user" value="<?= $bg['id_user'] ?>">
                                                 <td><?= $no; ?></td>
@@ -412,7 +418,13 @@
                                                 <!-- <td><?= $bg['source'] ?></td> -->
                                                 <!-- <td><?= $bg['currency'] ?></td> -->
                                                 <td id="cabudget<?= $no ?>" data-value="<?= $bg['amount_debit'] ?>"><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
-                                                <td id="caremaining<?= $no ?>" data-value="<?= $bg['amount_debit'] - $bg['debit'] + $bg['credit'] ?>"><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
+                                                <td <?php if (($bg['amount_debit'] - $bg['debit'] + $bg['credit']) > ($bg['amount_debit'] * 0.5)) {
+                                                        echo "style='background-color: #BED7D1'";
+                                                    } else if (($bg['amount_debit'] - $bg['debit'] + $bg['credit']) < ($bg['amount_debit'] * 0.5) && (($bg['total_budget'] - $bg['debit'] + $bg['credit']) > $bg['amount_debit'] * 0.1)) {
+                                                        echo "style='background-color: #F7EBC3'";
+                                                    } else {
+                                                        echo "style='background-color: #ff85a2'";
+                                                    } ?>><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
                                                 <td><a href="#myModal2" <?php if ($bg['status'] == 'yes') {
                                                                             echo 'class="btn btn-success"';
                                                                         } else {
@@ -435,7 +447,7 @@
                     <div class="d-flex justify-content-between">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" onclick="budopex()" href="#opex-1">BUDGET DATA</a>
+                                <a class="nav-link active" data-toggle="tab" onclick="budopex()" href="#opex-1">BUDGET DATA</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#opex-2">ACTUAL DATA</a>
@@ -471,12 +483,18 @@
                                     <tbody class="list">
                                         <?php $no = 1;
                                         foreach ($budgetopex as $bg) : ?>
-                                            <tr style="text-align: center;" id="budopex">
+                                            <tr style="text-align: center;" id="trbudopex">
                                                 <td><?= $no; ?></td>
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
                                                 <td><?= $bg['remark_acc'] ?></td>
                                                 <td id="bobudget<?= $no ?>" data-value="<?= $bg['total_budget'] ?>"><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
-                                                <td id="boremaining<?= $no ?>" data-value="<?= $bg['total_budget'] - $bg['debit'] + $bg['credit'] ?>"><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", "."); ?> IDR</td>
+                                                <td <?php if (($bg['total_budget'] - $bg['debit'] + $bg['credit']) > ($bg['total_budget'] * 0.5)) {
+                                                        echo "style='background-color: #BED7D1'";
+                                                    } else if (($bg['total_budget'] - $bg['debit'] + $bg['credit']) < ($bg['total_budget'] * 0.5) && (($bg['total_budget'] - $bg['debit'] + $bg['credit']) > $bg['total_budget'] * 0.1)) {
+                                                        echo "style='background-color: #F7EBC3'";
+                                                    } else {
+                                                        echo "style='background-color: #ff85a2'";
+                                                    } ?>><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> IDR</td>
                                                 <td><a href="#detailbudget" onclick="dtl_budget(<?= $bg['id_user'] ?>,<?= $thn ?>,<?= $bg['id_bdgt'] ?>)" class="fa fa-binoculars" style="color:blue" data-toggle="modal">
                                                     </a></td>
                                             </tr>
@@ -501,7 +519,7 @@
                                             <th>No</th>
                                             <th style="width: 202px;">Account</th>
                                             <th style="width: 350px;">Description source of module</th>
-                                            <th style="width: 150px;">Description</th>
+                                            <th style="width: 100px;">Description</th>
                                             <!-- <th>Source</th> -->
                                             <!-- <th>Category</th> -->
                                             <!-- <th>Currency</th> -->
@@ -549,8 +567,8 @@
                                         <tr style="text-align: center;">
                                             <th style="width: 22px;">No</th>
                                             <th style="width: 202px;">Account</th>
-                                            <th style="width: 215px;">Description source of module</th>
-                                            <th style="width: 315px;">Description</th>
+                                            <th style="width: 215px;">Description Budget</th>
+                                            <th style="width: 315px;">Description Actual</th>
                                             <!-- <th>Source</th> -->
                                             <!-- <th>Category</th> -->
                                             <!-- <th>Currency</th> -->
@@ -564,7 +582,7 @@
                                         <?php $no = 1;
                                         // $user = $this->db->query("SELECT * FROM user where fk_role = '2'");
                                         foreach ($sisabudgetopex as $bg) : ?>
-                                            <tr style="text-align: center;" id="remopex">
+                                            <tr style="text-align: center;" id="trremopex<?= $no ?>">
                                                 <input type="hidden" id="id_budget" value="<?= $bg['id_budget'] ?>">
                                                 <input type="hidden" id="id_user" value="<?= $bg['id_user'] ?>">
                                                 <td><?= $no; ?></td>
@@ -574,7 +592,13 @@
                                                 <!-- <td><?= $bg['source'] ?></td> -->
                                                 <!-- <td><?= $bg['currency'] ?></td> -->
                                                 <td id="robudget<?= $no ?>" data-value="<?= $bg['amount_debit'] ?>"><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
-                                                <td id="roremaining<?= $no ?>" data-value="<?= $bg['amount_debit'] - $bg['debit'] + $bg['credit'] ?>"><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
+                                                <td <?php if (($bg['amount_debit'] - $bg['debit'] + $bg['credit']) > ($bg['amount_debit'] * 0.5)) {
+                                                        echo "style='background-color: #BED7D1'";
+                                                    } else if (($bg['amount_debit'] - $bg['debit'] + $bg['credit']) < ($bg['amount_debit'] * 0.5) && (($bg['amount_debit'] - $bg['debit'] + $bg['credit']) > $bg['amount_debit'] * 0.1)) {
+                                                        echo "style='background-color: #F7EBC3'";
+                                                    } else {
+                                                        echo "style='background-color: #ff85a2'";
+                                                    } ?>><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
                                                 <td><a href="#myModal2" <?php if ($bg['status'] == 'yes') {
                                                                             echo 'class="btn btn-success"';
                                                                         } else {
@@ -709,8 +733,7 @@
 
     function remopex() {
         let nodes = document.getElementsByTagName('tr');
-        let nodes2 = nodes.getElementById('remopex');
-        console.log(nodes);
+        // console.log(nodes);
         for (let i = 1; i < nodes.length; i++) {
             //nodes[i].style.backgroundColor = "red";
             let roremaining = document.getElementById("roremaining" + i);
