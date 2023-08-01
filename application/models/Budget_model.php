@@ -45,7 +45,7 @@ class Budget_model extends CI_Model
         JOIN `tdivision` `B` ON `G`.`id_dvn` = `B`.`id_dvn` JOIN `tdepartement` `F` ON `B`.`id_dpt`=`F`.`id_dpt` 
         JOIN `tcostcen` `C` ON `B`.`id_costcen`=`C`.`id_costcen` JOIN `tstation` `D` ON `B`.`id_station`=`D`.`id_station` 
         JOIN `taccount` `E` ON `A`.`id_acc` = `E`.`id_account` WHERE `A`.`periode_year` = $thn 
-        ORDER BY `tbl_actual_user`.`status`, G.id_user")->result_array();
+        ORDER BY  G.id_user ASC")->result_array();
         //return $this->db->get($this->table . " as A")->result_array();
     }
     public function selectbudgetuser($id, $thn, $cat)
