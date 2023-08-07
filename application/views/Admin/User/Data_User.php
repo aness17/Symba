@@ -30,34 +30,8 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody class="list">
-                        <?php $no = 1;
-                        // $user = $this->db->query("SELECT * FROM user where fk_role = '2'");
-                        foreach ($user as $user) : ?>
-                            <tr style="text-align: center;">
-                                <td><?= $no; ?></td>
-                                <td><img class="img-fluid" src="<?= base_url('fotouser/') . $user['fotouser'] ?>" alt="" style="width:75px ;"></td>
-                                <td><?= $user['name_user'] ?></td>
-                                <td><?= $user['username_user'] ?></td>
-                                <td><?= $user['division'] ?></td>
-                                <td><?= $user['name_dpt'] ?></td>
-                                <td><?= $user['name_costcenter'] ?></td>
-                                <td><?= $user['name_lob'] ?></td>
-                                <td><?= $user['name_station'] ?></td>
-                                <td><?= $user['roles'] ?></td>
-                                <td class="text-center">
-                                    <a href="<?= base_url('admin/edituser/' . $user['id_user']) ?>" type="button" class="fa fa-edit" style="color:green">
-                                    </a>
-                                    <a href="<?= base_url('admin/deleteuser/' . $user['id_user']) ?>" type="button" class="fa fa-trash" style="color:red" onclick="return confirm('Are you sure to delete this row ?')">
-                                    </a>
-                                    <a href="<?= base_url('admin/resetpassworduser/' . $user['id_user']) ?>" type="button" class="fa fa-lock" style="color:blue">
-                                    </a>
-                                    <!-- <a href=" <?= base_url('admin/resetpassworduser/' . $user['id_user']) ?>" type="button" class="fas fa-lock" style="color:blue">
-                                    </a> -->
-                                </td>
-                            </tr>
-                        <?php $no++;
-                        endforeach; ?>
+                    <tbody class="list" id="resultData">
+
                     </tbody>
                 </table>
             </div>
@@ -69,3 +43,66 @@
 
 </div>
 <!-- End of Main Content -->
+<script>
+    base_url = "http://192.168.111.92/Symba-API/";
+
+    $.ajax({
+        url: base_url + "User_api",
+        method: 'GET',
+        dataType: 'json',
+        success: function(resp) {
+            var len = resp.data.length;
+            // console.log(len);
+            for (var i = 0; i < len; i++) {
+                var id = resp.data[i].id_user;
+                var username = resp.data[i].username_user;
+                // var name = response[i].name;
+                // var email = response[i].email;
+                // console.log(id);
+                var row = '<tr style="text-align: center;">' +
+                    '<td>' + (i + 1) + '</td>' +
+                    '<td><img class="img-fluid" src="' + base_url + 'fotouser/' + resp.data[i].fotouser + '" alt="" style="width:75px ;"></td>' +
+                    '<td>' + resp.data[i].name_user + '</td>' +
+                    '<td>' + resp.data[i].username_user + '</td>' +
+                    '<td>' + resp.data[i].division + '</td>' +
+                    '<td>' + resp.data[i].name_dpt + '</td>' +
+                    '<td>' + resp.data[i].code_station + '</td>' +
+                    '<td>' + resp.data[i].name_lob + '</td>' +
+                    '<td>' + resp.data[i].name_station + '</td>' +
+                    '<td>' + resp.data[i].roles + '</td>' +
+                    '<td class = "text-center" >' +
+                    '<a href = "' + base_url + 'admin/edituser/' + id + '" type = "button" class = "fa fa-edit" style = "color:green" ></a>' +
+                    '<a type = "button" class = "fa fa-trash" style = "color:red" onclick = "user_delete(' + id + ');return confirm(\'Are you sure to delete this row ?\')"></a>' +
+                    '<a href = "' + base_url + 'admin/resetpassworduser/' + id + '" type = "button" class = "fa fa-lock" style = "color:blue" ></a></td>' +
+                    '</tr>'
+
+                // $("#resultData").html("");
+                $("#resultData").append(row);
+            }
+        }
+    })
+
+    function user_delete(id) {
+        $.ajax({
+            url: base_url + "User_api",
+            type: 'delete',
+            dataType: 'json',
+            data: {
+                id: id
+            },
+            success: function(response) {
+                console.log(response);
+                if (response.status == true) {
+                    window.location.replace(base_url + "admin/user");
+                    alert(response.message);
+                    // $('#addNewServivalModal').modal('hide').hide('slow').delay(3000).fadeOut(300);
+                } else {
+                    window.location.replace(base_url + "admin/user");
+                    alert(response.message);
+
+
+                }
+            },
+        });
+    }
+</script>

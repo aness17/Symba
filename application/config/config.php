@@ -24,7 +24,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 |
 */
 
-$config['base_url'] = 'http://192.168.111.179/symba-restapi/';
+$config['base_url'] = 'http://192.168.111.92/Symba-API/';
 
 /*
 |--------------------------------------------------------------------------

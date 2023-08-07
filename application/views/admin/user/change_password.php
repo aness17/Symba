@@ -4,7 +4,7 @@
         <!-- Project Card Example -->
         <div class="card shadow mb-12">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Add User</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Reset Password User</h6>
             </div>
             <div class="card-body">
                 <form method="POST" action="<?= base_url('admin/resetpassworduser/' . $user["id_user"]) ?>" class="row g-3" enctype="multipart/form-data">
