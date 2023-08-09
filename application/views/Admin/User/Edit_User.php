@@ -32,6 +32,7 @@
                                 <br>
                                 <label for="inputPassword4" class="form-label"><span class="text-danger">*</span>Foto User</label>
                                 <input type="file" multiple="true" name="fotouser" class="form-control" value="<?= $user["fotouser"] ?>" id="fotouser" accept=".png, .jpg, .jpeg" onchange="readURL(this);">
+                                <label id="labelfoto"><?= $user["fotouser"] ?></label>
                             </div>
                             <div class="col-6">
                                 <br>
@@ -107,21 +108,4 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
-
-        // Get a reference to our file input
-        const fileInput = document.querySelector('input[type="file"]');
-        let img = document.getElementById('img');
-        var val = img.getAttribute('data-value');
-
-        // console.log(val);
-        // Create a new File object
-        const myFile = new File(['Hello World!'], val, {
-            type: 'text/plain',
-            lastModified: new Date(),
-        });
-
-        // Now let's create a DataTransfer to get a FileList
-        const dataTransfer = new DataTransfer();
-        dataTransfer.items.add(myFile);
-        fileInput.files = dataTransfer.files;
     </script>

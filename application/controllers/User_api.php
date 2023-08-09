@@ -134,8 +134,8 @@ class User_api extends RestController
             // 'fotouser' => $this->upload->data()["file_name"],
         ];
         // echo "lalala";
-        var_dump($_FILES);
-        die;
+        // var_dump($_FILES);
+        // die;
         if ($_FILES["fotouser"]["name"] != "") {
             $config['upload_path']          = './fotouser/';
             $config['allowed_types']        = 'jpeg|jpg|png';
@@ -146,8 +146,8 @@ class User_api extends RestController
                 unlink(FCPATH . 'fotouser/' . $data["fotouser"]);
                 $db['fotouser'] = $this->upload->data()["file_name"];
             } else {
-                // var_dump($this->upload->display_errors());
-                // die;
+                var_dump($this->upload->display_errors());
+                die;
                 redirect('admin/edituser/' . $id);
             }
         }
