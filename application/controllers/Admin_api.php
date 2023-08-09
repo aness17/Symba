@@ -1,11 +1,11 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 require APPPATH . "libraries/format.php";
-// require APPPATH . "libraries/RestController.php";
+require APPPATH . "libraries/RestController.php";
 
 use chriskacerguis\RestServer\RestController;
 
-class Admin extends CI_Controller
+class Admin extends RestController
 {
 
     /**
@@ -27,46 +27,30 @@ class Admin extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('User_model', 'user');
+        $this->load->model('User_model');
         $this->load->model('Account_model');
         $this->load->model('Departement_model');
-        $this->load->model('Division_model', 'dvn');
+        $this->load->model('Division_model');
         $this->load->model('Station_model');
         $this->load->model('DetailBudget_model');
         $this->load->model('Actual_model');
         $this->load->model('Costcen_model');
         $this->load->model('Lob_model');
         $this->load->model('Items_model');
-        $this->load->model('Roles_model', 'role');
+        $this->load->model('Roles_model');
         $this->load->model('Budget_model');
         $this->load->model('Travelda_model');
         $this->load->model('Log_model');
         $this->cekauth();
 
-        $_SESSION['login_time'] = time();
         if ($this->session->userdata('id') === null) {
-            redirect('auth');
+            redirect('auth/');
         }
     }
 
     public function cekauth()
     {
         $ci = get_instance();
-        $id = $ci->session->userdata('id');
-        $ip = $this->input->ip_address();
-        if (time() - $_SESSION['login_time'] >= 1800) {
-            session_destroy();
-            $data = [
-                'id_user' => $id,
-                'remarks' => 'Session Timeout',
-                'ip_add' => $ip
-            ];
-            // var_dump($data);die;
-            $this->Log_model->create($data);
-            redirect('auth/');
-        }
-        // var_dump(time());
-        // die;
         if ($ci->session->userdata('id_role') != '1') {
             $this->session->set_flashdata('message_login', $this->flasher('success', 'Your not authorized'));
             $this->session->unset_userdata('id_user');
@@ -75,17 +59,17 @@ class Admin extends CI_Controller
             redirect('auth/');
         }
     }
-    public function index()
+    public function index_post()
     {
         // $bg = $this->DetailBudget_model->summary();
         // $actual = $this->Actual_model->summary();
         $this->form_validation->set_rules('tahun', 'tahun', 'required');
 
-        $thn = $this->input->post('tahun');
+        $thn = $this->post('tahun');
         $thn = '';
 
         if ($this->form_validation->run() == true) {
-            $thn = $this->input->post('tahun');
+            $thn = $this->post('tahun');
         } else {
             $thn = date('Y');
         }
@@ -145,7 +129,7 @@ class Admin extends CI_Controller
         // $ci = get_instance();
 
         // $id = $ci->session->userdata('id');
-        // $user = $this->user->selectUser($id);
+        // $user = $this->User_model->selectUser($id);
         // // $sisa = $bg['amount_debit']-$actual['amount_debit'];
         // // $bg = $this->DetailBudget_model->selectAll();
         // // $actual = $this->Actual_model->useractById($id);
@@ -267,29 +251,78 @@ class Admin extends CI_Controller
     }
     public function User()
     {
-        $user = $this->user->selectAll();
+        $user = $this->User_model->selectAll();
         $data = [
-            'user' => $user,
+            // 'user' => $user,
             'heading' => 'user'
         ];
-        $this->load->view('templates/header');
-        $this->load->view('templates/sidebar_admin', $data);
-        $this->load->view('admin/user/data_user', $data);
-        $this->load->view('templates/footer');
+        $a = json_encode($user);
+        echo $a;
+        // var_dump($data);
+        // die;
+        // $this->load->view('templates/header');
+        // $this->load->view('templates/sidebar_admin', $data);
+        // $this->load->view('admin/user/data_user');
+        // $this->load->view('templates/footer');
     }
     public function adduser()
     {
-        $dvn = $this->dvn->selectAll();
-        $role = $this->role->selectAll();
+
+        $this->form_validation->set_rules('nameuser', 'Nama User', 'required');
+        $this->form_validation->set_rules('username', 'Username', 'required|is_unique[tuser.username_user]');
+        $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
+        $this->form_validation->set_rules('dvn', 'Division', 'required');
+        $this->form_validation->set_rules('role', 'Role', 'required');
+
+        $dvn = $this->Division_model->selectAll();
+        $role = $this->Roles_model->selectAll();
         $data = [
             'dvn' => $dvn,
             'role' => $role,
             'heading' => 'user'
         ];
-        $this->load->view('templates/header');
-        $this->load->view('templates/sidebar_admin', $data);
-        $this->load->view('admin/user/add_user', $data);
-        $this->load->view('templates/footer');
+        if ($this->form_validation->run() == true) {
+            $config['upload_path']          = './fotouser/';
+            $config['allowed_types']        = 'gif|jpg|png';
+            $config['max_size']             = 1000;
+
+            $this->load->library('upload', $config);
+
+            if ($this->upload->do_upload('fotouser')) {
+                $last = explode("V", $this->User_model->getLastId()["id_user"])[1];
+                $db = [
+                    'name_user' => $this->input->post('nameuser'),
+                    'username_user' => $this->input->post('username'),
+                    'password_user' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+                    'id_dvn' => $this->input->post('dvn'),
+                    'id_role' => $this->input->post('role'),
+                    'fotouser' => $this->upload->data()["file_name"],
+
+                    // 'id_access' =>
+                ];
+
+                // var_dump($db);die;
+                if ($this->User_model->createuser($db) > 0) {
+                    $this->session->set_flashdata('message_login', $this->flasher('success', 'User has been registered!'));
+                    redirect('admin/user');
+                } else {
+                    echo "Failed to create User";
+                    die;
+                    $this->session->set_flashdata('message_login', $this->flasher('danger', 'Failed to create User'));
+                }
+
+                // }
+                // redirect('admin/pelanggan/tambahpelanggan');
+            } else {
+                $this->session->set_flashdata('message_login', $this->flasher('danger', $this->upload->display_errors()));
+                redirect('admin/user');
+            }
+        } else {
+            $this->load->view('templates/header');
+            $this->load->view('templates/sidebar_admin', $data);
+            $this->load->view('admin/user/add_user', $data);
+            $this->load->view('templates/footer');
+        }
     }
 
     public function edituser($id)
@@ -301,9 +334,9 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('dvn', 'Division', 'required');
         $this->form_validation->set_rules('role', 'Role', 'required');
 
-        $user = $this->user->getUserById($id);
-        $dvn = $this->dvn->selectAll();
-        $role = $this->role->selectAll();
+        $user = $this->User_model->getUserById($id);
+        $dvn = $this->Division_model->selectAll();
+        $role = $this->Roles_model->selectAll();
         $data = [
             'user' => $user,
             'dvn' => $dvn,
@@ -311,8 +344,7 @@ class Admin extends CI_Controller
             'heading' => 'user'
         ];
         // if ($id == "") {
-        // var_dump($user['fotouser']);
-        // die;
+        // var_dump($user['id_station']);die;
         if ($this->form_validation->run() == true) {
             $db = [
                 'id_user' => $id,
@@ -339,7 +371,7 @@ class Admin extends CI_Controller
                 }
             }
             // var_dump($db);die;
-            if ($this->user->update($db) > 0) {
+            if ($this->User_model->update($db) > 0) {
                 $this->session->set_flashdata('message', $this->flasher('success', 'Success To Edit Data'));
             } else {
                 $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Edit Data'));
@@ -360,7 +392,7 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('username', 'Username', '');
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
 
-        $user = $this->user->getUserById($id);
+        $user = $this->User_model->getUserById($id);
         $data = [
             'user' => $user,
             'heading' => 'user'
@@ -376,7 +408,7 @@ class Admin extends CI_Controller
             ];
             // var_dump($db);
             // die;
-            if ($this->user->update($db) > 0) {
+            if ($this->User_model->update($db) > 0) {
                 $this->session->set_flashdata('message', $this->flasher('success', 'Success To Edit Data'));
                 redirect('admin/user');
             } else {
@@ -396,7 +428,7 @@ class Admin extends CI_Controller
     public function deleteuser($id)
     {
         if ($id) {
-            if ($this->user->delete($id) > 0) {
+            if ($this->User_model->delete($id) > 0) {
                 $this->session->set_flashdata('message', $this->flasher('success', 'Success To Add Data'));
             } else {
                 $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Add Data'));
@@ -409,7 +441,7 @@ class Admin extends CI_Controller
     }
     public function dvn()
     {
-        $dvn = $this->dvn->selectAll();
+        $dvn = $this->Division_model->selectAll();
         $data = [
             'dvn' => $dvn,
             'heading' => 'dvn'
@@ -451,7 +483,7 @@ class Admin extends CI_Controller
             ];
 
 
-            if ($this->dvn->createdvn($db) > 0) {
+            if ($this->Division_model->createdvn($db) > 0) {
                 $this->session->set_flashdata('message_login', $this->flasher('success', 'Division has been registered!'));
                 redirect('admin/dvn');
             } else {
@@ -479,7 +511,7 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('lob', 'LOB', 'required');
         $this->form_validation->set_rules('station', 'Station', 'required');
 
-        $dvn = $this->dvn->getdvnById($id);
+        $dvn = $this->Division_model->getdvnById($id);
         $dpt = $this->Departement_model->selectAll();
         $cc = $this->Costcen_model->SelectAll();
         $station = $this->Station_model->selectAll();
@@ -503,7 +535,7 @@ class Admin extends CI_Controller
                 'id_lob' => $this->input->post('lob'),
                 'id_station' => $this->input->post('station')
             ];
-            if ($this->dvn->update($db) > 0) {
+            if ($this->Division_model->update($db) > 0) {
                 $this->session->set_flashdata('message', $this->flasher('success', 'Success To Edit Data'));
             } else {
                 $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Edit Data'));
@@ -522,7 +554,7 @@ class Admin extends CI_Controller
     {
 
         if ($id) {
-            if ($this->dvn->delete($id) > 0) {
+            if ($this->Division_model->delete($id) > 0) {
                 $this->session->set_flashdata('message', $this->flasher('success', 'Success To Add Data'));
             } else {
                 $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Add Data'));
@@ -895,7 +927,7 @@ class Admin extends CI_Controller
 
     public function Roles()
     {
-        $roles = $this->role->selectAll();
+        $roles = $this->Roles_model->selectAll();
         $data = [
             'roles' => $roles,
             'heading' => 'master'
@@ -916,7 +948,7 @@ class Admin extends CI_Controller
             ];
 
 
-            if ($this->role->createroles($db) > 0) {
+            if ($this->Roles_model->createroles($db) > 0) {
                 $this->session->set_flashdata('message_login', $this->flasher('success', 'lob has been registered!'));
                 redirect('admin/roles');
             } else {
@@ -940,7 +972,7 @@ class Admin extends CI_Controller
     {
         $this->form_validation->set_rules('roles', 'roles Name', 'required');
 
-        $roles = $this->role->getroleById($id);
+        $roles = $this->Roles_model->getroleById($id);
         $data = [
             'roles' => $roles,
             'heading' => 'master'
@@ -952,7 +984,7 @@ class Admin extends CI_Controller
                 'id_role' => $id,
                 'roles' => $this->input->post('roles')
             ];
-            if ($this->role->update($db) > 0) {
+            if ($this->Roles_model->update($db) > 0) {
                 $this->session->set_flashdata('message', $this->flasher('success', 'Success To Edit Data'));
             } else {
                 $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Edit Data'));
@@ -970,7 +1002,7 @@ class Admin extends CI_Controller
     public function deleteroles($id)
     {
         if ($id) {
-            if ($this->role->delete($id) > 0) {
+            if ($this->Roles_model->delete($id) > 0) {
                 $this->session->set_flashdata('message', $this->flasher('success', 'Success To Add Data'));
             } else {
                 $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Add Data'));

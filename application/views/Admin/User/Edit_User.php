@@ -66,9 +66,11 @@
         <!-- </div>
         </div>
     </div> -->
-
     </div>
+    </main>
     <script>
+        base_url = "http://192.168.111.28/Symba-API/";
+
         function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();

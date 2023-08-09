@@ -8,9 +8,32 @@ class User_model extends CI_Model
 
     public function createuser($data)
     {
-        return $this->db->insert($this->table, $data);
+        $this->db->insert($this->table, $data);
+        return $this->db->affected_rows();
     }
-
+    public function getUsers($id = NULL)
+    {
+        if ($id === null) {
+            $this->db->join('tdivision B', 'A.id_dvn=B.id_dvn');
+            $this->db->join('tdepartement G', 'B.id_dpt=G.id_dpt');
+            $this->db->join('tcostcen C', 'B.id_costcen=C.id_costcen');
+            $this->db->join('tstation D', 'B.id_station=D.id_station');
+            $this->db->join('tlob E', 'B.id_lob=E.id_lob');
+            $this->db->join('trole_user F', 'A.id_role=F.id_role');
+            $this->db->where('F.id_role !=', 1);
+            return $this->db->get($this->table . " as A")->result_array();
+        } else {
+            $this->db->select('A.name_user,G.name_dpt,C.name_costcenter,D.name_station,E.name_lob,B.division,A.fotouser,A.id_role');
+            $this->db->join('tdivision B', 'A.id_dvn=B.id_dvn');
+            $this->db->join('tdepartement G', 'B.id_dpt=G.id_dpt');
+            $this->db->join('tcostcen C', 'B.id_costcen=C.id_costcen');
+            $this->db->join('tstation D', 'B.id_station=D.id_station');
+            $this->db->join('tlob E', 'B.id_lob=E.id_lob');
+            $this->db->join('trole_user F', 'A.id_role=F.id_role');
+            $this->db->where('id_user', $id);
+            return $this->db->get($this->table . " as A")->result_array();
+        }
+    }
     public function selectAll()
     {
         $this->db->join('tdivision B', 'A.id_dvn=B.id_dvn');
@@ -67,8 +90,10 @@ class User_model extends CI_Model
     }
     public function delete($id)
     {
-        $this->db->where($this->primary, $id);
-        return $this->db->delete($this->table);
+        $this->db->delete($this->table, [$this->primary => $id]);
+        return $this->db->affected_rows();
+        // $this->db->where($this->primary, $id);
+        // return $this->db->delete($this->table);
     }
     public function getLastId()
     {

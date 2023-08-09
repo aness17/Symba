@@ -38,6 +38,7 @@ class Budget extends CI_Controller
         $this->load->model('Actual_model');
         $this->load->model('Travelda_model');
         $this->cekauth();
+        $_SESSION['login_time'] = time();
 
         if ($this->session->userdata('id') === null) {
             redirect('auth');
@@ -46,6 +47,19 @@ class Budget extends CI_Controller
     public function cekauth()
     {
         $ci = get_instance();
+        $id = $ci->session->userdata('id');
+        $ip = $this->input->ip_address();
+        if (time() - $_SESSION['login_time'] >= 1800) {
+            session_destroy();
+            $data = [
+                'id_user' => $id,
+                'remarks' => 'Session Timeout',
+                'ip_add' => $ip
+            ];
+            // var_dump($data);die;
+            $this->Log_model->create($data);
+            redirect('auth/');
+        }
         if ($ci->session->userdata('id_role') == '2') {
             $this->session->set_flashdata('message_login', $this->flasher('success', 'Your not authorized'));
             $this->session->unset_userdata('id_user');

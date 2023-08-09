@@ -121,7 +121,7 @@
                         }
                     }
                     ?>
-                    <input type="text" id="diagram" value="<?= $hasil; ?>">
+                    <input type="hidden" id="diagram" value="<?= $hasil; ?>">
                     <div class="mt-4 text-center small">
                         <!-- Button trigger modal -->
                         <div class="modal fade sisabudget" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-dismiss="modal">
