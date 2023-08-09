@@ -44,7 +44,7 @@
 </div>
 <!-- End of Main Content -->
 <script>
-    base_url = "http://192.168.111.92/Symba-API/";
+    base_url = "http://192.168.111.28/Symba-API/";
 
     $.ajax({
         url: base_url + "User_api",

@@ -26,12 +26,26 @@ class Auth extends CI_Controller
         parent::__construct();
         $this->load->model('User_model');
         $this->load->model('Log_model');
+        $_SESSION['login_time'] = time();
     }
 
     public function index()
     {
-        // echo "TEST WORK !";
         $ci = get_instance();
+        $id = $ci->session->userdata('id');
+        $ip = $this->input->ip_address();
+        if (time() - $_SESSION['login_time'] >= 1800) {
+            session_destroy();
+            $data = [
+                'id_user' => $id,
+                'remarks' => 'Session Timeout',
+                'ip_add' => $ip
+            ];
+            // var_dump($data);die;
+            $this->Log_model->create($data);
+            redirect('auth/');
+        }
+        // echo "TEST WORK !";
         if ($ci->session->userdata('id_role') == '1') {
             redirect('admin');
         } elseif ($ci->session->userdata('id_role') == '2' || $ci->session->userdata('id_role') == '3') {

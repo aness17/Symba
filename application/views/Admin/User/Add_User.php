@@ -31,8 +31,17 @@
                         </select>
                     </div>
                     <div class="col-12">
-                        <label for="inputPassword4" class="form-label"><span class="text-danger">*</span>Foto User</label>
-                        <input type="file" multiple="true" name="fotouser" class="form-control" id="fotouser" accept=".png, .jpg, .jpeg" onchange="readURL(this);" required>
+                        <div class="row">
+                            <div class="col-6">
+                                <br>
+                                <label for="fotouser" class="form-label"><span class="text-danger">*</span>Foto User</label>
+                                <input type="file" multiple="true" name="fotouser" class="form-control" id="fotouser" accept=".png, .jpg, .jpeg" onchange="readURL(this);" required>
+                            </div>
+                            <div class="col-6">
+                                <br>
+                                <img class="img-responsive img-portfolio img-hover" id="blah" src="#" alt="your image" width="150px" height="auto" />
+                            </div>
+                        </div>
                     </div>
                     <div class=" col-12">
                         <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Role User</label>
@@ -64,7 +73,7 @@
             $('select').selectpicker();
         });
 
-        base_url = "http://192.168.111.92/Symba-API/";
+        base_url = "http://192.168.111.28/Symba-API/";
 
         $(document).ready(function() {
             $('#adduser').on('submit', function(e) {

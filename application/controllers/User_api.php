@@ -86,7 +86,7 @@ class User_api extends RestController
     {
         if (isset($_FILES["fotouser"]["name"])) {
             $config['upload_path']          = './fotouser/';
-            $config['allowed_types']        = 'gif|jpg|png';
+            $config['allowed_types']        = 'jpeg|jpg|png';
             $config['max_size']             = 1000;
             $this->load->library('upload', $config);
 
@@ -133,9 +133,12 @@ class User_api extends RestController
             'id_role' => $this->post('role'),
             // 'fotouser' => $this->upload->data()["file_name"],
         ];
+        // echo "lalala";
+        var_dump($_FILES);
+        die;
         if ($_FILES["fotouser"]["name"] != "") {
             $config['upload_path']          = './fotouser/';
-            $config['allowed_types']        = 'gif|jpg|png';
+            $config['allowed_types']        = 'jpeg|jpg|png';
             $config['max_size']             = 1000;
 
             $this->load->library('upload', $config);
@@ -143,8 +146,8 @@ class User_api extends RestController
                 unlink(FCPATH . 'fotouser/' . $data["fotouser"]);
                 $db['fotouser'] = $this->upload->data()["file_name"];
             } else {
-                var_dump($this->upload->display_errors());
-                die;
+                // var_dump($this->upload->display_errors());
+                // die;
                 redirect('admin/edituser/' . $id);
             }
         }
