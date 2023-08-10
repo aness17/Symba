@@ -7,8 +7,7 @@
                 <h6 class="m-0 font-weight-bold text-primary">Edit User</h6>
             </div>
             <div class="card-body">
-                <form method="POST" id="edituser" class="row g-3" enctype="multipart/form-data">
-                    <input type="hidden" id="id" value="<?= $user["id_user"] ?>">
+                <form method="POST" action="<?= base_url('admin/edituser/' . $user["id_user"]) ?>" class="row g-3" enctype="multipart/form-data">
                     <div class="col-12">
                         <label for="nameuser" class="form-label"><span class="text-danger">*</span>Name User</label>
                         <input type="text" name="nameuser" class="form-control" id="nameuser" value="<?= $user["name_user"] ?>">
@@ -113,7 +112,24 @@
                     $('#blah')
                         .attr('src', e.target.result);
                 };
+
                 reader.readAsDataURL(input.files[0]);
             }
         }
+        const fileInput = document.querySelector('input[type="file"]');
+        let img = document.getElementById('img');
+        var val = img.getAttribute('data-value');
+
+        console.log(val);
+        // Create a new File object
+        const myFile = new File(['Hello World!'], val, {
+            type: 'text/plain',
+            lastModified: new Date(),
+        });
+
+        // Now let's create a DataTransfer to get a FileList
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(myFile);
+        fileInput.files = dataTransfer.files;
     </script>
+    </main><!-- End #main -->
