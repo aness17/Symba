@@ -10,15 +10,19 @@
                 <form method="POST" id="edituser" class="row g-3" enctype="multipart/form-data">
                     <input type="hidden" id="id" value="<?= $user["id_user"] ?>">
                     <div class="col-12">
-                        <label for="nameuser" class="form-label">Name User</label>
+                        <label for="nameuser" class="form-label"><span class="text-danger">*</span>Name User</label>
                         <input type="text" name="nameuser" class="form-control" id="nameuser" value="<?= $user["name_user"] ?>">
                     </div>
                     <div class="col-12">
-                        <label for="username" class="form-label">Username</label>
+                        <label for="username" class="form-label"><span class="text-danger">*</span>Username</label>
                         <input type="text" name="username" class="form-control" id="username" value="<?= $user["username_user"] ?>">
                     </div>
                     <div class="col-12">
-                        <label for="inputNanme4" class="form-label">Division</label>
+                        <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Password</label>
+                        <input type="password" name="password" class="form-control" id="password" autocomplete="on">
+                    </div>
+                    <div class="col-12">
+                        <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Division</label>
                         <select name="dvn" class="form-control" id="dvn" name="dvn">
                             <?php
                             foreach ($dvn as $dvn) : ?>
@@ -30,19 +34,19 @@
                         <div class="row">
                             <div class="col-6">
                                 <br>
-                                <label for="inputPassword4" class="form-label"><span class="text-danger">*</span>Foto User</label>
+                                <label for="inputPassword4" class="form-label"><span class="text-danger">*</span>Foto User (.png /.jpg /.jpeg)</label>
                                 <input type="file" multiple="true" name="fotouser" class="form-control" value="<?= $user["fotouser"] ?>" id="fotouser" accept=".png, .jpg, .jpeg" onchange="readURL(this);">
                                 <label id="labelfoto"><?= $user["fotouser"] ?></label>
                             </div>
                             <div class="col-6">
                                 <br>
-                                <input type="hidden" name="img" id="img" data-value="<?= $user["fotouser"] ?>">
+                                <!-- <input type="hidden" name="img" id="img" data-value="<?= $user["fotouser"] ?>"> -->
                                 <img class="img-responsive img-portfolio img-hover" id="blah" src="<?= base_url() ?>fotouser/<?= $user["fotouser"] ?>" alt="your image" width="150px" height="auto" />
                             </div>
                         </div>
                     </div>
                     <div class="col-12">
-                        <label for="role" class="form-label">Role User</label>
+                        <label for="role" class="form-label"><span class="text-danger">*</span>Role User</label>
                         <select name="role" class="form-control" id="role" name="role">
                             <?php
                             foreach ($role as $role) : ?>
@@ -82,16 +86,20 @@
                     success: function(res) {
                         console.log(res);
                         if (res.status == true) {
+                            console.log(res);
+
                             window.location.replace(base_url + "admin/user");
                             alert(res.msg);
 
                         } else if (res.status == false) {
+                            console.log(base_url);
+
                             alert(res.msg);
                             window.location.replace(base_url + "user_api");
                         }
-                        // setTimeout(function() {
-                        //     alert(res.msg);
-                        // }, 3000);
+                        setTimeout(function() {
+                            alert(res.msg);
+                        }, 3000);
                     }
                 })
             })

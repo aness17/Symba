@@ -126,16 +126,16 @@ class User_api extends RestController
 
         $data = [
             'id_user' => $id,
-            'name_user' => $this->put('name_user'),
-            'username_user' => $this->put('username_user'),
-            // 'password_user' => password_hash($this->put('password_user'), PASSWORD_DEFAULT),
-            'id_dvn' => $this->post('dvn'),
-            'id_role' => $this->post('role'),
+            'name_user' => $this->put('nameuser'),
+            'username_user' => $this->put('username'),
+            'password_user' => password_hash($this->put('password'), PASSWORD_DEFAULT),
+            'id_dvn' => $this->put('dvn'),
+            'id_role' => $this->put('role'),
             // 'fotouser' => $this->upload->data()["file_name"],
         ];
         // echo "lalala";
-        // var_dump($_FILES);
-        // die;
+        var_dump($data);
+        die;
         if ($_FILES["fotouser"]["name"] != "") {
             $config['upload_path']          = './fotouser/';
             $config['allowed_types']        = 'jpeg|jpg|png';
@@ -150,12 +150,19 @@ class User_api extends RestController
                 die;
                 redirect('admin/edituser/' . $id);
             }
-        }
-        if ($this->user->update($data) > 0) {
-            $this->response([
-                'status' => true,
-                'message' => 'User has been update'
-            ], RestController::HTTP_OK);
+
+            if ($this->user->update($data) > 0) {
+
+                $this->response([
+                    'status' => true,
+                    'message' => 'User has been update'
+                ], RestController::HTTP_OK);
+            } else {
+                $this->response([
+                    'status' => false,
+                    'message' => 'Failed to update new users'
+                ], RestController::HTTP_BAD_REQUEST);
+            }
         } else {
             $this->response([
                 'status' => false,

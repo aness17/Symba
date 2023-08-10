@@ -73,7 +73,7 @@
                     '<td class = "text-center" >' +
                     '<a href = "' + base_url + 'admin/edituser/' + id + '" type = "button" class = "fa fa-edit" style = "color:green" ></a>' +
                     '<a type = "button" class = "fa fa-trash" style = "color:red" onclick = "user_delete(' + id + ');return confirm(\'Are you sure to delete this row ?\')"></a>' +
-                    '<a href = "' + base_url + 'admin/resetpassworduser/' + id + '" type = "button" class = "fa fa-lock" style = "color:blue" ></a></td>' +
+                    // '<a href = "' + base_url + 'admin/resetpassworduser/' + id + '" type = "button" class = "fa fa-lock" style = "color:blue" ></a></td>' +
                     '</tr>'
 
                 // $("#resultData").html("");
