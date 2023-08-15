@@ -1,4 +1,4 @@
-let base_url = "http://192.168.111.92/symba/";
+let base_url = "http://192.168.111.28/Symba-API/";
 
 function dtl_actual(id, tahun, user) {
 	let id_budget = id;

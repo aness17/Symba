@@ -44,6 +44,8 @@ class Actual extends CI_Controller
         $this->load->model('Actual_model');
         $this->load->model('DetailBudget_model');
         $this->load->model('Budget_model');
+        $this->load->model('Log_model');
+
         $this->cekauth();
         $_SESSION['login_time'] = time();
 

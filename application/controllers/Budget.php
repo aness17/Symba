@@ -37,6 +37,8 @@ class Budget extends CI_Controller
         $this->load->model('Budget_model');
         $this->load->model('Actual_model');
         $this->load->model('Travelda_model');
+        $this->load->model('Log_model');
+
         $this->cekauth();
         $_SESSION['login_time'] = time();
 
