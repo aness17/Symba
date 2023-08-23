@@ -66,8 +66,6 @@ class Admin extends CI_Controller
 
             redirect('auth/');
         }
-        // var_dump(time());
-        // die;
         if ($ci->session->userdata('id_role') != '1') {
             $this->session->set_flashdata('message_login', $this->flasher('success', 'Your not authorized'));
             $this->session->unset_userdata('id_user');
@@ -76,6 +74,8 @@ class Admin extends CI_Controller
             redirect('auth/');
         }
     }
+    // die;
+
     public function index()
     {
         // $bg = $this->DetailBudget_model->summary();
@@ -295,13 +295,6 @@ class Admin extends CI_Controller
 
     public function edituser($id)
     {
-
-        $this->form_validation->set_rules('nameuser', 'Nama User', 'required');
-        $this->form_validation->set_rules('username', 'Username', 'required');
-        // $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
-        $this->form_validation->set_rules('dvn', 'Division', 'required');
-        $this->form_validation->set_rules('role', 'Role', 'required');
-
         $user = $this->user->getUserById($id);
         $dvn = $this->dvn->selectAll();
         $role = $this->role->selectAll();
@@ -311,50 +304,11 @@ class Admin extends CI_Controller
             'role' => $role,
             'heading' => 'user'
         ];
-        // if ($id == "") {
-        // var_dump($user['fotouser']);
-        // die;
-        if ($this->form_validation->run() == true) {
-            $db = [
-                'id_user' => $id,
-                'name_user' => $this->input->post('nameuser'),
-                'username_user' => $this->input->post('username'),
-                // 'password_user' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
-                'id_dvn' => $this->input->post('dvn'),
-                'id_role' => $this->input->post('role')
-            ];
-            if ($_FILES["fotouser"]["name"] != "") {
-                $config['upload_path']          = './fotouser/';
-                $config['allowed_types']        = 'gif|jpg|png';
-                $config['max_size']             = 1000;
 
-                $this->load->library('upload', $config);
-                if ($this->upload->do_upload('fotouser')) {
-                    unlink(FCPATH . 'fotouser/' . $user["fotouser"]);
-                    $db['fotouser'] = $this->upload->data()["file_name"];
-                } else {
-                    $this->session->set_flashdata('message_login', $this->flasher('danger', $this->upload->display_errors()));
-                    var_dump($this->upload->display_errors());
-                    die;
-                    redirect('admin/edituser/' . $id);
-                }
-            }
-            // var_dump($db);die;
-            if ($this->user->update($db) > 0) {
-                $this->session->set_flashdata('message', $this->flasher('success', 'Success To Edit Data'));
-            } else {
-                $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Edit Data'));
-            }
-            redirect('admin/user');
-
-            // }
-            // redirect('admin/pelanggan/tambahpelanggan');
-        } else {
-            $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin', $data);
-            $this->load->view('admin/user/edit_user', $data);
-            $this->load->view('templates/footer');
-        }
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar_admin', $data);
+        $this->load->view('admin/user/edit_user', $data);
+        $this->load->view('templates/footer');
     }
     public function resetpassworduser($id)
     {

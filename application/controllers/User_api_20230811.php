@@ -7,6 +7,7 @@ require APPPATH . "libraries/format.php";
 require APPPATH . "libraries/RestController.php";
 class User_api extends RestController
 {
+
     /**
      * Index Page for this controller.
      *
@@ -22,6 +23,7 @@ class User_api extends RestController
      * map to /index.php/welcome/<method_name> 
      * @see https://codeigniter.com/userguide3/general/urls.html
      */
+
     public function __construct()
     {
         parent::__construct();
@@ -32,6 +34,7 @@ class User_api extends RestController
 
         // $this->methods['index_get']['limit'] = 15;
     }
+
     public function index_get()
     {
         $id = $this->get('id');
@@ -83,9 +86,10 @@ class User_api extends RestController
     {
         if (isset($_FILES["fotouser"]["name"])) {
             $config['upload_path']          = './fotouser/';
-            $config['allowed_types']        = 'gif|jpg|png';
+            $config['allowed_types']        = 'jpeg|jpg|png';
             $config['max_size']             = 1000;
             $this->load->library('upload', $config);
+
             if ($this->upload->do_upload('fotouser')) {
                 $db = [
                     'name_user' => $this->post('nameuser'),
@@ -121,16 +125,16 @@ class User_api extends RestController
         $id = $this->put('id');
         $data = [
             'id_user' => $id,
-            'name_user' => $this->put('nameuser'),
-            'username_user' => $this->put('username'),
-            'password_user' => password_hash($this->put('password'), PASSWORD_DEFAULT),
-            'id_dvn' => $this->put('dvn'),
-            'id_role' => $this->put('role'),
+            'name_user' => $this->put('name_user'),
+            'username_user' => $this->put('username_user'),
+            // 'password_user' => password_hash($this->put('password_user'), PASSWORD_DEFAULT),
+            'id_dvn' => $this->post('dvn'),
+            'id_role' => $this->post('role'),
             // 'fotouser' => $this->upload->data()["file_name"],
         ];
         // echo "lalala";
-        // var_dump($data);
-        // die;
+        var_dump($data);
+        die;
         if ($_FILES["fotouser"]["name"] != "") {
             $config['upload_path']          = './fotouser/';
             $config['allowed_types']        = 'jpeg|jpg|png';
@@ -140,8 +144,8 @@ class User_api extends RestController
                 unlink(FCPATH . 'fotouser/' . $data["fotouser"]);
                 $db['fotouser'] = $this->upload->data()["file_name"];
             } else {
-                var_dump($this->upload->display_errors());
-                die;
+                // var_dump($this->upload->display_errors());
+                // die;
                 redirect('admin/edituser/' . $id);
             }
         }

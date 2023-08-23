@@ -7,11 +7,11 @@
                 <h6 class="m-0 font-weight-bold text-primary">Edit User</h6>
             </div>
             <div class="card-body">
-                <form method="POST" action="<?= base_url('admin/edituser/' . $user["id_user"]) ?>" class="row g-3" enctype="multipart/form-data">
+                <form method="POST" id="edituser" class="row g-3" enctype="multipart/form-data">
+                    <input type="hidden" id="id" value="<?= $user["id_user"] ?>">
                     <div class="col-12">
                         <label for="inputNanme4" class="form-label">Name User</label>
                         <input type="text" name="nameuser" class="form-control" id="nameuser" value="<?= $user["name_user"] ?>">
-                        <?= form_error('nameuser', '<small class="form-text text-danger">', '</small>'); ?>
                     </div>
                     <div class="col-12">
                         <label for="inputNanme4" class="form-label">Username</label>
@@ -27,7 +27,6 @@
                                 <option value="<?= $dvn['id_dvn'] ?>" <?= ($user["id_dvn"] == $dvn['id_dvn']) ? "selected" : "" ?>><?= $dvn['division'] ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <?= form_error('dvn', '<small class="form-text text-danger">', '</small>'); ?>
                     </div>
                     <div class="col-12">
                         <label for="inputPassword4" class="form-label">Foto User</label>
@@ -42,13 +41,11 @@
                                 <option value="<?= $role['id_role'] ?>" <?= ($user["id_role"] == $role['id_role']) ? "selected" : "" ?>><?= $role['roles'] ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <?= form_error('role', '<small class="form-text text-danger">', '</small>'); ?>
                     </div>
                     <div class="text-center col-12 mt-3  ">
                         <button type="submit" class="btn btn-primary">Submit</button>
                         <button type="reset" class="btn btn-secondary">Reset</button>
                         <button type="button" onclick="history.go(-1);" class="btn btn-success">Kembali</button>
-
                     </div>
                 </form><!-- Vertical Form -->
             </div>
