@@ -55,7 +55,6 @@ class Admin extends CI_Controller
         $id = $ci->session->userdata('id');
         $ip = $this->input->ip_address();
         if (time() - $_SESSION['login_time'] >= 1800) {
-            session_destroy();
             $data = [
                 'id_user' => $id,
                 'remarks' => 'Session Timeout',
@@ -63,6 +62,8 @@ class Admin extends CI_Controller
             ];
             // var_dump($data);die;
             $this->Log_model->create($data);
+            session_destroy();
+
             redirect('auth/');
         }
         // var_dump(time());
@@ -183,7 +184,7 @@ class Admin extends CI_Controller
                 $isi_table .= '<tr>';
                 $isi_table .= '<td>' . $no . '</td>';
                 $isi_table .= '<td>' . $d['id_acc'] . '.' . $d['subacc'] . '.' . $d['product'] . '.' . $d['code_costcen'] . '.' . $d['code_station'] . '.' . $d['company'] . '</td>';
-                $isi_table .= '<td>' . $d['desc_source'] . '</td>';
+                $isi_table .= '<td>' . str_replace('#', ' ', $d['desc_source']) . '</td>';
                 $isi_table .= '<td>' . $d['description'] . '</td>';
                 $isi_table .= '<td>' . $d['source'] . '</td>';
                 $isi_table .= '<td>' . $d['currency'] . ' ' . number_format($d['amount_debit'], 0, ",", ".") . '</td>';
@@ -216,7 +217,7 @@ class Admin extends CI_Controller
                 $isi_table .= '<td>' . $no . '</td>';
                 $isi_table .= '<td>' . $d['id_acc'] . '.' . $d['subacc'] . '.' . $d['product'] . '.' . $d['code_costcen'] . '.' . $d['code_station'] . '.' . $d['company'] . '</td>';
                 $isi_table .= '<td>' . $d['desc'] . '</td>';
-                $isi_table .= '<td>' . $d['desc_source'] . '</td>';
+                $isi_table .= '<td>' . str_replace('#', ' ', $d['desc_source']) . '</td>';
                 $isi_table .= '<td>' . $d['source'] . '</td>';
                 $isi_table .= '<td>' . $d['currency'] . ' ' . number_format($d['amount_debit'], 0, ",", ".") . '</td>';
                 $isi_table .= '<td>' . $d['currency'] . ' ' . number_format($d['amount_credit'], 0, ",", ".") . '</td>';
@@ -250,7 +251,7 @@ class Admin extends CI_Controller
                 $isi_table .= '<td>' . $no . '</td>';
                 $isi_table .= '<td>' . $d['id_acc'] . '.' . $d['subacc'] . '.' . $d['product'] . '.' . $d['code_costcen'] . '.' . $d['code_station'] . '.' . $d['company'] . '</td>';
                 $isi_table .= '<td>' . $d['desc'] . '</td>';
-                $isi_table .= '<td>' . $d['desc_source'] . '</td>';
+                $isi_table .= '<td>' . str_replace('#', ' ', $d['desc_source']) . '</td>';
                 $isi_table .= '<td>' . $d['source'] . '</td>';
                 $isi_table .= '<td>' . $d['currency'] . ' ' . number_format($d['debit'], 0, ",", ".") . '</td>';
                 $isi_table .= '<td>' . $d['currency'] . ' ' . number_format($d['amount_debit'], 0, ",", ".") . '</td>';
@@ -639,8 +640,8 @@ class Admin extends CI_Controller
     public function addStation()
     {
 
-        $this->form_validation->set_rules('code', 'Code', 'required|is_unique[tstation.code_station]');
-        $this->form_validation->set_rules('station', 'Station Name', 'required|is_unique[tstation.name_station]');
+        $this->form_validation->set_rules('code', 'Code', 'required|is_unique[tstation.code_station]|xss_clean');
+        $this->form_validation->set_rules('station', 'Station Name', 'required|is_unique[tstation.name_station]|xss_clean');
 
         if ($this->form_validation->run() == true) {
             $db = [
@@ -671,8 +672,8 @@ class Admin extends CI_Controller
     public function editStation($id)
     {
 
-        $this->form_validation->set_rules('code', 'Code', 'required');
-        $this->form_validation->set_rules('station', 'Station Name', 'required');
+        $this->form_validation->set_rules('code', 'Code', 'required|xss_clean');
+        $this->form_validation->set_rules('station', 'Station Name', 'required|xss_clean');
 
         $station = $this->Station_model->getstnById($id);
         $data = [
@@ -1086,44 +1087,7 @@ class Admin extends CI_Controller
         $this->load->view('admin/travel_da/data_TravelDA', $data);
         $this->load->view('templates/footer');
     }
-    public function addtravelda()
-    {
-        $this->form_validation->set_rules('grade', 'Grade', 'required');
-        $this->form_validation->set_rules('hotel', 'Remark', 'required');
-        $this->form_validation->set_rules('da', 'Daily Allowance', 'required');
-        $this->form_validation->set_rules('ticket', 'Ticket', 'required');
-        $this->form_validation->set_rules('periode', 'Periode', 'required');
 
-        if ($this->form_validation->run() == true) {
-            $periode = date('Y', strtotime($this->input->post('periode')));
-            $db = [
-                'grade' => $this->input->post('grade'),
-                'hotel' => $this->input->post('hotel'),
-                'daily_allowance' => $this->input->post('da'),
-                'ticket' => $this->input->post('ticket'),
-                'periode_year' => $periode
-            ];
-
-            if ($this->Travelda_model->create($db) > 0) {
-                $this->session->set_flashdata('message_login', $this->flasher('success', 'account has been registered!'));
-                redirect('admin/TravelDA    ');
-            } else {
-                echo "Failed to create Travel DA";
-                die;
-                $this->session->set_flashdata('message_login', $this->flasher('danger', 'Failed to create account'));
-            }
-
-            // }
-            // redirect('admin/pelanggan/tambahpelanggan');
-        } else {
-            $data = ['heading' => 'master'];
-            $this->load->view('templates/header');
-            $this->load->view('templates/sidebar_admin', $data);
-            $this->load->view('admin/travel_da/add_TravelDA');
-            $this->load->view('templates/footer');
-        }
-        // }
-    }
     public function edittravelda($id)
     {
         $this->form_validation->set_rules('grade', 'Grade', '');

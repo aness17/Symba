@@ -34,7 +34,7 @@
                             <!-- <td><?= $no; ?></td> -->
                             <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
                             <td><?= $bg['name_user'] ?> [<?= $bg['division'] ?>-<?= $bg['name_station'] ?>]</td>
-                            <td><?= $bg['desc_source'] ?></td>
+                            <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
                             <!-- <td><?= $bg['source'] ?></td> -->
                             <!-- <td><?= $bg['category'] ?></td> -->
                             <!-- <td><?= $bg['currency'] ?></td> -->

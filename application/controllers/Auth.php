@@ -26,6 +26,7 @@ class Auth extends CI_Controller
         parent::__construct();
         $this->load->model('User_model');
         $this->load->model('Log_model');
+
         $_SESSION['login_time'] = time();
     }
 
@@ -35,7 +36,6 @@ class Auth extends CI_Controller
         $id = $ci->session->userdata('id');
         $ip = $this->input->ip_address();
         if (time() - $_SESSION['login_time'] >= 1800) {
-            session_destroy();
             $data = [
                 'id_user' => $id,
                 'remarks' => 'Session Timeout',
@@ -43,6 +43,8 @@ class Auth extends CI_Controller
             ];
             // var_dump($data);die;
             $this->Log_model->create($data);
+            session_destroy();
+
             redirect('auth/');
         }
         // echo "TEST WORK !";
@@ -103,40 +105,6 @@ class Auth extends CI_Controller
             $this->load->view('index');
         }
     }
-
-    // public function register()
-    // {
-    //     $this->form_validation->set_rules('nama', 'Nama', 'required');
-    //     $this->form_validation->set_rules('username', 'Username', 'required|is_unique[pelanggan.username_pelanggan]');
-    //     $this->form_validation->set_rules('passwd', 'Password', 'required|min_length[6]');
-
-
-    //     if ($this->form_validation->run()) {
-    //         // $email = $this->input->post('email');
-    //         // $pos = strpos($email, "@gmail.com") ? "ada" : "tidak ada";
-    //         // if ($pos == "tidak ada") {
-    //         //     echo "<script>alert('harus gugel bund');history.go(-1);</script>";
-    //         //     $this->session->set_flashdata('message_login', $this->flasher('danger', 'HARUS AKUN GUGEL'));
-    //         // } else {
-    //         $db = [
-    //             'nama_pelanggan' => $this->input->post('nama'),
-    //             'username_pelanggan' => $this->input->post('username'),
-    //             'password_pelanggan' => password_hash($this->input->post('passwd'), PASSWORD_DEFAULT),
-    //             'fk_role' => '3'
-    //         ];
-    //         // var_dump($db);
-    //         // die;
-    //         if ($this->User_model->createpelanggan($db) > 0) {
-    //             $this->session->set_flashdata('message_login', $this->flasher('success', 'User has been registered!'));
-    //             echo "<script>location.href='" . base_url('auth/login') . "';alert('Daftar Berhasil');</script>";
-    //         } else {
-    //             $this->session->set_flashdata('message_login', $this->flasher('danger', 'Failed to create User'));
-    //         }
-    //     } else {
-    //         $this->load->view('auth/register');
-    //         // echo "<script>location.href='" . base_url('login/formregister') . "';alert('Anda gagal Registrasi');</script>";
-    //     }
-    // }
 
     public function logout()
     {

@@ -49,7 +49,6 @@ class User extends CI_Controller
         $id = $ci->session->userdata('id');
         $ip = $this->input->ip_address();
         if (time() - $_SESSION['login_time'] >= 1800) {
-            session_destroy();
             $data = [
                 'id_user' => $id,
                 'remarks' => 'Session Timeout',
@@ -57,6 +56,8 @@ class User extends CI_Controller
             ];
             // var_dump($data);die;
             $this->Log_model->create($data);
+            session_destroy();
+
             redirect('auth/');
         }
         if ($ci->session->userdata('id_role') != '3') {
@@ -82,9 +83,12 @@ class User extends CI_Controller
         }
         $id = $ci->session->userdata('id');
         $user = $this->User_model->selectUser($id);
-        $bg = $this->DetailBudget_model->selectbyiduser($id, $thn);
+        $bgs = $this->DetailBudget_model->selectbyiduser($id, $thn);
+
         $sisabudgetcapex = $this->DetailBudget_model->sisabudgetuser($id, $thn, 'CAPEX');
+
         $sisabudgetopex = $this->DetailBudget_model->sisabudgetuser($id, $thn, 'OPEX');
+
         $actual = $this->Actual_model->useractById($id, $thn);
         $debitbudget = $this->DetailBudget_model->sumdebit($id, $thn)[0]->amount_debit;
         $debitactual = $this->Actual_model->sumdebit($id, $thn)[0]->amount_debit;
@@ -111,7 +115,7 @@ class User extends CI_Controller
             'sisabudgetcapex' => $sisabudgetcapex,
             'sisabudgetopex' => $sisabudgetopex,
             'actual' => $actual,
-            'bgg' => $bg,
+            'bgg' => $bgs,
             'budgetcapex' => $budgetcapex,
             'budgetopex' => $budgetopex,
             'tahun' => $tahun,
@@ -148,7 +152,7 @@ class User extends CI_Controller
                 $isi_table .= '<tr>';
                 $isi_table .= '<td>' . $no . '</td>';
                 $isi_table .= '<td>' . $d['id_acc'] . '.' . $d['subacc'] . '.' . $d['product'] . '.' . $d['code_costcen'] . '.' . $d['code_station'] . '.' . $d['company'] . '</td>';
-                $isi_table .= '<td>' . $d['desc_source'] . '</td>';
+                $isi_table .= '<td>' . str_replace('#', ' ', $d['desc_source']) . '</td>';
                 $isi_table .= '<td>' . $d['description'] . '</td>';
                 $isi_table .= '<td>' . $d['source'] . '</td>';
                 // $isi_table .= '<td>' . $d['currency'] . '</td>';
@@ -172,6 +176,7 @@ class User extends CI_Controller
         $thn = (int)$_POST['thn'];
 
         $data = $this->DetailBudget_model->sisabudgetusermodal($id, $iduser, $thn);
+
         $division = $this->User_model->selectdpt($iduser)[0]->division;
 
         $content =  '';
@@ -187,7 +192,7 @@ class User extends CI_Controller
                 $isi_table .= '<td>' . $no . '</td>';
                 $isi_table .= '<td>' . $d['id_acc'] . '.' . $d['subacc'] . '.' . $d['product'] . '.' . $d['code_costcen'] . '.' . $d['code_station'] . '.' . $d['company'] . '</td>';
                 $isi_table .= '<td>' . $d['description'] . '</td>';
-                $isi_table .= '<td>' . $d['desc_source'] . '</td>';
+                $isi_table .= '<td>' . str_replace('#', ' ', $d['desc_source']) . '</td>';
                 // $isi_table .= '<td>' . $d['source'] . '</td>';
                 $isi_table .= '<td>' .  number_format($d['amount_debit'], 0, ",", ".") . ' ' . $d['currency'] . '</td>';
                 // $isi_table .= '<td>' . date('M d, Y', strtotime($d['create_date'])) . '</td>';
@@ -214,6 +219,7 @@ class User extends CI_Controller
         $user = $this->User_model->selectUser($id);
         // $sisa = $bg['amount_debit']-$actual['amount_debit'];
         $bg = $this->DetailBudget_model->selectbyid($id);
+
         $data = [
             'user' => $user,
             'bg' => $bg
@@ -241,7 +247,7 @@ class User extends CI_Controller
         $this->form_validation->set_rules('dsm', 'Desc Module', 'required');
         // $this->form_validation->set_rules('cur', 'Currency', 'required');
         $this->form_validation->set_rules('debit', 'Debit', 'required');
-        // $this->form_validation->set_rules('credit', 'Credit', '');
+        $this->form_validation->set_rules('cat_bdgt', 'Budget Category', 'required');
         $this->form_validation->set_rules('date', 'Date', 'required');
 
         $user = $this->User_model->selectUser($id);
@@ -279,6 +285,7 @@ class User extends CI_Controller
                     'amount_debit' => $this->input->post('debit'),
                     'amount_credit' => 0,
                     'status' => 'no',
+                    'category_budget' => $this->input->post('cat_bdgt'),
                     'id_bdgt' => $find[0]['id_bdgt'],
                     'budget_year' => $periode
                 ];
@@ -321,6 +328,7 @@ class User extends CI_Controller
                     'amount_debit' => $this->input->post('debit'),
                     'amount_credit' => 0,
                     'status' => 'no',
+                    'category_budget' => $this->input->post('cat_bdgt'),
                     'id_bdgt' => $idbdgt,
                     'budget_year' => $periode
                 ];
@@ -364,6 +372,7 @@ class User extends CI_Controller
         $user = $this->User_model->selectUser($id);
         // $sisa = $bg['amount_debit']-$actual['amount_debit'];
         $bg = $this->DetailBudget_model->selectAll();
+
         $actual = $this->Actual_model->useractById($id);
         $data = [
             'actual' => $actual,
@@ -408,6 +417,7 @@ class User extends CI_Controller
         $user = $this->User_model->selectUser($id);
         // $sisa = $bg['amount_debit']-$actual['amount_debit'];
         $bg = $this->DetailBudget_model->selectAll();
+
         $actual = $this->Actual_model->getactdetail($id, $iduser);
         $data = [
             'actual' => $actual,
@@ -434,55 +444,26 @@ class User extends CI_Controller
         </button>
         </div>';
     }
-    public function change_password()
-    {
-        $this->form_validation->set_rules('username', 'username');
-        $this->form_validation->set_rules('passwd', 'password', 'required|min_length[4]');
-
-        $username = $this->input->post('username');
-        $passwd = $this->input->post('passwd');
-        $user = $this->db->get_where('tuser', ['username_user' => $username])->row_array();
-
-        if ($this->form_validation->run()) {
-            if (isset($user)) {
-                if (password_verify($passwd, $user['password_user'])) {
-                    $this->session->set_userdata('id', $user['id_user']);
-                    $this->session->set_userdata('username', $user['username_user']);
-                    $this->session->set_userdata('id_role', $user['id_role']);
-                    if ($user['id_role'] == '1') {
-                        echo "<script>location.href='" . base_url('admin') . "';alert('Anda Berhasil Masuk Sebagai Admin');</script>";
-                    } else if ($user['id_role'] != '1') {
-                        echo "USER";
-                        echo "<script>location.href='" . base_url('user') . "';alert('Anda Berhasil Masuk Sebagai User');</script>";
-                    }
-                } else {
-                    echo "<script>location.href='" . base_url('auth/') . "';alert('Password Salah');</script>";
-                }
-            } else {
-                echo "<script>location.href='" . base_url('auth/') . "';alert('User Tidak Ada');</script>";
-            }
-        } else {
-            // var_dump($user);
-            // die;
-            $this->load->view('user/change_password');
-        }
-    }
     public function travelda()
     {
         $ci = get_instance();
         $id = $ci->session->userdata('id');
         $usr = $this->User_model->getUser($id);
         $user = $this->User_model->selectUser($id);
+        $tahun = $this->Travelda_model->tahun();
+
 
         $data = [
             'usr' => $usr,
             'user' => $user,
+            'tahun' => $tahun,
             'heading' => 'user'
         ];
         // var_dump($data);die;
         $this->form_validation->set_rules('grade', 'Grade', 'required');
         $this->form_validation->set_rules('hari', 'Days', 'required');
         $this->form_validation->set_rules('tujuan', 'Destination', 'required');
+        $this->form_validation->set_rules('program', 'Program', 'required');
         $this->form_validation->set_rules('qty', 'Qty', 'required');
         $this->form_validation->set_rules('periode', 'Periode', 'required');
 
@@ -493,6 +474,7 @@ class User extends CI_Controller
                 'grade' => $this->input->post('grade'),
                 'hari' => $this->input->post('hari'),
                 'tujuan' => $this->input->post('tujuan'),
+                'program' => $this->input->post('program'),
                 'qty' => $this->input->post('qty'),
                 'periode_year' => $periode
             ];
@@ -500,17 +482,16 @@ class User extends CI_Controller
             $account1 = '104';
             $account2 = '106';
             $account3 = '107';
+            $grade = $this->Travelda_model->getidbygrade($db['grade'], $periode);
 
-            $grade = $this->Travelda_model->getidbygrade($db['grade']);
-
-            $travel_da = $this->Travelda_model->selectAll();
-            $hotel = $db['hari'] * $db['qty'] * $travel_da[implode($grade) - 1]['hotel'];
-            $ted = $db['hari'] * $db['qty'] * $travel_da[implode($grade) - 1]['daily_allowance'];
-            $ticket = $db['qty'] * 2 * $travel_da[implode($grade) - 1]['ticket'];
-            $find = $this->Budget_model->findheader($id, $account1, $periode);
-            // var_dump(implode($grade)-1);
+            $ted = $db['hari'] * $db['qty'] * $grade['hotel'];
+            $daa = $db['hari'] * $db['qty'] * $grade['daily_allowance'];
+            $ticket = $db['qty'] * 2 * $grade['ticket'];
+            // var_dump($grade);
             // var_dump($travel_da[implode($grade)-1]['hotel']);die;
             // var_dump(count($find));die;
+            // die;
+            $find = $this->Budget_model->findheader($id, $account1, $periode);
             if (count($find) > 0) {
                 $db = [
                     'id_account' => $account1,
@@ -522,11 +503,12 @@ class User extends CI_Controller
                     'category' => '',
                     'doc_ref' => '',
                     'doc_number' => '',
-                    'desc_source' => 'Daily Allowance ' . $this->input->post('tujuan') . ' ' . $this->input->post('grade'),
+                    'desc_source' => 'DA#' . $this->input->post('program') . '#' . $this->input->post('tujuan') . '#' . $this->input->post('grade') . '#' . $this->input->post('hari') . '#Hari',
                     'currency' => 'IDR',
-                    'amount_debit' => $hotel,
+                    'amount_debit' => $daa,
                     'amount_credit' => 0,
                     'status' => 'no',
+                    'category_budget' => 'OPEX',
                     'id_bdgt' => $find[0]['id_bdgt'],
                     'budget_year' => $periode
                 ];
@@ -561,11 +543,12 @@ class User extends CI_Controller
                     'category' => '',
                     'doc_ref' => '',
                     'doc_number' => '',
-                    'desc_source' => 'Daily Allowance ' . $this->input->post('tujuan') . ' ' . $this->input->post('grade'),
+                    'desc_source' => 'DA#' . $this->input->post('program') . '#' . $this->input->post('tujuan') . '#' . $this->input->post('grade') . '#' . $this->input->post('hari') . '#Hari',
                     'currency' => 'IDR',
-                    'amount_debit' => $hotel,
+                    'amount_debit' => $daa,
                     'amount_credit' => 0,
                     'status' => 'no',
+                    'category_budget' => 'OPEX',
                     'id_bdgt' => $da,
                     'budget_year' => $periode
                 ];
@@ -596,11 +579,12 @@ class User extends CI_Controller
                     'category' => '',
                     'doc_ref' => '',
                     'doc_number' => '',
-                    'desc_source' => 'Travel Expense Domestic ' . $this->input->post('tujuan') . ' ' . $this->input->post('grade'),
+                    'desc_source' => 'Akomodasi#' . $this->input->post('program') . '#' . $this->input->post('tujuan') . '#' . $this->input->post('grade') . '#' . $this->input->post('hari') . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $ted,
                     'amount_credit' => 0,
                     'status' => 'no',
+                    'category_budget' => 'OPEX',
                     'id_bdgt' => $find[0]['id_bdgt'],
                     'budget_year' => $periode
                 ];
@@ -635,11 +619,12 @@ class User extends CI_Controller
                     'category' => '',
                     'doc_ref' => '',
                     'doc_number' => '',
-                    'desc_source' => 'Travel Expense Domestic ' . $this->input->post('tujuan') . ' ' . $this->input->post('grade'),
+                    'desc_source' => 'Akomodasi#' . $this->input->post('program') . '#' . $this->input->post('tujuan') . '#' . $this->input->post('grade') . '#' . $this->input->post('hari') . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $ted,
                     'amount_credit' => 0,
                     'status' => 'no',
+                    'category_budget' => 'OPEX',
                     'id_bdgt' => $da,
                     'budget_year' => $periode
                 ];
@@ -670,11 +655,12 @@ class User extends CI_Controller
                     'category' => '',
                     'doc_ref' => '',
                     'doc_number' => '',
-                    'desc_source' => 'Ticket ' . $this->input->post('tujuan') . ' ' . $this->input->post('grade'),
+                    'desc_source' => 'Ticket#' . $this->input->post('program') . '#' . $this->input->post('tujuan') . '#' . $this->input->post('grade') . '#' . $this->input->post('hari') . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $ticket,
                     'amount_credit' => 0,
                     'status' => 'no',
+                    'category_budget' => 'OPEX',
                     'id_bdgt' => $find[0]['id_bdgt'],
                     'budget_year' => $periode
                 ];
@@ -709,11 +695,12 @@ class User extends CI_Controller
                     'category' => '',
                     'doc_ref' => '',
                     'doc_number' => '',
-                    'desc_source' => 'Ticket ' . $this->input->post('tujuan') . ' ' . $this->input->post('grade'),
+                    'desc_source' => 'Ticket#' . $this->input->post('program') . '#' . $this->input->post('tujuan') . '#' . $this->input->post('grade') . '#' . $this->input->post('hari') . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $ticket,
                     'amount_credit' => 0,
                     'status' => 'no',
+                    'category_budget' => 'OPEX',
                     'id_bdgt' => $da,
                     'budget_year' => $periode
                 ];
@@ -728,17 +715,6 @@ class User extends CI_Controller
                 $this->Budget_model->update($data);
                 echo "<script>location.href='" . base_url('user/') . "';alert('Success to Add Ticket');</script>";
             }
-
-            // $this->session->set_flashdata('message_login', $this->flasher('success', 'account has been registered!'));
-            // redirect('user/    ');
-            // } else {
-            //     echo "Failed to create Travel DA";
-            //     die;
-            //     $this->session->set_flashdata('message_login', $this->flasher('danger', 'Failed to create account'));
-            // }
-
-            // }
-            // redirect('admin/pelanggan/tambahpelanggan');
         } else {
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_user', $data);

@@ -30,10 +30,11 @@ class Travelda_model extends CI_Model
         $this->db->where($this->primary, $id);
         return $this->db->get($this->table)->row_array();
     }
-    public function getidbygrade($grade,$periode){
-        $this->db->select('id_travelda');
-        $this->db->where('grade',$grade);
-	    $this->db->where('periode_year',$periode);
+    public function getidbygrade($grade, $periode)
+    {
+        // $this->db->select('id_travelda');
+        $this->db->where('grade', $grade);
+        $this->db->where('periode_year', $periode);
         return $this->db->get($this->table)->row_array();
     }
     public function tahun()

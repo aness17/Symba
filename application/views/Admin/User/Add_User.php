@@ -35,23 +35,9 @@
                         <?= form_error('dvn', '<small class="form-text text-danger">', '</small>'); ?>
                     </div>
                     <div class="col-12">
-                        <div class="row">
-                            <div class="col-6">
-                                <br>
-                                <label for="fotouser" class="form-label"><span class="text-danger">*</span>Foto User</label>
-                                <input type="file" multiple="true" name="fotouser" class="form-control" id="fotouser" accept=".png, .jpg, .jpeg" onchange="readURL(this);" required>
-                            </div>
-                            <div class="col-6">
-                                <br>
-                                <img class="img-responsive img-portfolio img-hover" id="blah" src="#" alt="your image" width="150px" height="auto" />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- <div class="col-12">
                         <label for="inputPassword4" class="form-label"><span class="text-danger">*</span>Foto User</label>
-                        <input type="file" multiple="true" name="fotouser" class="form-control" id="fotouser" accept=".png, .jpg, .jpeg" onchange="readURL(this);" required>
-                        <input type="file" name="fotouser" class="form-control" id="fotouser" accept=".png, .jpg, .jpeg" required>
-                    </div> -->
+                        <input type="file" name="fotouser" class="form-control" id="fotouser" required>
+                    </div>
                     <div class="col-12">
                         <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Role User</label>
                         <select name="role" class="form-control" id="exampleFormControlSelect1" name="role">
@@ -81,18 +67,5 @@
         $(function() {
             $('select').selectpicker();
         });
-
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function(e) {
-                    $('#blah')
-                        .attr('src', e.target.result);
-                };
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
     </script>
     </main><!-- End #main -->

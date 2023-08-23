@@ -234,7 +234,7 @@ class Actual_model extends CI_Model
         $this->db->join('tstation D', 'B.id_station=D.id_station');
         $this->db->join('taccount H', 'E.id_account = H.id_account');
         $this->db->where('E.id_user', $id);
-        // $this->db->where('A.id_budget', $id);
+        // $this->db->where('A.id_budget', $id); 
         $this->db->where('E.budget_year', $thn);
         $this->db->where('E.category_budget', $cat);
         return $this->db->get($this->table . " as A")->result_array();

@@ -159,7 +159,7 @@
                                                         <input type="hidden" id="id_user" value="<?= $bg['id_user'] ?>">
                                                         <td><?= $no; ?></td>
                                                         <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
-                                                        <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
+                                                        <td><?= $bg['desc_source'] ?></td>
                                                         <td><?= $bg['description'] ?></td>
                                                         <td><?= $bg['source'] ?></td>
                                                         <!-- <td><?= $bg['currency'] ?></td> -->
@@ -312,8 +312,14 @@
                                                 <td><?= $no; ?></td>
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
                                                 <td><?= $bg['remark_acc'] ?></td>
-                                                <td><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
-                                                <td><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", "."); ?> IDR</td>
+                                                <td id="budget<?= $no ?>" data-value="<?= $bg['total_budget'] ?>"><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
+                                                <td <?php if (($bg['total_budget'] - $bg['debit'] + $bg['credit']) > ($bg['total_budget'] * 0.5)) {
+                                                        echo "style='background-color: #BED7D1'";
+                                                    } else if (($bg['total_budget'] - $bg['debit'] + $bg['credit']) < ($bg['total_budget'] * 0.5) && (($bg['total_budget'] - $bg['debit'] + $bg['credit']) > $bg['amount_debit'] * 0.1)) {
+                                                        echo "style='background-color: #F7EBC3'";
+                                                    } else {
+                                                        echo "style='background-color: #ff85a2'";
+                                                    } ?>><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> IDR</td>
                                                 <td><a href="#detailbudget" onclick="dtl_budget(<?= $bg['id_user'] ?>,<?= $thn ?>,<?= $bg['id_bdgt'] ?>)" class="fa fa-binoculars" style="color:blue" data-toggle="modal">
                                                     </a></td>
                                             </tr>
@@ -358,7 +364,7 @@
                                 <input type="hidden" id="id_user" value="<?= $bg['id_user'] ?>"> -->
                                                 <td><?= $no; ?></td>
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
-                                                <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
+                                                <td><?= $bg['desc_source'] ?></td>
                                                 <td><?= $bg['description'] ?></td>
                                                 <!-- <td><?= $bg['source'] ?></td> -->
                                                 <!-- <td><?= $bg['currency'] ?></td> -->
@@ -387,8 +393,8 @@
                                         <tr style="text-align: center;">
                                             <th style="width: 22px;">No</th>
                                             <th style="width: 202px;">Account</th>
-                                            <th style="width: 215px;">Description source of module</th>
-                                            <th style="width: 315px;">Description</th>
+                                            <th style="width: 215px;">Description Budget</th>
+                                            <th style="width: 315px;">Description Actual</th>
                                             <!-- <th>Source</th> -->
                                             <!-- <th>Category</th> -->
                                             <!-- <th>Currency</th> -->
@@ -407,12 +413,18 @@
                                                 <input type="hidden" id="id_user" value="<?= $bg['id_user'] ?>">
                                                 <td><?= $no; ?></td>
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
-                                                <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
+                                                <td><?= $bg['desc_source'] ?></td>
                                                 <td><?= $bg['description'] ?></td>
                                                 <!-- <td><?= $bg['source'] ?></td> -->
                                                 <!-- <td><?= $bg['currency'] ?></td> -->
-                                                <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
-                                                <td><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
+                                                <td id="cabudget<?= $no ?>" data-value="<?= $bg['amount_debit'] ?>"><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
+                                                <td <?php if (($bg['amount_debit'] - $bg['debit'] + $bg['credit']) > ($bg['amount_debit'] * 0.5)) {
+                                                        echo "style='background-color: #BED7D1'";
+                                                    } else if (($bg['amount_debit'] - $bg['debit'] + $bg['credit']) < ($bg['amount_debit'] * 0.5) && (($bg['total_budget'] - $bg['debit'] + $bg['credit']) > $bg['amount_debit'] * 0.1)) {
+                                                        echo "style='background-color: #F7EBC3'";
+                                                    } else {
+                                                        echo "style='background-color: #ff85a2'";
+                                                    } ?>><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
                                                 <td><a href="#myModal2" <?php if ($bg['status'] == 'yes') {
                                                                             echo 'class="btn btn-success"';
                                                                         } else {
@@ -475,8 +487,14 @@
                                                 <td><?= $no; ?></td>
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
                                                 <td><?= $bg['remark_acc'] ?></td>
-                                                <td><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
-                                                <td><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", "."); ?> IDR</td>
+                                                <td id="bobudget<?= $no ?>" data-value="<?= $bg['total_budget'] ?>"><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
+                                                <td <?php if (($bg['total_budget'] - $bg['debit'] + $bg['credit']) > ($bg['total_budget'] * 0.5)) {
+                                                        echo "style='background-color: #BED7D1'";
+                                                    } else if (($bg['total_budget'] - $bg['debit'] + $bg['credit']) < ($bg['total_budget'] * 0.5) && (($bg['total_budget'] - $bg['debit'] + $bg['credit']) > $bg['total_budget'] * 0.1)) {
+                                                        echo "style='background-color: #F7EBC3'";
+                                                    } else {
+                                                        echo "style='background-color: #ff85a2'";
+                                                    } ?>><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> IDR</td>
                                                 <td><a href="#detailbudget" onclick="dtl_budget(<?= $bg['id_user'] ?>,<?= $thn ?>,<?= $bg['id_bdgt'] ?>)" class="fa fa-binoculars" style="color:blue" data-toggle="modal">
                                                     </a></td>
                                             </tr>
@@ -501,7 +519,7 @@
                                             <th>No</th>
                                             <th style="width: 202px;">Account</th>
                                             <th style="width: 350px;">Description source of module</th>
-                                            <th style="width: 150px;">Description</th>
+                                            <th style="width: 100px;">Description</th>
                                             <!-- <th>Source</th> -->
                                             <!-- <th>Category</th> -->
                                             <!-- <th>Currency</th> -->
@@ -521,7 +539,7 @@
                                 <input type="hidden" id="id_user" value="<?= $bg['id_user'] ?>"> -->
                                                 <td><?= $no; ?></td>
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
-                                                <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
+                                                <td><?= $bg['desc_source'] ?></td>
                                                 <td><?= $bg['description'] ?></td>
                                                 <!-- <td><?= $bg['source'] ?></td> -->
                                                 <!-- <td><?= $bg['currency'] ?></td> -->
@@ -549,8 +567,8 @@
                                         <tr style="text-align: center;">
                                             <th style="width: 22px;">No</th>
                                             <th style="width: 202px;">Account</th>
-                                            <th style="width: 215px;">Description source of module</th>
-                                            <th style="width: 315px;">Description</th>
+                                            <th style="width: 215px;">Description Budget</th>
+                                            <th style="width: 315px;">Description Actual</th>
                                             <!-- <th>Source</th> -->
                                             <!-- <th>Category</th> -->
                                             <!-- <th>Currency</th> -->
@@ -569,12 +587,18 @@
                                                 <input type="hidden" id="id_user" value="<?= $bg['id_user'] ?>">
                                                 <td><?= $no; ?></td>
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
-                                                <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
+                                                <td><?= $bg['desc_source'] ?></td>
                                                 <td><?= $bg['description'] ?></td>
                                                 <!-- <td><?= $bg['source'] ?></td> -->
                                                 <!-- <td><?= $bg['currency'] ?></td> -->
-                                                <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
-                                                <td><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
+                                                <td id="robudget<?= $no ?>" data-value="<?= $bg['amount_debit'] ?>"><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
+                                                <td <?php if (($bg['amount_debit'] - $bg['debit'] + $bg['credit']) > ($bg['amount_debit'] * 0.5)) {
+                                                        echo "style='background-color: #BED7D1'";
+                                                    } else if (($bg['amount_debit'] - $bg['debit'] + $bg['credit']) < ($bg['amount_debit'] * 0.5) && (($bg['amount_debit'] - $bg['debit'] + $bg['credit']) > $bg['amount_debit'] * 0.1)) {
+                                                        echo "style='background-color: #F7EBC3'";
+                                                    } else {
+                                                        echo "style='background-color: #ff85a2'";
+                                                    } ?>><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?></td>
                                                 <td><a href="#myModal2" <?php if ($bg['status'] == 'yes') {
                                                                             echo 'class="btn btn-success"';
                                                                         } else {
@@ -632,6 +656,103 @@
         </div>
     </div>
 </div>
+<!-- 
+<script>
+    function budcapex() {
+        const nodes = document.getElementsByTagName("tr");
+        for (let i = 1; i < nodes.length; i++) {
+            //nodes[i].style.backgroundColor = "red";
+            let remaining = document.getElementById("remaining" + i);
+            let budget = document.getElementById("budget" + i);
 
+            // console.log(document.getElementById("remaining" + i));
+            var bdgtCount = budget.getAttribute('data-value');
+            var remCount = remaining.getAttribute('data-value');
 
-<!-- End of Main Content -->
+            // console.log(budget);
+            // console.log(bdgt, bdgt.getAttribute('data-value'));
+            if (remCount > (bdgtCount * 0.5)) {
+                // console.log(remCount > bdgtCount * 0.5);
+                document.getElementById("remaining" + [i]).style.backgroundColor = '#BED7D1	';
+            } else if (remCount < (bdgtCount * 0.5) && (remCount > bdgtCount * 0.1)) {
+                document.getElementById("remaining" + [i]).style.backgroundColor = '#F7EBC3';
+            } else {
+                // console.log(remaining); 
+                document.getElementById("remaining" + [i]).style.backgroundColor = '#ff85a2';
+            }
+        }
+    }
+
+    function remcapex() {
+        const nodes = document.getElementsByTagName("tr");
+        // console.log(nodes);
+        for (let i = 1; i < nodes.length; i++) {
+            //nodes[i].style.backgroundColor = "red";
+            let caremaining = document.getElementById("caremaining" + i);
+            let cabdgt = document.getElementById("cabudget" + i);
+
+            var cabdgtCount = cabdgt.getAttribute('data-value');
+            var caremCount = caremaining.getAttribute('data-value');
+
+            if (caremCount > (cabdgtCount * 0.5)) {
+                // console.log(remCount > bdgtCount * 0.5);
+                document.getElementById("caremaining" + [i]).style.backgroundColor = '#BED7D1	';
+            } else if (caremCount < (cabdgtCount * 0.5) && (caremCount > cabdgtCount * 0.1)) {
+                document.getElementById("caremaining" + [i]).style.backgroundColor = '#F7EBC3';
+            } else {
+                // console.log(remaining); 
+                document.getElementById("caremaining" + [i]).style.backgroundColor = '#ff85a2';
+            }
+        }
+    }
+
+    function budopex() {
+        const nodes = document.getElementsByTagName("tr");
+        // console.log(nodes);
+        for (let i = 1; i < nodes.length; i++) {
+            //nodes[i].style.backgroundColor = "red";
+            let boremaining = document.getElementById("boremaining" + i);
+            let bobdgt = document.getElementById("bobudget" + i);
+
+            var bobdgtCount = bobdgt.getAttribute('data-value');
+            var boremCount = boremaining.getAttribute('data-value');
+
+            console.log(budget);
+            // console.log(bdgt, bdgt.getAttribute('data-value'));
+            if (boremCount > (bobdgtCount * 0.5)) {
+                // console.log(remCount > bdgtCount * 0.5);
+                document.getElementById("boremaining" + [i]).style.backgroundColor = '#BED7D1	';
+            } else if (boremCount < (bobdgtCount * 0.5) && (boremCount > bobdgtCount * 0.1)) {
+                document.getElementById("boremaining" + [i]).style.backgroundColor = '#F7EBC3';
+            } else {
+                // console.log(remaining); 
+                document.getElementById("boremaining" + [i]).style.backgroundColor = '#ff85a2';
+            }
+        }
+    }
+
+    function remopex() {
+        let nodes = document.getElementsByTagName('tr');
+        // console.log(nodes);
+        for (let i = 1; i < nodes.length; i++) {
+            //nodes[i].style.backgroundColor = "red";
+            let roremaining = document.getElementById("roremaining" + i);
+            let robdgt = document.getElementById("robudget" + i);
+
+            var robdgtCount = robdgt.getAttribute('data-value');
+            var roremCount = roremaining.getAttribute('data-value');
+            console.log(budget);
+            // console.log(bdgt, bdgt.getAttribute('data-value'));
+            if (roremCount > (robdgtCount * 0.5)) {
+                // console.log(remCount > bdgtCount * 0.5);
+                document.getElementById("roremaining" + [i]).style.backgroundColor = '#BED7D1	';
+            } else if (roremCount < (robdgtCount * 0.5) && (roremCount > robdgtCount * 0.1)) {
+                document.getElementById("roremaining" + [i]).style.backgroundColor = '#F7EBC3';
+            } else {
+                // console.log(remaining); 
+                document.getElementById("roremaining" + [i]).style.backgroundColor = '#ff85a2';
+            }
+        }
+    }
+</script> -->
+<!-- End of Main Content -->

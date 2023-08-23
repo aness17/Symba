@@ -184,10 +184,11 @@ class Actual extends CI_Controller
 
         $actual = $this->Actual_model->getactById($id);
         // $user = $this->User_model->selectAll();
-        $bg = $this->DetailBudget_model->selectAll();
+        $bgs = $this->DetailBudget_model->selectAll();
+
         $account = $this->Account_model->selectAll();
         $data = [
-            'bg' => $bg,
+            'bg' => $bgs,
             'actual' => $actual,
             // 'user' => $user,
             'account' => $account,

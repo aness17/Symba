@@ -8,7 +8,10 @@ class DetailBudget_model extends CI_Model
 
     public function create($data)
     {
-        return $this->db->insert($this->table, $data);
+        $this->db->insert($this->table, $data);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
+        // return $this->db->insert($this->table, $data);
     }
 
     public function selectbudget($id)
@@ -51,6 +54,18 @@ class DetailBudget_model extends CI_Model
         $this->db->join('tstation D', 'B.id_station=D.id_station');
         $this->db->join('taccount E', 'A.id_account = E.id_account');
         $this->db->where('A.budget_year', date('Y'));
+        return $this->db->get($this->table . " as A")->result_array();
+    }
+    public function selectAllbyyear($thn)
+    {
+        $this->db->join('tuser G', 'A.id_user = G.id_user');
+        $this->db->join('tdivision B', 'G.id_dvn = B.id_dvn');
+        $this->db->join('tdepartement F', 'B.id_dpt=F.id_dpt');
+        $this->db->join('tcostcen C', 'B.id_costcen=C.id_costcen');
+        $this->db->join('tstation D', 'B.id_station=D.id_station');
+        $this->db->join('taccount E', 'A.id_account = E.id_account');
+        $this->db->where('A.budget_year', $thn);
+        $this->db->order_by('A.id_account ASC,G.id_user ASC');
         return $this->db->get($this->table . " as A")->result_array();
     }
     public function sisabudget($id)

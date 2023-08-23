@@ -9,17 +9,17 @@
             <div class="card-body">
                 <form method="POST" action="<?= base_url('admin/edituser/' . $user["id_user"]) ?>" class="row g-3" enctype="multipart/form-data">
                     <div class="col-12">
-                        <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Name User</label>
+                        <label for="inputNanme4" class="form-label">Name User</label>
                         <input type="text" name="nameuser" class="form-control" id="nameuser" value="<?= $user["name_user"] ?>">
                         <?= form_error('nameuser', '<small class="form-text text-danger">', '</small>'); ?>
                     </div>
                     <div class="col-12">
-                        <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Username</label>
+                        <label for="inputNanme4" class="form-label">Username</label>
                         <input type="text" name="username" class="form-control" id="username" value="<?= $user["username_user"] ?>">
                         <?= form_error('username', '<small class="form-text text-danger">', '</small>'); ?>
                     </div>
                     <div class="col-12">
-                        <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Division</label>
+                        <label for="inputNanme4" class="form-label">Division</label>
                         <select name="dvn" class="form-control" id="exampleFormControlSelect1" name="dvn">
 
                             <?php
@@ -30,21 +30,11 @@
                         <?= form_error('dvn', '<small class="form-text text-danger">', '</small>'); ?>
                     </div>
                     <div class="col-12">
-                        <div class="row">
-                            <div class="col-6">
-                                <br>
-                                <label for="inputPassword4" class="form-label"><span class="text-danger">*</span>Foto User</label>
-                                <input type="file" multiple="true" name="fotouser" class="form-control" id="fotouser" accept=".png, .jpg, .jpeg" onchange="readURL(this);" required>
-                            </div>
-                            <div class="col-6">
-                                <br>
-                                <input type="hidden" name="img" id="img" data-value="<?= $user["fotouser"] ?>">
-                                <img class="img-responsive img-portfolio img-hover" id="blah" src="<?= base_url() ?>fotouser/<?= $user["fotouser"] ?>" alt="your image" width="150px" height="auto" />
-                            </div>
-                        </div>
+                        <label for="inputPassword4" class="form-label">Foto User</label>
+                        <input type="file" name="fotouser" class="form-control" id="fotouser">
                     </div>
                     <div class="col-12">
-                        <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Role User</label>
+                        <label for="inputNanme4" class="form-label">Role User</label>
                         <select name="role" class="form-control" id="exampleFormControlSelect1" name="role">
 
                             <?php
@@ -66,37 +56,6 @@
         <!-- </div>
         </div>
     </div> -->
+
     </div>
-    </main>
-    <script>
-        base_url = "http://192.168.111.28/Symba-API/";
-
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function(e) {
-                    $('#blah')
-                        .attr('src', e.target.result);
-                };
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-        const fileInput = document.querySelector('input[type="file"]');
-        let img = document.getElementById('img');
-        var val = img.getAttribute('data-value');
-
-        console.log(val);
-        // Create a new File object
-        const myFile = new File(['Hello World!'], val, {
-            type: 'text/plain',
-            lastModified: new Date(),
-        });
-
-        // Now let's create a DataTransfer to get a FileList
-        const dataTransfer = new DataTransfer();
-        dataTransfer.items.add(myFile);
-        fileInput.files = dataTransfer.files;
-    </script>
     </main><!-- End #main -->

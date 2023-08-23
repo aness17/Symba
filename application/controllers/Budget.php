@@ -37,6 +37,7 @@ class Budget extends CI_Controller
         $this->load->model('Budget_model');
         $this->load->model('Actual_model');
         $this->load->model('Travelda_model');
+        $this->load->model('Log_model');
         $this->cekauth();
         $_SESSION['login_time'] = time();
 
@@ -50,7 +51,6 @@ class Budget extends CI_Controller
         $id = $ci->session->userdata('id');
         $ip = $this->input->ip_address();
         if (time() - $_SESSION['login_time'] >= 1800) {
-            session_destroy();
             $data = [
                 'id_user' => $id,
                 'remarks' => 'Session Timeout',
@@ -58,6 +58,8 @@ class Budget extends CI_Controller
             ];
             // var_dump($data);die;
             $this->Log_model->create($data);
+            session_destroy();
+
             redirect('auth/');
         }
         if ($ci->session->userdata('id_role') == '2') {
@@ -83,6 +85,8 @@ class Budget extends CI_Controller
                 $thn = date('Y');
             }
             $bg = $this->Budget_model->selectbudgettahun($thn);
+            // var_dump($bg);
+            // die;
             $tahun = $this->Budget_model->tahun();
             $data = [
                 'bg' => $bg,
@@ -127,6 +131,7 @@ class Budget extends CI_Controller
         $ci = get_instance();
         if ($ci->session->userdata('id_role') == '1') {
             $bgs = $this->DetailBudget_model->sisabudgett($id);
+
             $actdetail = $this->Actual_model->getactdetail_budget($id);
             $sumcreditt = $this->Actual_model->sumcreditt($id)[0]->amount_credit;
             $sumdebitt = $this->Actual_model->sumdebitt($id)[0]->amount_debit;
@@ -149,6 +154,28 @@ class Budget extends CI_Controller
         } else {
             redirect('auth/login');
         }
+    }
+    public function detailbudgetdata($thn)
+    {
+        // $ci = get_instance();
+        // if ($ci->session->userdata('id_role') == '1') {
+
+        $bgs = $this->DetailBudget_model->selectAllbyyear($thn);
+        $data = [
+            'bg' => $bgs,
+            'heading' => 'budget'
+        ];
+        // var_dump($bgs[1]);
+        // die;
+        // echo "<br />";
+        // var_dump($idbudgets);die;
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar_admin', $data);
+        $this->load->view('admin/budget/data_detailbudget', $data);
+        $this->load->view('templates/footer');
+        // } else {
+        //     redirect('auth/login');
+        // }
     }
 
     // public function addbudget($id){
@@ -472,6 +499,7 @@ class Budget extends CI_Controller
 
             $bdgt = $this->DetailBudget_model->selectiddetail($id);
             $bg = $this->DetailBudget_model->getbgById($id);
+
             $user = $this->User_model->selectAll();
             $account = $this->Account_model->selectAll();
             $data = [
@@ -564,28 +592,6 @@ class Budget extends CI_Controller
         redirect('budget/databudget');
         // }
     }
-    // public function Master(){
-    //     $acc = $this->Account_model->selectAll();       
-    //     $roles = $this->Roles_model->selectAll();
-    //     $dpt = $this->Departement_model->selectAll();
-    //     $lob = $this->Lob_model->selectAll();
-    //     $costcen = $this->Costcen_model->selectAll();
-    //     $station = $this->Station_model->selectAll();
-
-    //     $data = [
-    //         'acc' => $acc,
-    //         'roles'> $roles,
-    //         'dpt' => $dpt,
-    //         'lob' => $lob,
-    //         'costcen' => $costcen,
-    //         'station' => $station
-    //     ];
-
-    //     $this->load->view('templates/header');
-    //     $this->load->view('templates/sidebar_admin');
-    //     $this->load->view('admin/master',$data);
-    //     $this->load->view('templates/footer');
-    // }
     public function travelda()
     {
 
@@ -603,6 +609,7 @@ class Budget extends CI_Controller
         $this->form_validation->set_rules('grade', 'Grade', 'required');
         $this->form_validation->set_rules('hari', 'Days', 'required');
         $this->form_validation->set_rules('tujuan', 'Destination', 'required');
+        $this->form_validation->set_rules('program', 'Program', 'required');
         $this->form_validation->set_rules('qty', 'Qty', 'required');
         $this->form_validation->set_rules('periode', 'Periode', 'required');
 
@@ -615,6 +622,7 @@ class Budget extends CI_Controller
                 'grade' => $this->input->post('grade'),
                 'hari' => $this->input->post('hari'),
                 'tujuan' => $this->input->post('tujuan'),
+                'program' => $this->input->post('program'),
                 'qty' => $this->input->post('qty'),
                 'periode_year' => $periode
             ];
@@ -624,10 +632,9 @@ class Budget extends CI_Controller
             $account3 = '107';
             $grade = $this->Travelda_model->getidbygrade($db2['grade'], $periode);
 
-            $travel_da = $this->Travelda_model->selectAll();
-            $hotel = $db2['hari'] * $db2['qty'] * $travel_da[implode($grade) - 1]['hotel'];
-            $ted = $db2['hari'] * $db2['qty'] * $travel_da[implode($grade) - 1]['daily_allowance'];
-            $ticket = $db2['qty'] * 2 * $travel_da[implode($grade) - 1]['ticket'];
+            $hotel = $db2['hari'] * $db2['qty'] * $grade['hotel'];
+            $ted = $db2['hari'] * $db2['qty'] * $grade['daily_allowance'];
+            $ticket = $db2['qty'] * 2 * $grade['ticket'];
             $find = $this->Budget_model->findheader($db2['id_user'], $account1, $periode);
             //	var_dump($grade);die;
             // var_dump($travel_da[8]['hotel']);die;
@@ -646,7 +653,7 @@ class Budget extends CI_Controller
                     'category' => '',
                     'doc_ref' => '',
                     'doc_number' => '',
-                    'desc_source' => 'Daily Allowance ' . $db2['tujuan'] . ' ' . $db2['grade'],
+                    'desc_source' => 'DA#' . $db2['program'] . '#' . $db2['tujuan'] . '#' . $db2['grade'] . '#' . $db2['hari'] . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $hotel,
                     'amount_credit' => 0,
@@ -686,7 +693,7 @@ class Budget extends CI_Controller
                     'category' => '',
                     'doc_ref' => '',
                     'doc_number' => '',
-                    'desc_source' => 'Daily Allowance ' . $db2['tujuan'] . ' ' . $db2['grade'],
+                    'desc_source' => 'DA#' . $db2['program'] . '#' . $db2['tujuan'] . '#' . $db2['grade'] . '#' . $db2['hari'] . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $hotel,
                     'amount_credit' => 0,
@@ -721,7 +728,7 @@ class Budget extends CI_Controller
                     'category' => '',
                     'doc_ref' => '',
                     'doc_number' => '',
-                    'desc_source' => 'Travel Expense Domestic ' . $db2['tujuan'] . ' ' . $db2['grade'],
+                    'desc_source' => 'Akomodasi#' . $db2['program'] . '#' . $db2['tujuan'] . '#' . $db2['grade'] . '#' . $db2['hari'] . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $ted,
                     'amount_credit' => 0,
@@ -760,7 +767,7 @@ class Budget extends CI_Controller
                     'category' => '',
                     'doc_ref' => '',
                     'doc_number' => '',
-                    'desc_source' => 'Travel Expense Domestic ' . $db2['tujuan'] . ' ' . $db2['grade'],
+                    'desc_source' => 'Akomodasi#' . $db2['program'] . '#' . $db2['tujuan'] . '#' . $db2['grade'] . '#' . $db2['hari'] . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $ted,
                     'amount_credit' => 0,
@@ -795,7 +802,7 @@ class Budget extends CI_Controller
                     'category' => '',
                     'doc_ref' => '',
                     'doc_number' => '',
-                    'desc_source' => 'Ticket ' . $db2['tujuan'] . ' ' . $db2['grade'],
+                    'desc_source' => 'Ticket#' . $db2['program'] . '#' . $db2['tujuan'] . '#' . $db2['grade'] . '#' . $db2['hari'] . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $ticket,
                     'amount_credit' => 0,
@@ -834,7 +841,7 @@ class Budget extends CI_Controller
                     'category' => '',
                     'doc_ref' => '',
                     'doc_number' => '',
-                    'desc_source' => 'Ticket ' . $db2['tujuan'] . ' ' . $db2['grade'],
+                    'desc_source' => 'Ticket#' . $db2['program'] . '#' . $db2['tujuan'] . '#' . $db2['grade'] . '#' . $db2['hari'] . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $ticket,
                     'amount_credit' => 0,

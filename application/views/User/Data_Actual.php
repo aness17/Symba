@@ -1,10 +1,8 @@
-
-
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    
+
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-2">
@@ -31,21 +29,21 @@
                     </thead>
                     <tbody class="list">
                         <?php $no = 1;
-                            // $user = $this->db->query("SELECT * FROM user where fk_role = '2'");
+                        // $user = $this->db->query("SELECT * FROM user where fk_role = '2'");
                         foreach ($actual as $actual) : ?>
                             <tr style="text-align: center;">
                                 <td><?= $no; ?></td>
                                 <td><?= $actual['id_acc'] ?>.<?= $actual['subacc'] ?>.<?= $actual['product'] ?>.<?= $actual['code_costcen'] ?>.<?= $actual['code_station'] ?>.<?= $actual['company'] ?></td>
-                                <td><?= $actual['desc_source'] ?></td>
+                                <td><?= str_replace('#', ' ', $actual['desc_source']) ?></td>
                                 <td><?= $actual['source'] ?></td>
                                 <td><?= $actual['category'] ?></td>
                                 <td><?= $actual['currency'] ?></td>
                                 <td>Rp <?= number_format($actual['amount_debit'], 0, ",", "."); ?></td>
                                 <td>Rp <?= number_format($actual['amount_credit'], 0, ",", "."); ?></td>
                                 <td><?= $actual['actual_date']; ?></td>
-                                
+
                             </tr>
-                            <?php $no++;
+                        <?php $no++;
                         endforeach; ?>
                     </tbody>
                 </table>
@@ -57,4 +55,4 @@
 <!-- /.container-fluid -->
 
 </div>
-            <!-- End of Main Content -->
+<!-- End of Main Content -->

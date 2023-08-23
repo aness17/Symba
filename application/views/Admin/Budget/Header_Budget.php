@@ -19,7 +19,8 @@
                     <button type="submit" id="tombol">Find</button>
                 </form>
 
-                <a href="<?= base_url('admin/chooseadd') ?>" class="btn btn-primary p-2">Add Data</a>
+                <a href="<?= base_url('admin/chooseadd') ?>" class="btn btn-primary p-2">Add Data</a>&nbsp;
+                <a href="<?= base_url('budget/detailbudgetdata/' . $thn) ?>" class="btn btn-primary p-2">Data Detail Budget</a>
                 <!-- <a href="<?= base_url('budget/addheaderbudget') ?>" class="btn btn-primary">Add Data</a> -->
             </div>
         </div>

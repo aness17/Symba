@@ -10,7 +10,7 @@
                 <h6 class="m-2 font-weight-bold text-primary">Budget Data</h6>
                 <div>
                     <a href="<?= base_url('budget/databudget') ?>" class="btn btn-info">Back</a>
-                    <a href="<?= base_url('budget/addbudget/' . $id) ?>" class="btn btn-primary">Add Data</a>
+                    <!-- <a href="<?= base_url('budget/addbudget/' . $id) ?>" class="btn btn-primary">Add Data</a> -->
                 </div>
             </div>
         </div>
@@ -26,16 +26,16 @@
                             <th>Description</th>
                             <!-- <th>Currency</th> -->
                             <th>Budget Amount</th>
-                            <th>Remaining Balance</th>
+                            <!-- <th>Remaining Balance</th> -->
                             <!-- <th>Date</th> -->
                             <th>Status</th>
-                            <th>Action</th>
+                            <!-- <th>Action</th> -->
                         </tr>
                     </thead>
                     <tbody class="list">
                         <?php $no = 1;
                         // $user = $this->db->query("SELECT * FROM user where fk_role = '2'");
-                        foreach ($sisa as $bg) : ?>
+                        foreach ($bg as $bg) : ?>
                             <tr style="text-align: center;">
                                 <td><?= $no; ?></td>
                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
@@ -45,11 +45,11 @@
                                 <!-- <td><?= $bg['category'] ?></td> -->
                                 <!-- <td><?= $bg['currency'] ?></td> -->
                                 <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?> </td>
-                                <td><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?> </td>
+                                <!-- <td><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?> </td> -->
                                 <!-- <td><?= number_format($bg['amount_credit'], 0, ",", "."); ?></td> -->
                                 <!-- <td><?= $bg['create_date']; ?></td> -->
                                 <td><?= $bg['status'] ?></td>
-                                <td class="text-center">
+                                <!-- <td class="text-center">
                                     <a href="<?= base_url('budget/editbudget/' . $bg['id_budget']) ?>" type="button" class="fa fa-edit" style="color:green">
                                     </a>
                                     <a href="<?= base_url('budget/deleteheaderbudget/' . $bg['id_budget']) ?>" type="button" class="fa fa-trash" style="color:red" onclick="return confirm('Are you sure to delete this row ?')">
@@ -57,7 +57,7 @@
                                     <hr>
                                     <a href="<?= base_url('budget/detailbudget/' . $bg['id_budget']) ?>" type="button" class="fa fa-binoculars" style="color:blue">
                                     </a>
-                                </td>
+                                </td> -->
                             </tr>
                         <?php $no++;
                         endforeach; ?>

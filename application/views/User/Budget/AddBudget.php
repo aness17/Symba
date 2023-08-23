@@ -19,7 +19,7 @@
                                 </select>
                                 <?= form_error('Account', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
-                            
+
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label">PIC</label>
                                 <select name="user" class="form-control" id="exampleFormControlSelect1" name="user" disabled>
@@ -66,17 +66,31 @@
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Accounted DR Amount</label>
                                 <input type="text" onkeypress="return /[0-9]/i.test(event.key)" name="debit" class="form-control" id="debit">
                                 <?= form_error('debit', '<small class="form-text text-danger">', '</small>'); ?>
-                            </div> 
+                            </div>
+                            <div class="col-12">
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Budget Category</label>
+                                <div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="cat_bdgt" id="cat_bdgt" value="CAPEX">
+                                        <label class="form-check-label" for="cat_bdgt1">CAPEX</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="cat_bdgt" id="cat_bdgt" value="OPEX">
+                                        <label class="form-check-label" for="cat_bdgt2">OPEX</label>
+                                    </div>
+                                    <?= form_error('cat_bdgt', '<small class="form-text text-danger">', '</small>'); ?>
+                                </div>
+                            </div>
                             <!-- <div class="col-12">
                                 <label for="inputNanme4" class="form-label">Accounted CR Amount</label>
                                 <input type="number" name="credit" class="form-control" id="credit">
                                 <?= form_error('credit', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>                   -->
                             <div class="col-12">
-                            <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Date</label>
-                            <input type="text" name="date" class="form-control" id="datepicker" placeholder="00/00/0000">
-                            <?= form_error('date', '<small class="form-text text-danger">', '</small>'); ?>
-                        </div>        
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Date</label>
+                                <input type="text" name="date" class="form-control" id="datepicker" placeholder="00/00/0000">
+                                <?= form_error('date', '<small class="form-text text-danger">', '</small>'); ?>
+                            </div>
                             <div class="text-center col-12 mt-3  ">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                                 <button type="reset" class="btn btn-secondary">Reset</button>
@@ -86,15 +100,14 @@
                     </div>
                 </div>
             </div>
-        </div>  
+        </div>
     </div>
 
-</div>
-<script>
-$(function () {
-    $('select').selectpicker();
-    $('#datepicker').datepicker();
-});
-
-</script>
-</main><!-- End #main -->
+    </div>
+    <script>
+        $(function() {
+            $('select').selectpicker();
+            $('#datepicker').datepicker();
+        });
+    </script>
+    </main><!-- End #main -->
