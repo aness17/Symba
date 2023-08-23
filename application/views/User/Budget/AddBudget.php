@@ -8,7 +8,6 @@
                     </div>
                     <div class="card-body">
                         <form method="POST" action="<?= base_url('user/addbudget/') ?>" class="row g-3">
-
                             <div class="col-12">
                                 <label for="acc" class="form-label"><span class="text-danger">*</span>Account</label>
                                 <select id="accs" class="form-control" class="selectpicker" data-live-search="true" name="acc">
@@ -19,7 +18,6 @@
                                 </select>
                                 <?= form_error('Account', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
-
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label">PIC</label>
                                 <select name="user" class="form-control" id="exampleFormControlSelect1" name="user" disabled>
@@ -41,7 +39,7 @@
                                 <label for="inputNanme4" class="form-label">Category</label>
                                 <input type="text" name="category" class="form-control" id="category">
                                 <?= form_error('category', '<small class="form-text text-danger">', '</small>'); ?>
-                            </div>
+                            </div> 
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label">Document Reference</label>
                                 <input type="text" name="docref" class="form-control" id="docref">
@@ -53,7 +51,7 @@
                                 <?= form_error('dns', '<small class="form-text text-danger">', '</small>'); ?>
                             </div> -->
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Desc. of source module</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Remarks</label>
                                 <input type="text" name="dsm" class="form-control" id="dsm">
                                 <?= form_error('dsm', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
@@ -63,7 +61,7 @@
                                 <?= form_error('cur', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
-                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Accounted DR Amount</label>
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Total Amount</label>
                                 <input type="text" onkeypress="return /[0-9]/i.test(event.key)" name="debit" class="form-control" id="debit">
                                 <?= form_error('debit', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>

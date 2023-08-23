@@ -337,8 +337,8 @@
                                         <tr style="text-align: center;">
                                             <th>No</th>
                                             <th style="width: 75px;">Account</th>
-                                            <th style="width: 350px;">Description source of module</th>
                                             <th style="width: 150px;">Description</th>
+                                            <th style="width: 350px;">Description source of module</th>
                                             <!-- <th>Source</th> -->
                                             <!-- <th>Category</th> -->
                                             <!-- <th>Currency</th> -->
@@ -358,8 +358,8 @@
                                 <input type="hidden" id="id_user" value="<?= $bg['id_user'] ?>"> -->
                                                 <td><?= $no; ?></td>
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
-                                                <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
                                                 <td><?= $bg['description'] ?></td>
+                                                <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
                                                 <!-- <td><?= $bg['source'] ?></td> -->
                                                 <!-- <td><?= $bg['currency'] ?></td> -->
                                                 <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
@@ -387,12 +387,9 @@
                                         <tr style="text-align: center;">
                                             <th style="width: 22px;">No</th>
                                             <th style="width: 202px;">Account</th>
-                                            <th style="width: 215px;">Description source of module</th>
-                                            <th style="width: 315px;">Description</th>
-                                            <!-- <th>Source</th> -->
-                                            <!-- <th>Category</th> -->
-                                            <!-- <th>Currency</th> -->
-                                            <th style="width: 100px;">Budget Amount</th>
+                                            <th>Description</th>
+                                            <th>Remarks</th>
+                                            <th>Total Amount</th>
                                             <th style="width: 100px;">Remaining Balance</th>
                                             <th style="width: 25px;">Used</th>
                                             <!-- <th>Date</th> -->
@@ -407,8 +404,8 @@
                                                 <input type="hidden" id="id_user" value="<?= $bg['id_user'] ?>">
                                                 <td><?= $no; ?></td>
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
-                                                <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
                                                 <td><?= $bg['description'] ?></td>
+                                                <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
                                                 <!-- <td><?= $bg['source'] ?></td> -->
                                                 <!-- <td><?= $bg['currency'] ?></td> -->
                                                 <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
@@ -500,8 +497,8 @@
                                         <tr style="text-align: center;">
                                             <th>No</th>
                                             <th style="width: 202px;">Account</th>
-                                            <th style="width: 350px;">Description source of module</th>
                                             <th style="width: 150px;">Description</th>
+                                            <th style="width: 350px;">Description source of module</th>
                                             <!-- <th>Source</th> -->
                                             <!-- <th>Category</th> -->
                                             <!-- <th>Currency</th> -->
@@ -521,8 +518,8 @@
                                 <input type="hidden" id="id_user" value="<?= $bg['id_user'] ?>"> -->
                                                 <td><?= $no; ?></td>
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
-                                                <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
                                                 <td><?= $bg['description'] ?></td>
+                                                <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
                                                 <!-- <td><?= $bg['source'] ?></td> -->
                                                 <!-- <td><?= $bg['currency'] ?></td> -->
                                                 <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>
@@ -549,12 +546,9 @@
                                         <tr style="text-align: center;">
                                             <th style="width: 22px;">No</th>
                                             <th style="width: 202px;">Account</th>
-                                            <th style="width: 215px;">Description source of module</th>
-                                            <th style="width: 315px;">Description</th>
-                                            <!-- <th>Source</th> -->
-                                            <!-- <th>Category</th> -->
-                                            <!-- <th>Currency</th> -->
-                                            <th style="width: 100px;">Budget Amount</th>
+                                            <th>Description</th>
+                                            <th>Remarks</th>
+                                            <th>Total Amount</th>
                                             <th style="width: 100px;">Remaining Balance</th>
                                             <th style="width: 25px;">Used</th>
                                             <!-- <th>Date</th> -->
@@ -569,8 +563,8 @@
                                                 <input type="hidden" id="id_user" value="<?= $bg['id_user'] ?>">
                                                 <td><?= $no; ?></td>
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
-                                                <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
                                                 <td><?= $bg['description'] ?></td>
+                                                <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
                                                 <!-- <td><?= $bg['source'] ?></td> -->
                                                 <!-- <td><?= $bg['currency'] ?></td> -->
                                                 <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?></td>

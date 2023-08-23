@@ -56,7 +56,7 @@
                                 <?= form_error('dns', '<small class="form-text text-danger">', '</small>'); ?>
                             </div> -->
                     <div class="col-12">
-                        <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Desc. of source module</label>
+                        <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Remarks</label>
                         <input type="text" name="dsm" class="form-control" id="dsm">
                         <?= form_error('dsm', '<small class="form-text text-danger">', '</small>'); ?>
                     </div>
@@ -66,7 +66,7 @@
                         <?= form_error('cur', '<small class="form-text text-danger">', '</small>'); ?>
                     </div>
                     <div class="col-12">
-                        <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Accounted DR Amount</label>
+                        <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Total Amount</label>
                         <input type="text" onkeypress="return /[0-9]/i.test(event.key)" name="debit" class="form-control" id="debit">
                         <?= form_error('debit', '<small class="form-text text-danger">', '</small>'); ?>
                     </div>

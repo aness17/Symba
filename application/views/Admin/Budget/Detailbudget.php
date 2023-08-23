@@ -19,10 +19,10 @@
                         <tr style="text-align: center;">
                             <th>Account</th>
                             <th>PIC</th>
-                            <th>Description source of module</th>
+                            <th>Remarks</th>
                             <!-- <th>Source</th> -->
                             <!-- <th>Currency</th> -->
-                            <th>Budget Amount</th>
+                            <th>Total Amount</th>
                             <th>Remaining Balance</th>
                             <!-- <th>Date</th> -->
                             <th>Status</th>

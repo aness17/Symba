@@ -22,14 +22,10 @@
                             <th>No</th>
                             <th>Account</th>
                             <th>PIC</th>
-                            <th>Description source of module</th>
                             <th>Description</th>
-                            <!-- <th>Currency</th> -->
-                            <th>Budget Amount</th>
-                            <!-- <th>Remaining Balance</th> -->
-                            <!-- <th>Date</th> -->
+                            <th>Remarks</th>
+                            <th>Total Amount</th>
                             <th>Status</th>
-                            <!-- <th>Action</th> -->
                         </tr>
                     </thead>
                     <tbody class="list">

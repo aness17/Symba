@@ -4,7 +4,10 @@
         <!-- Project Card Example -->
         <div class="card shadow mb-12">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Add Travel DA</h6>
+                <div class="d-flex justify-content-between">
+                    <h6 class="m-2 font-weight-bold text-primary">Add Travel DA</h6>
+                    <a href="#info" data-toggle="modal"><i class="fa fa-info-circle" style=" font-size:25px"></i></a>
+                </div>
             </div>
             <div class="card-body">
                 <form method="POST" action="<?= base_url('budget/travelda') ?>" class="row g-3" enctype="multipart/form-data">
@@ -75,6 +78,24 @@
 
                     </div>
                 </form><!-- Vertical Form -->
+            </div>
+            <div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-dismiss="modal">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-info-circle"></i> Information</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <img src="<?= base_url('fotouser/info.png') ?>" style="width:fit-content;height:405px" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -22,10 +22,10 @@
                             <th>No</th>
                             <th>Account</th>
                             <th>PIC</th>
-                            <th>Description source of module</th>
                             <th>Description</th>
+                            <th>Remarks</th>
                             <!-- <th>Currency</th> -->
-                            <th>Budget Amount</th>
+                            <th>Total Amount</th>
                             <th>Remaining Balance</th>
                             <!-- <th>Date</th> -->
                             <th>Status</th>
@@ -40,8 +40,8 @@
                                 <td><?= $no; ?></td>
                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
                                 <td><?= $bg['name_user'] ?> [<?= $bg['division'] ?>-<?= $bg['name_station'] ?>]</td>
-                                <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
                                 <td><?= $bg['description'] ?></td>
+                                <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
                                 <!-- <td><?= $bg['category'] ?></td> -->
                                 <!-- <td><?= $bg['currency'] ?></td> -->
                                 <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?> </td>
