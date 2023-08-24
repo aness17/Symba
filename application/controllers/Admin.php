@@ -287,6 +287,12 @@ class Admin extends CI_Controller
     }
     public function adduser()
     {
+
+        $this->form_validation->set_rules('nameuser', 'Nama User', 'required');
+        $this->form_validation->set_rules('username', 'Username', 'required|is_unique[tuser.username_user]');
+        $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
+        $this->form_validation->set_rules('dvn', 'Division', 'required');
+        $this->form_validation->set_rules('role', 'Role', 'required');
         $dvn = $this->dvn->selectAll();
         $role = $this->role->selectAll();
         $data = [
@@ -294,14 +300,53 @@ class Admin extends CI_Controller
             'role' => $role,
             'heading' => 'user'
         ];
-        $this->load->view('templates/header');
-        $this->load->view('templates/sidebar_admin', $data);
-        $this->load->view('admin/user/add_user', $data);
-        $this->load->view('templates/footer');
+        if ($this->form_validation->run() == true) {
+            $config['upload_path']          = './fotouser/';
+            $config['allowed_types']        = 'gif|jpg|png';
+            $config['max_size']             = 1000;
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload('fotouser')) {
+                $last = explode("V", $this->User_model->getLastId()["id_user"])[1];
+                $db = [
+                    'name_user' => $this->input->post('nameuser'),
+                    'username_user' => $this->input->post('username'),
+                    'password_user' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+                    'id_dvn' => $this->input->post('dvn'),
+                    'id_role' => $this->input->post('role'),
+                    'fotouser' => $this->upload->data()["file_name"],
+                    // 'id_access' =>
+                ];
+                // var_dump($db);die;
+                if ($this->User_model->createuser($db) > 0) {
+                    $this->session->set_flashdata('message_login', $this->flasher('success', 'User has been registered!'));
+                    redirect('admin/user');
+                } else {
+                    echo "Failed to create User";
+                    die;
+                    $this->session->set_flashdata('message_login', $this->flasher('danger', 'Failed to create User'));
+                }
+                // }
+                // redirect('admin/pelanggan/tambahpelanggan');
+            } else {
+                $this->session->set_flashdata('message_login', $this->flasher('danger', $this->upload->display_errors()));
+                redirect('admin/user');
+            }
+        } else {
+            $this->load->view('templates/header');
+            $this->load->view('templates/sidebar_admin', $data);
+            $this->load->view('admin/user/add_user', $data);
+            $this->load->view('templates/footer');
+        }
     }
 
     public function edituser($id)
     {
+
+        $this->form_validation->set_rules('nameuser', 'Nama User', 'required');
+        $this->form_validation->set_rules('username', 'Username', 'required');
+        $this->form_validation->set_rules('password', 'Password', 'min_length[6]');
+        $this->form_validation->set_rules('dvn', 'Division', 'required');
+        $this->form_validation->set_rules('role', 'Role', 'required');
         $user = $this->user->getUserById($id);
         $dvn = $this->dvn->selectAll();
         $role = $this->role->selectAll();
@@ -311,50 +356,86 @@ class Admin extends CI_Controller
             'role' => $role,
             'heading' => 'user'
         ];
-
-        $this->load->view('templates/header');
-        $this->load->view('templates/sidebar_admin', $data);
-        $this->load->view('admin/user/edit_user', $data);
-        $this->load->view('templates/footer');
-    }
-    public function resetpassworduser($id)
-    {
-        $this->form_validation->set_rules('username', 'Username', '');
-        $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
-
-        $user = $this->user->getUserById($id);
-        $data = [
-            'user' => $user,
-            'heading' => 'user'
-        ];
         // if ($id == "") {
-        // var_dump($user);
-        // die;
+        // var_dump($user['id_station']);die;
         if ($this->form_validation->run() == true) {
             $db = [
                 'id_user' => $id,
-                'username_user' => $user['username_user'],
+                'name_user' => $this->input->post('nameuser'),
+                'username_user' => $this->input->post('username'),
                 'password_user' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+                'id_dvn' => $this->input->post('dvn'),
+                'id_role' => $this->input->post('role')
             ];
-            // var_dump($db);
-            // die;
+            if ($_FILES["fotouser"]["name"] != "") {
+                $config['upload_path']          = './fotouser/';
+                $config['allowed_types']        = 'gif|jpg|png';
+                $config['max_size']             = 1000;
+                $this->load->library('upload', $config);
+                if ($this->upload->do_upload('fotouser')) {
+                    unlink(FCPATH . 'fotouser/' . $user["fotouser"]);
+                    $db['fotouser'] = $this->upload->data()["file_name"];
+                } else {
+                    $this->session->set_flashdata('message_login', $this->flasher('danger', $this->upload->display_errors()));
+                    var_dump($this->upload->display_errors());
+                    die;
+                    redirect('admin/edituser/' . $id);
+                }
+            }
+            // var_dump($db);die;
             if ($this->user->update($db) > 0) {
                 $this->session->set_flashdata('message', $this->flasher('success', 'Success To Edit Data'));
-                redirect('admin/user');
             } else {
                 $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Edit Data'));
-                redirect('admin/resetpassworduser/' . $data['id_user']);
             }
-
+            redirect('admin/user');
             // }
             // redirect('admin/pelanggan/tambahpelanggan');
         } else {
             $this->load->view('templates/header');
             $this->load->view('templates/sidebar_admin', $data);
-            $this->load->view('admin/user/change_password', $data);
+            $this->load->view('admin/user/edit_user', $data);
             $this->load->view('templates/footer');
         }
     }
+    // public function resetpassworduser($id)
+    // {
+    //     $this->form_validation->set_rules('username', 'Username', '');
+    //     $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
+
+    //     $user = $this->user->getUserById($id);
+    //     $data = [
+    //         'user' => $user,
+    //         'heading' => 'user'
+    //     ];
+    //     // if ($id == "") {
+    //     // var_dump($user);
+    //     // die;
+    //     if ($this->form_validation->run() == true) {
+    //         $db = [
+    //             'id_user' => $id,
+    //             'username_user' => $user['username_user'],
+    //             'password_user' => password_hash($this->input->post('password'), PASSWORD_DEFAULT),
+    //         ];
+    //         // var_dump($db);
+    //         // die;
+    //         if ($this->user->update($db) > 0) {
+    //             $this->session->set_flashdata('message', $this->flasher('success', 'Success To Edit Data'));
+    //             redirect('admin/user');
+    //         } else {
+    //             $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Edit Data'));
+    //             redirect('admin/resetpassworduser/' . $data['id_user']);
+    //         }
+
+    //         // }
+    //         // redirect('admin/pelanggan/tambahpelanggan');
+    //     } else {
+    //         $this->load->view('templates/header');
+    //         $this->load->view('templates/sidebar_admin', $data);
+    //         $this->load->view('admin/user/change_password', $data);
+    //         $this->load->view('templates/footer');
+    //     }
+    // }
     public function deleteuser($id)
     {
         if ($id) {
