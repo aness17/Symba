@@ -63,18 +63,22 @@ class Budget extends CI_Controller
             redirect('auth/');
         }
         if ($ci->session->userdata('id_role') == '2') {
-            $data = [
-                'id_user' => $id,
-                'remarks' => 'User not authorized',
-                'ip_add' => $ip
-            ];
-            // var_dump($data);die;
-            $this->Log_model->create($data);
-            $this->session->set_flashdata('message_login', $this->flasher('success', 'Your not authorized'));
-            $this->session->unset_userdata('id_user');
-            $this->session->unset_userdata('id_role');
-            $this->session->unset_userdata('name_user');
-            redirect('auth/');
+            if ($ci->session->userdata('id_role') > 0) {
+                $data = [
+                    'id_user' => $id,
+                    'remarks' => 'User not authorized',
+                    'ip_add' => $ip
+                ];
+                $this->Log_model->create($data);
+
+                $this->session->set_flashdata('message_login', $this->flasher('success', 'Your not authorized'));
+                $this->session->unset_userdata('id_user');
+                $this->session->unset_userdata('id_role');
+                $this->session->unset_userdata('name_user');
+                redirect('auth/');
+            } else {
+                redirect('auth/');
+            }
         }
     }
     public function databudget()
