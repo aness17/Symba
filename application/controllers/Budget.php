@@ -63,6 +63,13 @@ class Budget extends CI_Controller
             redirect('auth/');
         }
         if ($ci->session->userdata('id_role') == '2') {
+            $data = [
+                'id_user' => $id,
+                'remarks' => 'User not authorized',
+                'ip_add' => $ip
+            ];
+            // var_dump($data);die;
+            $this->Log_model->create($data);
             $this->session->set_flashdata('message_login', $this->flasher('success', 'Your not authorized'));
             $this->session->unset_userdata('id_user');
             $this->session->unset_userdata('id_role');
@@ -268,11 +275,11 @@ class Budget extends CI_Controller
         $this->form_validation->set_rules('acc', 'Account', '');
         $this->form_validation->set_rules('user', 'Division', '');
         $this->form_validation->set_rules('desc', 'Description', 'required');
-        // $this->form_validation->set_rules('source', 'Source', '');
-        // $this->form_validation->set_rules('category', 'Category', '');
-        // $this->form_validation->set_rules('docref', 'References', '');
+        $this->form_validation->set_rules('program', 'Programme', 'required');
+        $this->form_validation->set_rules('qty', 'Quantity', 'required');
+        $this->form_validation->set_rules('unit', 'Unit', 'required');
         // $this->form_validation->set_rules('dns', 'Desc Source', '');
-        $this->form_validation->set_rules('dsm', 'Desc Module', 'required');
+        $this->form_validation->set_rules('dsm', 'Remarks', 'required');
         // $this->form_validation->set_rules('cur', 'Currency', 'required');
         $this->form_validation->set_rules('debit', 'Debit', 'required');
         $this->form_validation->set_rules('cat_bdgt', 'Budget Category', 'required');
@@ -305,11 +312,11 @@ class Budget extends CI_Controller
                     'product' => '00000',
                     'id_user' => $id,
                     'description' => $this->input->post('desc'),
-                    // 'source'=> $this->input->post('source'),
+                    'program' => $this->input->post('program'),
                     // 'category'=> $this->input->post('category'),
                     // 'doc_ref'=> $this->input->post('docref'),
                     // 'doc_number'=> $this->input->post('dns'),
-                    'desc_source' => $this->input->post('dsm'),
+                    'desc_source' => $this->input->post('dsm') . ' ' . $this->input->post('qty') . ' ' . $this->input->post('unit'),
                     'currency' => 'IDR',
                     'amount_debit' => $this->input->post('debit'),
                     'amount_credit' => 0,
@@ -350,11 +357,11 @@ class Budget extends CI_Controller
                     'product' => '00000',
                     'id_user' => $id,
                     'description' => $this->input->post('desc'),
-                    // 'source'=> $this->input->post('source'),
+                    'program' => $this->input->post('program'),
                     // 'category'=> $this->input->post('category'),
                     // 'doc_ref'=> $this->input->post('docref'),
                     // 'doc_number'=> $this->input->post('dns'),
-                    'desc_source' => $this->input->post('dsm'),
+                    'desc_source' => $this->input->post('dsm') . ' ' . $this->input->post('qty') . ' ' . $this->input->post('unit'),
                     'currency' => 'IDR',
                     'amount_debit' => $this->input->post('debit'),
                     'amount_credit' => 0,
@@ -486,11 +493,11 @@ class Budget extends CI_Controller
             //    $this->form_validation->set_rules('acc', 'Account', '');
             //    $this->form_validation->set_rules('user', 'Division', '');
             $this->form_validation->set_rules('desc', 'Description', 'required');
-            //    $this->form_validation->set_rules('source', 'Departement', '');
+            $this->form_validation->set_rules('program', 'Programme', 'required');
             //    $this->form_validation->set_rules('category', 'Departement', '');
             //    $this->form_validation->set_rules('docref', 'Departement', '');
             //    $this->form_validation->set_rules('dns', 'Departement', '');
-            $this->form_validation->set_rules('dsm', 'Desc of source module', '');
+            $this->form_validation->set_rules('dsm', 'Remarks', '');
             //    $this->form_validation->set_rules('cur', 'Currency', 'required');
             $this->form_validation->set_rules('debit', 'Departement', '');
             $this->form_validation->set_rules('cat_bdgt', 'Budget Category', 'required');
@@ -518,7 +525,7 @@ class Budget extends CI_Controller
                     'product' => '00000',
                     'id_user' => $bg['id_user'],
                     'description' => $this->input->post('desc'),
-                    // 'source'=> $this->input->post('source'),
+                    'program' => $this->input->post('program'),
                     // 'category'=> $this->input->post('category'),
                     // 'doc_ref'=> $this->input->post('docref'),
                     // 'doc_number'=> $this->input->post('dns'),

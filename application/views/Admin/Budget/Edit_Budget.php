@@ -24,7 +24,6 @@
                         </select>
                         <?= form_error('Account', '<small class="form-text text-danger">', '</small>'); ?>
                     </div>
-
                     <div class="col-12">
                         <label for="inputNanme4" class="form-label">PIC</label>
                         <select name="user" class="form-control" id="exampleFormControlSelect1" name="user" <?php if (strlen($bg['status']) == 3) {
@@ -39,6 +38,11 @@
                             <?php endforeach; ?>
                         </select>
                         <?= form_error('user', '<small class="form-text text-danger">', '</small>'); ?>
+                    </div>
+                    <div class="col-12">
+                        <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Programme</label>
+                        <input type="text" name="program" class="form-control" id="program" value="<?= $bg['program'] ?>">
+                        <?= form_error('program', '<small class="form-text text-danger">', '</small>'); ?>
                     </div>
                     <div class="col-12">
                         <label for="inputNanme4" class="form-label">Description</label>

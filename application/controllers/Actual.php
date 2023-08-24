@@ -70,6 +70,13 @@ class Actual extends CI_Controller
             redirect('auth/');
         }
         if ($ci->session->userdata('id_role') == '2') {
+            $data = [
+                'id_user' => $id,
+                'remarks' => 'User not authorized',
+                'ip_add' => $ip
+            ];
+            $this->Log_model->create($data);
+
             $this->session->set_flashdata('message_login', $this->flasher('success', 'Your not authorized'));
             $this->session->unset_userdata('id_user');
             $this->session->unset_userdata('id_role');

@@ -4,11 +4,13 @@
         <!-- Project Card Example -->
         <div class="card shadow mb-12">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Add Budget</h6>
+                <div class="d-flex justify-content-between">
+                    <h6 class="m-2 font-weight-bold text-primary">Add Budget CAPEX OPEX</h6>
+                    <a href="#info" data-toggle="modal"><i class="fa fa-info-circle" style=" font-size:25px"></i></a>
+                </div>
             </div>
             <div class="card-body">
                 <form method="POST" action="<?= base_url('budget/addbudget/') ?>" class="row g-3">
-
                     <div class="col-12">
                         <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Account</label>
                         <select name="acc" class="form-control" id="acc" class="selectpicker" data-live-search="true">
@@ -31,30 +33,34 @@
                         <?= form_error('user', '<small class="form-text text-danger">', '</small>'); ?>
                     </div>
                     <div class="col-12">
+                        <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Programme</label>
+                        <input type="text" name="program" class="form-control" id="program">
+                        <?= form_error('program', '<small class="form-text text-danger">', '</small>'); ?>
+                    </div>
+                    <div class="col-12">
                         <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Description</label>
                         <input type="text" name="desc" class="form-control" id="desc">
                         <?= form_error('desc', '<small class="form-text text-danger">', '</small>'); ?>
                     </div>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Qty</label>
+                                <input type="text" name="qty" class="form-control" id="qty">
+                                <?= form_error('qty', '<small class="form-text text-danger">', '</small>'); ?>
+                            </div>
+                            <div class="col-6">
+                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Unit</label>
+                                <input type="text" name="unit" class="form-control" id="unit">
+                                <?= form_error('unit', '<small class="form-text text-danger">', '</small>'); ?>
+                            </div>
+                        </div>
+                    </div>
                     <!-- <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Source</label>
-                                <input type="text" name="source" class="form-control" id="source">
-                                <?= form_error('source', '<small class="form-text text-danger">', '</small>'); ?>
-                            </div>
-                            <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Category</label>
-                                <input type="text" name="category" class="form-control" id="category">
-                                <?= form_error('category', '<small class="form-text text-danger">', '</small>'); ?>
-                            </div>
-                            <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Document Reference</label>
-                                <input type="text" name="docref" class="form-control" id="docref">
-                                <?= form_error('docref', '<small class="form-text text-danger">', '</small>'); ?>
-                            </div>
-                            <div class="col-12">
-                                <label for="inputNanme4" class="form-label">Doc. Number of Source</label>
-                                <input type="text" name="dns" class="form-control" id="dns">
-                                <?= form_error('dns', '<small class="form-text text-danger">', '</small>'); ?>
-                            </div> -->
+                        <label for="inputNanme4" class="form-label">Doc. Number of Source</label>
+                        <input type="text" name="dns" class="form-control" id="dns">
+                        <?= form_error('dns', '<small class="form-text text-danger">', '</small>'); ?>
+                    </div> -->
                     <div class="col-12">
                         <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Remarks</label>
                         <input type="text" name="dsm" class="form-control" id="dsm">
@@ -101,6 +107,24 @@
                         <button type="button" onclick="history.go(-1);" class="btn btn-success">Kembali</button>
                     </div>
                 </form><!-- Vertical Form -->
+            </div>
+            <div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-dismiss="modal">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-info-circle"></i> Information</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <img src="<?= base_url('fotouser/infobudget.png') ?>" style="width:fit-content;height:625px" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
