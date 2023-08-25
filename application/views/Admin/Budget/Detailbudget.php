@@ -19,6 +19,7 @@
                         <tr style="text-align: center;">
                             <th>Account</th>
                             <th>PIC</th>
+                            <th>Program</th>
                             <th>Remarks</th>
                             <!-- <th>Source</th> -->
                             <!-- <th>Currency</th> -->
@@ -34,6 +35,7 @@
                             <!-- <td><?= $no; ?></td> -->
                             <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
                             <td><?= $bg['name_user'] ?> [<?= $bg['division'] ?>-<?= $bg['name_station'] ?>]</td>
+                            <td><?= str_replace('#', ' ', $bg['program']) ?></td>
                             <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
                             <!-- <td><?= $bg['source'] ?></td> -->
                             <!-- <td><?= $bg['category'] ?></td> -->
@@ -64,7 +66,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-2">
             <div class="d-flex justify-content-between">
-                <h6 class="m-2 font-weight-bold text-primary">Actual Data</h6>
+                <h6 class="m-2 font-weight-bold text-primary">Detail Actual Data</h6>
                 <a href="<?= base_url('actual/addactual/' . $bg['id_budget']) ?>" class="btn btn-primary">Add Data</a>
             </div>
 

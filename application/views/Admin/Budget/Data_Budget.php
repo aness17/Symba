@@ -7,7 +7,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-2">
             <div class="d-flex justify-content-between">
-                <h6 class="m-2 font-weight-bold text-primary">Budget Data</h6>
+                <h6 class="m-2 font-weight-bold text-primary">Detail Budget Data</h6>
                 <div>
                     <a href="<?= base_url('budget/databudget') ?>" class="btn btn-info">Back</a>
                     <a href="<?= base_url('budget/addbudget/' . $id) ?>" class="btn btn-primary">Add Data</a>
@@ -23,6 +23,7 @@
                             <th>Account</th>
                             <th>PIC</th>
                             <th>Description</th>
+                            <th>Program</th>
                             <th>Remarks</th>
                             <!-- <th>Currency</th> -->
                             <th>Total Amount</th>
@@ -41,6 +42,7 @@
                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
                                 <td><?= $bg['name_user'] ?> [<?= $bg['division'] ?>-<?= $bg['name_station'] ?>]</td>
                                 <td><?= $bg['description'] ?></td>
+                                <td><?= $bg['program'] ?></td>
                                 <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
                                 <!-- <td><?= $bg['category'] ?></td> -->
                                 <!-- <td><?= $bg['currency'] ?></td> -->
