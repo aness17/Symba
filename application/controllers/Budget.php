@@ -50,17 +50,20 @@ class Budget extends CI_Controller
         $ci = get_instance();
         $id = $ci->session->userdata('id');
         $ip = $this->input->ip_address();
-        if (time() - $_SESSION['login_time'] >= 1800) {
-            $data = [
-                'id_user' => $id,
-                'remarks' => 'Session Timeout',
-                'ip_add' => $ip
-            ];
-            // var_dump($data);die;
-            $this->Log_model->create($data);
-            session_destroy();
+        if ($ci->session->userdata('id_role') == '1') {
 
-            redirect('auth/');
+            if (time() - $_SESSION['login_time'] >= 1800) {
+                $data = [
+                    'id_user' => $id,
+                    'remarks' => 'Session Timeout',
+                    'ip_add' => $ip
+                ];
+                // var_dump($data);die;
+                $this->Log_model->create($data);
+                session_destroy();
+
+                redirect('auth/');
+            }
         }
         if ($ci->session->userdata('id_role') == '2') {
             if ($ci->session->userdata('id_role') > 0) {
@@ -537,7 +540,7 @@ class Budget extends CI_Controller
                     'currency' => 'IDR',
                     'amount_debit' => $this->input->post('debit'),
                     'amount_credit' => 0,
-                    'status' => 'yes',
+                    'status' => 'no',
                     'category_budget' => $this->input->post('cat_bdgt'),
                     'budget_year' => $bg['budget_year'],
                     'id_bdgt' => $bdgt['id_bdgt']

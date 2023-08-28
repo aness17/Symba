@@ -48,16 +48,19 @@ class User extends CI_Controller
         $ci = get_instance();
         $id = $ci->session->userdata('id');
         $ip = $this->input->ip_address();
-        if (time() - $_SESSION['login_time'] >= 1800) {
-            $data = [
-                'id_user' => $id,
-                'remarks' => 'Session Timeout',
-                'ip_add' => $ip
-            ];
-            // var_dump($data);die;
-            $this->Log_model->create($data);
-            session_destroy();
-            redirect('auth/');
+        if ($ci->session->userdata('id_role') == '3') {
+
+            if (time() - $_SESSION['login_time'] >= 1800) {
+                $data = [
+                    'id_user' => $id,
+                    'remarks' => 'Session Timeout',
+                    'ip_add' => $ip
+                ];
+                // var_dump($data);die;
+                $this->Log_model->create($data);
+                session_destroy();
+                redirect('auth/');
+            }
         }
         if ($ci->session->userdata('id_role') != '3') {
             if ($ci->session->userdata('id_role') > 0) {
@@ -469,7 +472,6 @@ class User extends CI_Controller
             'tahun' => $tahun,
             'heading' => 'user'
         ];
-        $this->Log_model->create($data);
 
         // var_dump($data);die;
         $this->form_validation->set_rules('grade', 'Grade', 'required');
@@ -481,7 +483,7 @@ class User extends CI_Controller
 
         // $periode = date("Y", strtotime($this->input->post('date')));
         if ($this->form_validation->run() == true) {
-            $periode = date("Y", strtotime($this->input->post('periode')));
+            $periode = $this->input->post('periode');
             $db = [
                 'grade' => $this->input->post('grade'),
                 'hari' => $this->input->post('hari'),
@@ -511,10 +513,7 @@ class User extends CI_Controller
                     'product' => '00000',
                     'id_user' => $id,
                     'description' => 'Daily Allowance',
-                    'source' => '',
-                    'category' => '',
-                    'doc_ref' => '',
-                    'doc_number' => '',
+                    'program' => $this->input->post('program'),
                     'desc_source' => 'DA#' . $this->input->post('program') . '#' . $this->input->post('tujuan') . '#' . $this->input->post('grade') . '#' . $this->input->post('hari') . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $daa,
@@ -551,10 +550,7 @@ class User extends CI_Controller
                     'product' => '00000',
                     'id_user' => $id,
                     'description' => 'Daily Allowance',
-                    'source' => '',
-                    'category' => '',
-                    'doc_ref' => '',
-                    'doc_number' => '',
+                    'program' => $this->input->post('program'),
                     'desc_source' => 'DA#' . $this->input->post('program') . '#' . $this->input->post('tujuan') . '#' . $this->input->post('grade') . '#' . $this->input->post('hari') . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $daa,
@@ -587,10 +583,7 @@ class User extends CI_Controller
                     'product' => '00000',
                     'id_user' => $id,
                     'description' => 'Travel Expense Domestic',
-                    'source' => '',
-                    'category' => '',
-                    'doc_ref' => '',
-                    'doc_number' => '',
+                    'program' => $this->input->post('program'),
                     'desc_source' => 'Akomodasi#' . $this->input->post('program') . '#' . $this->input->post('tujuan') . '#' . $this->input->post('grade') . '#' . $this->input->post('hari') . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $ted,
@@ -627,10 +620,7 @@ class User extends CI_Controller
                     'product' => '00000',
                     'id_user' => $id,
                     'description' => 'Travel Expense Domestic',
-                    'source' => '',
-                    'category' => '',
-                    'doc_ref' => '',
-                    'doc_number' => '',
+                    'program' => $this->input->post('program'),
                     'desc_source' => 'Akomodasi#' . $this->input->post('program') . '#' . $this->input->post('tujuan') . '#' . $this->input->post('grade') . '#' . $this->input->post('hari') . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $ted,
@@ -663,10 +653,7 @@ class User extends CI_Controller
                     'product' => '00000',
                     'id_user' => $id,
                     'description' => 'Ticket',
-                    'source' => '',
-                    'category' => '',
-                    'doc_ref' => '',
-                    'doc_number' => '',
+                    'program' => $this->input->post('program'),
                     'desc_source' => 'Ticket#' . $this->input->post('program') . '#' . $this->input->post('tujuan') . '#' . $this->input->post('grade') . '#' . $this->input->post('hari') . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $ticket,
@@ -703,10 +690,7 @@ class User extends CI_Controller
                     'product' => '00000',
                     'id_user' => $id,
                     'description' => 'Ticket',
-                    'source' => '',
-                    'category' => '',
-                    'doc_ref' => '',
-                    'doc_number' => '',
+                    'program' => $this->input->post('program'),
                     'desc_source' => 'Ticket#' . $this->input->post('program') . '#' . $this->input->post('tujuan') . '#' . $this->input->post('grade') . '#' . $this->input->post('hari') . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $ticket,

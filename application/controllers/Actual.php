@@ -58,17 +58,20 @@ class Actual extends CI_Controller
         $ci = get_instance();
         $id = $ci->session->userdata('id');
         $ip = $this->input->ip_address();
-        if (time() - $_SESSION['login_time'] >= 1800) {
-            $data = [
-                'id_user' => $id,
-                'remarks' => 'Session Timeout',
-                'ip_add' => $ip
-            ];
-            // var_dump($data);die;
-            $this->Log_model->create($data);
-            session_destroy();
+        if ($ci->session->userdata('id_role') == '1') {
 
-            redirect('auth/');
+            if (time() - $_SESSION['login_time'] >= 1800) {
+                $data = [
+                    'id_user' => $id,
+                    'remarks' => 'Session Timeout',
+                    'ip_add' => $ip
+                ];
+                // var_dump($data);die;
+                $this->Log_model->create($data);
+                session_destroy();
+
+                redirect('auth/');
+            }
         }
         if ($ci->session->userdata('id_role') == '2') {
             if ($ci->session->userdata('id_role') > 0) {
@@ -91,8 +94,8 @@ class Actual extends CI_Controller
     }
     public function dataactual()
     {
-        $actual = $this->Actual_model->selectAll();
-        $bg = $this->Actual_model->selectAll();
+        $thn = date('Y');
+        $actual = $this->Actual_model->selectAll($thn);
         $data = [
             'actual' => $actual,
             'heading' => 'actual'

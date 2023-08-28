@@ -122,7 +122,7 @@ function budget(id, tahun, category) {
 
 			let obj = JSON.parse(x);
 			let tbl =
-				'<div class="table-responsive"><table class="table table-bordered" id="dataTableBudget" width="100%" cellspacing="0"><thead><tr style="text-align: center;"><th>No</th><th>Account</th><th>Description Budget</th><th>Description source of module</th><th>Source</th><th>Budget Amount</th><th>Status</th><th>Budget Date</th></tr></thead><tbody class="list">' +
+				'<div class="table-responsive"><table class="table table-bordered" id="dataTableBudget" width="100%" cellspacing="0"><thead><tr style="text-align: center;"><th>No</th><th>Account</th><th>Program</th><th>Description</th><th>Remarks</th><th>Budget Amount</th><th>Status</th><th>Budget Date</th></tr></thead><tbody class="list">' +
 				obj +
 				"</tbody></table></div>";
 			// console.log(obj);
@@ -154,7 +154,7 @@ function actual(id, tahun, category) {
 		success: function (r) {
 			let obj = JSON.parse(r);
 			let tbl =
-				'<div class="table-responsive"><table class="table table-bordered" id="dataTableActual" width="100%" cellspacing="0"><thead><tr style="text-align: center;"><th>No</th><th>Account</th><th>Description Budget</th><th>Description source of module</th><th>Source</th><th>Actual Amount</th><th>Accounted CR Amount</th><th>Actual Date</th></tr></thead><tbody class="list">' +
+				'<div class="table-responsive"><table class="table table-bordered" id="dataTableActual" width="100%" cellspacing="0"><thead><tr style="text-align: center;"><th>No</th><th>Account</th><th>Description Budget</th><th>Description source of module</th><th>Actual Amount</th><th>Accounted CR Amount</th><th>Actual Date</th></tr></thead><tbody class="list">' +
 				obj +
 				"</tbody></table></div>";
 			// console.log(tbl);
@@ -185,7 +185,7 @@ function creditactual(id, tahun, category) {
 			// console.log(r);
 			let obj = JSON.parse(r);
 			let tbl =
-				'<div class="table-responsive"><table class="table table-bordered" id="dataTableActual" width="100%" cellspacing="0"><thead><tr style="text-align: center;"><th>No</th><th>Account</th><th>Description Budget</th><th>Description Transaction</th><th>Source</th><th>Budget Amount</th><th>Actual Amount</th><th>Actual Date</th></tr></thead><tbody class="list">' +
+				'<div class="table-responsive"><table class="table table-bordered" id="dataTableActual" width="100%" cellspacing="0"><thead><tr style="text-align: center;"><th>No</th><th>Account</th><th>Description Budget</th><th>Description Transaction</th><th>Budget Amount</th><th>Actual Amount</th><th>Actual Date</th></tr></thead><tbody class="list">' +
 				obj +
 				"</tbody></table></div>";
 			// console.log(tbl);
