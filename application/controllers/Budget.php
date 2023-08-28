@@ -308,6 +308,8 @@ class Budget extends CI_Controller
         $periode = date("Y", strtotime($this->input->post('date')));
 
         if ($this->form_validation->run() == true) {
+            // var_dump($this->input->post('debit'));
+            // die;
             $find = $this->Budget_model->findheader($id, $account, $periode);
             // var_dump($periode);die;
             // var_dump($hotel);die;

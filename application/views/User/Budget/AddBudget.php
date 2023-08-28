@@ -64,18 +64,18 @@
                             </div>
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Total Amount</label>
-                                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" name="debit" class="form-control" id="debit">
-                                <?= form_error('debit', '<small class="form-text text-danger">', '</small>'); ?>
+                                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" name="dbt" class="form-control" id="dbt">
+                                <input type="hidden" onkeypress="return /[0-9]/i.test(event.key)" name="debit" class="form-control" id="debit"> <?= form_error('debit', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Budget Category</label>
                                 <div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="cat_bdgt" id="cat_bdgt" value="CAPEX">
+                                        <input class="form-check-input" type="radio" name="cat_bdgt1" id="cat_bdgt" value="CAPEX">
                                         <label class="form-check-label" for="cat_bdgt1">CAPEX</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="cat_bdgt" id="cat_bdgt" value="OPEX">
+                                        <input class="form-check-input" type="radio" name="cat_bdgt2" id="cat_bdgt" value="OPEX">
                                         <label class="form-check-label" for="cat_bdgt2">OPEX</label>
                                     </div>
                                     <?= form_error('cat_bdgt', '<small class="form-text text-danger">', '</small>'); ?>
@@ -127,5 +127,37 @@
             $('select').selectpicker();
             $('#datepicker').datepicker();
         });
+
+        var rupiah = document.getElementById('dbt');
+        rupiah.addEventListener('keyup', function(e) {
+            // tambahkan 'Rp.' pada saat form di ketik
+            // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+            rupiah.value = formatRupiah(this.value, '');
+            ubah();
+        });
+
+        /* Fungsi formatRupiah */
+        function formatRupiah(angka, prefix) {
+            var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                split = number_string.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+            // tambahkan titik jika yang di input sudah menjadi angka ribuan
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
+        }
+
+        function ubah() {
+            budget = document.getElementById('dbt').value;
+            document.getElementById('debit').value = budget.replaceAll('.', '');
+
+        }
     </script>
     </main><!-- End #main -->

@@ -72,8 +72,9 @@
                         <?= form_error('cur', '<small class="form-text text-danger">', '</small>'); ?>
                     </div>
                     <div class="col-12">
-                        <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Total Amount</label>
-                        <input type="text" onkeypress="return /[0-9]/i.test(event.key)" name="debit" class="form-control" id="debit">
+                        <label for="debit" class="form-label"><span class="text-danger">*</span>Total Amount</label>
+                        <input type="text" onkeypress="return /[0-9]/i.test(event.key)" name="dbt" class="form-control" id="dbt">
+                        <input type="hidden" onkeypress="return /[0-9]/i.test(event.key)" name="debit" class="form-control" id="debit">
                         <?= form_error('debit', '<small class="form-text text-danger">', '</small>'); ?>
                     </div>
                     <!-- <div class="col-12">
@@ -138,5 +139,37 @@
             $('select').selectpicker();
             $('#datepicker').datepicker();
         });
+
+        var rupiah = document.getElementById('dbt');
+        rupiah.addEventListener('keyup', function(e) {
+            // tambahkan 'Rp.' pada saat form di ketik
+            // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+            rupiah.value = formatRupiah(this.value, '');
+            ubah();
+        });
+
+        /* Fungsi formatRupiah */
+        function formatRupiah(angka, prefix) {
+            var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                split = number_string.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+            // tambahkan titik jika yang di input sudah menjadi angka ribuan
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
+        }
+
+        function ubah() {
+            budget = document.getElementById('dbt').value;
+            document.getElementById('debit').value = budget.replaceAll('.', '');
+
+        }
     </script>
     </main><!-- End #main -->
