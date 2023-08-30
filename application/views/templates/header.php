@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
     <script src="<?= base_url('assets/vendor/jquery/jquery.min.js'); ?>"></script> <!-- Load file jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 
 <body id="page-top">

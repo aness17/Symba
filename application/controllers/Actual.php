@@ -108,7 +108,6 @@ class Actual extends CI_Controller
     }
     public function addactual($id)
     {
-
         $this->form_validation->set_rules('bg', 'Budget', '');
         // $this->form_validation->set_rules('user', 'Division', '');
         $this->form_validation->set_rules('desc', 'Description', '');

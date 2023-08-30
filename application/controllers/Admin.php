@@ -51,6 +51,13 @@ class Admin extends CI_Controller
 
     public function cekauth()
     {
+        $getloc = json_decode(file_get_contents("http://ipinfo.io/"));
+
+        $loc = $getloc->city;
+        $coordinates = explode(",", $getloc->loc); // -> '32,-72' becomes'32','-72'
+        $long = $coordinates[1] . ' , '; // latitude
+        $lat = $coordinates[0]; // longitude
+        // die; //to get city
         $ci = get_instance();
         $id = $ci->session->userdata('id');
         $ip = $this->input->ip_address();
@@ -59,9 +66,13 @@ class Admin extends CI_Controller
                 $data = [
                     'id_user' => $id,
                     'remarks' => 'Session Timeout',
-                    'ip_add' => $ip
+                    'ip_add' => $ip,
+                    'city' => $loc,
+                    'longitude' => $long,
+                    'latitude' => $lat,
                 ];
-                // var_dump($data);die;
+                // var_dump($data);
+                // die;
                 $this->Log_model->create($data);
                 session_destroy();
 

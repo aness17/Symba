@@ -100,7 +100,7 @@
                     </div>
                 </div>
                 <div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-dismiss="modal">
-                    <div class="modal-dialog modal-lg">
+                    <div class="modal-dialog modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-info-circle"></i> Information</h5>
@@ -109,7 +109,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <img src="<?= base_url('fotouser/infobudget.png') ?>" style="width:fit-content;height:625px" />
+                                <img src="<?= base_url('fotouser/infobudget.png') ?>" style="width:100%;" />
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -16,6 +16,8 @@
                             <th>Nama User</th>
                             <th>Remarks</th>
                             <th>IP Address</th>
+                            <th>City</th>
+                            <th>Location</th>
                             <th>Date</th>
                         </tr>
                     </thead>
@@ -28,6 +30,8 @@
                                 <td><?= $log['name_user'] ?></td>
                                 <td><?= $log['remarks'] ?></td>
                                 <td><?= $log['ip_add'] ?></td>
+                                <td><?= $log['city'] ?></td>
+                                <td><?= $log['latitude'] ?> , <?= $log['longitude'] ?></td>
                                 <td><?= $log['date'] ?></td>
                             </tr>
                         <?php $no++;

@@ -89,7 +89,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <img src="<?= base_url('fotouser/info.png') ?>" style="width:fit-content;height:405px" />
+                            <img src="<?= base_url('fotouser/info.png') ?>" style="width:100px;" />
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -83,6 +83,7 @@ class Auth extends CI_Controller
         $username = $this->input->post('username');
         $passwd = $this->input->post('passwd');
         $user = $this->db->get_where('tuser', ['username_user' => $username])->row_array();
+        $getloc = json_decode(file_get_contents("http://ipinfo.io/"));
 
         if ($this->form_validation->run()) {
             if (isset($user)) {
@@ -92,10 +93,17 @@ class Auth extends CI_Controller
                     $this->session->set_userdata('id_role', $user['id_role']);
                     if ($user['id_role'] == '1') {
                         $ip = $this->get_client_ip();
+                        $loc = $getloc->city;
+                        $coordinates = explode(",", $getloc->loc); // -> '32,-72' becomes'32','-72'
+                        $long = $coordinates[1]; // latitude
+                        $lat = $coordinates[0]; // longitude
                         $data = [
                             'id_user' => $user['id_user'],
                             'remarks' => 'Login ke dalam system',
-                            'ip_add' => $ip
+                            'ip_add' => $ip,
+                            'city' => $loc,
+                            'longitude' => $long,
+                            'latitude' => $lat
                         ];
                         // var_dump($data);die;
                         $this->Log_model->create($data);
@@ -127,14 +135,22 @@ class Auth extends CI_Controller
     public function logout()
     {
         $ci = get_instance();
+        $getloc = json_decode(file_get_contents("http://ipinfo.io/"));
 
+        $loc = $getloc->city;
+        $coordinates = explode(",", $getloc->loc); // -> '32,-72' becomes'32','-72'
+        $long = $coordinates[1]; // latitude
+        $lat = $coordinates[0]; // longitude
         $id = $ci->session->userdata('id');
         $ip = $this->input->ip_address();
         // var_dump($user);die;
         $data = [
             'id_user' => $id,
             'remarks' => 'Logout dari system',
-            'ip_add' => $ip
+            'ip_add' => $ip,
+            'city' => $loc,
+            'longitude' => $long,
+            'latitude' => $lat
         ];
         // var_dump($data);die;
         $this->Log_model->create($data);
