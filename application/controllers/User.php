@@ -37,7 +37,7 @@ class User extends CI_Controller
         $this->load->model('Account_model');
         $this->load->model('Travelda_model');
         $this->load->model('Log_model');
-        $this->cekauth();
+        $this->cekauth(); 
         $_SESSION['login_time'] = time();
         if ($this->session->userdata('id') === null) {
             redirect('auth');
