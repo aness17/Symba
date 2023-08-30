@@ -56,6 +56,11 @@ class Actual extends CI_Controller
     public function cekauth()
     {
         $ci = get_instance();
+        $getloc = json_decode(file_get_contents("http://ipinfo.io/"));
+        $loc = $getloc->city;
+        $coordinates = explode(",", $getloc->loc); // -> '32,-72' becomes'32','-72'
+        $long = $coordinates[1]; // latitude
+        $lat = $coordinates[0]; // longitude
         $id = $ci->session->userdata('id');
         $ip = $this->input->ip_address();
         if ($ci->session->userdata('id_role') == '1') {
@@ -64,7 +69,10 @@ class Actual extends CI_Controller
                 $data = [
                     'id_user' => $id,
                     'remarks' => 'Session Timeout',
-                    'ip_add' => $ip
+                    'ip_add' => $ip,
+                    'city' => $loc,
+                    'longitude' => $long,
+                    'latitude' => $lat
                 ];
                 // var_dump($data);die;
                 $this->Log_model->create($data);
@@ -78,7 +86,10 @@ class Actual extends CI_Controller
                 $data = [
                     'id_user' => $id,
                     'remarks' => 'User not authorized',
-                    'ip_add' => $ip
+                    'ip_add' => $ip,
+                    'city' => $loc,
+                    'longitude' => $long,
+                    'latitude' => $lat
                 ];
                 $this->Log_model->create($data);
 
