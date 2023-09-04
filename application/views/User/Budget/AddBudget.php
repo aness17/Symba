@@ -65,17 +65,18 @@
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Total Amount</label>
                                 <input type="text" onkeypress="return /[0-9]/i.test(event.key)" name="dbt" class="form-control" id="dbt">
-                                <input type="hidden" onkeypress="return /[0-9]/i.test(event.key)" name="debit" class="form-control" id="debit"> <?= form_error('debit', '<small class="form-text text-danger">', '</small>'); ?>
+                                <input type="hidden" onkeypress="return /[0-9]/i.test(event.key)" name="debit" class="form-control" id="debit">
+                                <?= form_error('debit', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>
                             <div class="col-12">
                                 <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Budget Category</label>
                                 <div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="cat_bdgt1" id="cat_bdgt" value="CAPEX">
+                                        <input class="form-check-input" type="radio" name="cat_bdgt" id="cat_bdgt1" value="CAPEX">
                                         <label class="form-check-label" for="cat_bdgt1">CAPEX</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="cat_bdgt2" id="cat_bdgt" value="OPEX">
+                                        <input class="form-check-input" type="radio" name="cat_bdgt" id="cat_bdgt2" value="OPEX">
                                         <label class="form-check-label" for="cat_bdgt2">OPEX</label>
                                     </div>
                                     <?= form_error('cat_bdgt', '<small class="form-text text-danger">', '</small>'); ?>
