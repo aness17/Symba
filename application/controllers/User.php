@@ -297,7 +297,7 @@ class User extends CI_Controller
             // die;
             $this->Budget_model->update($data);
             if ($this->DetailBudget_model->delete($id) > 0) {
-                redirect('user/bugdetcapexopex');
+                redirect('user/bugdetcapexopex/' . $iduser);
                 $this->session->set_flashdata('message', $this->flasher('success', 'Success To Add Data'));
             } else {
                 // echo mysqli_error($con);
@@ -343,6 +343,8 @@ class User extends CI_Controller
 
         if ($this->form_validation->run() == true) {
             $find = $this->Budget_model->findheader($id, $account, $periode);
+            var_dump(date("Y-m-d", strtotime($this->input->post('date'))));
+            // die;
             // var_dump($periode);die;
             // var_dump($hotel);die;
             // var_dump($find[0]['id_bdgt']);die;
@@ -364,6 +366,7 @@ class User extends CI_Controller
                     'status' => 'no',
                     'category_budget' => $this->input->post('cat_bdgt'),
                     'id_bdgt' => $find[0]['id_bdgt'],
+                    'budget_date' => date("Y-m-d", strtotime($this->input->post('date'))),
                     'budget_year' => $periode
                 ];
                 // var_dump($db);
@@ -377,7 +380,7 @@ class User extends CI_Controller
                 ];
                 // var_dump($find[0]['id_bdgt']);die;
                 $this->Budget_model->update($data);
-                echo "<script>location.href='" . base_url('user/budgetcapexopex') . "';alert('Success to Update Data');</script>";
+                echo "<script>location.href='" . base_url('user/bugdetcapexopex/' . $id) . "';alert('Success to Update Data');</script>";
             } else {
                 $db = [
                     'id_acc' => $this->input->post('acc'),
@@ -408,6 +411,7 @@ class User extends CI_Controller
                     'status' => 'no',
                     'category_budget' => $this->input->post('cat_bdgt'),
                     'id_bdgt' => $idbdgt,
+                    'budget_date' => date("Y-m-d", strtotime($this->input->post('date'))),
                     'budget_year' => $periode
                 ];
                 // var_dump($db);
@@ -425,7 +429,7 @@ class User extends CI_Controller
                     $this->Budget_model->update($data);
                     $this->session->set_flashdata('message_login', $this->flasher('success', 'Success to create Budget'));
                     echo "<script>alert('Success to Update Data');</script>";
-                    redirect('user/budgetcapexopex');
+                    redirect('user/bugdetcapexopex/' . $id);
                 } else {
                     echo "Failed to create Budget";
                     die;
@@ -499,7 +503,7 @@ class User extends CI_Controller
         $periode = $this->Periode_model->getPeriode();
 
         // $sisa = $bg['amount_debit']-$actual['amount_debit'];
-        $bg = $this->DetailBudget_model->selectbyIduserr($id);
+        $bg = $this->DetailBudget_model->selectwithoutTravelda($id);
 
         // $actual = $this->Actual_model->getactdetail($id, $iduser);
         $data = [
@@ -629,6 +633,7 @@ class User extends CI_Controller
                     'status' => 'no',
                     'category_budget' => 'OPEX',
                     'id_bdgt' => $find[0]['id_bdgt'],
+                    'budget_date' => $periode . '-01-01',
                     'budget_year' => $periode
                 ];
                 $da2 = $this->DetailBudget_model->create($db);
@@ -666,6 +671,7 @@ class User extends CI_Controller
                     'status' => 'no',
                     'category_budget' => 'OPEX',
                     'id_bdgt' => $da,
+                    'budget_date' => $periode . '-01-01',
                     'budget_year' => $periode
                 ];
                 $da2 = $this->DetailBudget_model->create($db);
@@ -699,6 +705,7 @@ class User extends CI_Controller
                     'status' => 'no',
                     'category_budget' => 'OPEX',
                     'id_bdgt' => $find[0]['id_bdgt'],
+                    'budget_date' => $periode . '-01-01',
                     'budget_year' => $periode
                 ];
                 $da2 = $this->DetailBudget_model->create($db);
@@ -736,6 +743,7 @@ class User extends CI_Controller
                     'status' => 'no',
                     'category_budget' => 'OPEX',
                     'id_bdgt' => $da,
+                    'budget_date' => $periode . '-01-01',
                     'budget_year' => $periode
                 ];
                 $da2 = $this->DetailBudget_model->create($db);
@@ -769,6 +777,7 @@ class User extends CI_Controller
                     'status' => 'no',
                     'category_budget' => 'OPEX',
                     'id_bdgt' => $find[0]['id_bdgt'],
+                    'budget_date' => $periode . '-01-01',
                     'budget_year' => $periode
                 ];
                 $da2 = $this->DetailBudget_model->create($db);
@@ -806,6 +815,7 @@ class User extends CI_Controller
                     'status' => 'no',
                     'category_budget' => 'OPEX',
                     'id_bdgt' => $da,
+                    'budget_date' => $periode . '-01-01',
                     'budget_year' => $periode
                 ];
                 $da2 = $this->DetailBudget_model->create($db);

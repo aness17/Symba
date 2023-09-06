@@ -84,6 +84,23 @@ class DetailBudget_model extends CI_Model
         $this->db->group_end();
         return $this->db->get($this->table . " as A")->result_array();
     }
+    public function selectwithoutTravelda($id)
+    {
+        $this->db->join('tuser G', 'A.id_user = G.id_user');
+        $this->db->join('tdivision B', 'G.id_dvn = B.id_dvn');
+        $this->db->join('tdepartement F', 'B.id_dpt=F.id_dpt');
+        $this->db->join('tcostcen C', 'B.id_costcen=C.id_costcen');
+        $this->db->join('tstation D', 'B.id_station=D.id_station');
+        $this->db->join('taccount E', 'A.id_account = E.id_account');
+        $this->db->where('A.id_user', $id);
+        $this->db->where('A.budget_year', date('Y') + 1);
+        // $this->db->group_start();
+        $this->db->where('A.id_account !=', 104);
+        $this->db->where('A.id_account !=', 106);
+        $this->db->where('A.id_account !=', 107);
+        // $this->db->group_end();
+        return $this->db->get($this->table . " as A")->result_array();
+    }
     public function getLastId()
     {
         $this->db->select_max('request_num');

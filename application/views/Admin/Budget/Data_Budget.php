@@ -28,7 +28,7 @@
                             <!-- <th>Currency</th> -->
                             <th>Total Amount</th>
                             <th>Remaining Balance</th>
-                            <!-- <th>Date</th> -->
+                            <th>Date</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -49,7 +49,7 @@
                                 <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?> </td>
                                 <td><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?> </td>
                                 <!-- <td><?= number_format($bg['amount_credit'], 0, ",", "."); ?></td> -->
-                                <!-- <td><?= $bg['create_date']; ?></td> -->
+                                <td><?= $bg['budget_date']; ?></td>
                                 <td><?= $bg['status'] ?></td>
                                 <td class="text-center">
                                     <a href="<?= base_url('budget/editbudget/' . $bg['id_budget']) ?>" type="button" class="fa fa-edit" style="color:green">

@@ -343,6 +343,7 @@ class Budget extends CI_Controller
                     'status' => 'no',
                     'category_budget' => $this->input->post('cat_bdgt'),
                     'id_bdgt' => $find[0]['id_bdgt'],
+                    'budget_date' => date("Y-m-d", strtotime($this->input->post('date'))),
                     'budget_year' => $periode
                 ];
                 // var_dump($db);
@@ -388,6 +389,7 @@ class Budget extends CI_Controller
                     'status' => 'no',
                     'category_budget' => $this->input->post('cat_bdgt'),
                     'id_bdgt' => $idbdgt,
+                    'budget_date' => date("Y-m-d", strtotime($this->input->post('date'))),
                     'budget_year' => $periode
                 ];
                 // var_dump($db);
@@ -703,6 +705,7 @@ class Budget extends CI_Controller
                     'amount_credit' => 0,
                     'status' => 'no',
                     'id_bdgt' => $find[0]['id_bdgt'],
+                    'budget_date' => $periode . '-01-01',
                     'budget_year' => $periode
                 ];
                 // var_dump($db);die;
@@ -743,6 +746,7 @@ class Budget extends CI_Controller
                     'amount_credit' => 0,
                     'status' => 'no',
                     'id_bdgt' => $da,
+                    'budget_date' => $periode . '-01-01',
                     'budget_year' => $periode
                 ];
                 $da2 = $this->DetailBudget_model->create($db);
@@ -778,6 +782,7 @@ class Budget extends CI_Controller
                     'amount_credit' => 0,
                     'status' => 'no',
                     'id_bdgt' => $find[0]['id_bdgt'],
+                    'budget_date' => $periode . '-01-01',
                     'budget_year' => $periode
                 ];
                 $da2 = $this->DetailBudget_model->create($db);
@@ -817,6 +822,7 @@ class Budget extends CI_Controller
                     'amount_credit' => 0,
                     'status' => 'no',
                     'id_bdgt' => $da,
+                    'budget_date' => $periode . '-01-01',
                     'budget_year' => $periode
                 ];
                 $da2 = $this->DetailBudget_model->create($db);
@@ -852,6 +858,7 @@ class Budget extends CI_Controller
                     'amount_credit' => 0,
                     'status' => 'no',
                     'id_bdgt' => $find[0]['id_bdgt'],
+                    'budget_date' => $periode . '-01-01',
                     'budget_year' => $periode
                 ];
                 $da2 = $this->DetailBudget_model->create($db);
@@ -891,6 +898,7 @@ class Budget extends CI_Controller
                     'amount_credit' => 0,
                     'status' => 'no',
                     'id_bdgt' => $da,
+                    'budget_date' => $periode . '-01-01',
                     'budget_year' => $periode
                 ];
                 $da2 = $this->DetailBudget_model->create($db);
