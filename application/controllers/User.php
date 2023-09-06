@@ -37,6 +37,7 @@ class User extends CI_Controller
         $this->load->model('Account_model');
         $this->load->model('Travelda_model');
         $this->load->model('Log_model');
+        $this->load->model('Periode_model');
         $this->cekauth();
         $_SESSION['login_time'] = time();
         if ($this->session->userdata('id') === null) {
@@ -125,6 +126,8 @@ class User extends CI_Controller
         $budgetopex = $this->Budget_model->selectbudgetuser($id, $thn, 'OPEX');
         $diagram = $this->Actual_model->Actualperbulan($id, $thn);
         $tahun = $this->DetailBudget_model->tahun();
+        $periode = $this->Periode_model->getPeriode();
+
         // $pengajuan = $this->DetailBudget_model->sumpengajuan($id);
         $data = [
             'user' => $user,
@@ -143,6 +146,7 @@ class User extends CI_Controller
             'budgetcapex' => $budgetcapex,
             'budgetopex' => $budgetopex,
             'tahun' => $tahun,
+            'periode' => $periode,
             'heading' => 'dashboard',
             'thn' => $thn
         ];
@@ -235,26 +239,73 @@ class User extends CI_Controller
         // var_dump($isi);
         // die;
     }
-    public function databudget()
+    public function deletebudget($id, $type)
     {
         $ci = get_instance();
+        $iduser = $ci->session->userdata('id');
+        if ($type == 'travelda') {
+            $bg = $this->DetailBudget_model->selecttda($id)[0]->request_num;
+            $req = $this->DetailBudget_model->selectbyreq($bg);
+            if ($id) {
+                $p = $this->Budget_model->selecthd($bg);
+                $no = 0;
+                foreach ($p as $a) :
+                    if ($p[$no]['total_budget'] <= $req[$no]['amount_debit']) {
+                        $data = [
+                            'id_bdgt' => $req[$no]['id_bdgt'],
+                            'total_budget' => intval($p[$no]["total_budget"]) - $req[$no]["amount_debit"]
+                        ];
+                    } else {
+                        $data = [
+                            'id_bdgt' => $req[$no]['id_bdgt'],
+                            'total_budget' => (intval($p[$no]["total_budget"]) - $req[$no]['amount_debit'])
+                        ];
+                    }
+                    $this->Budget_model->update($data);
+                    $no++;
+                    if ($this->DetailBudget_model->deletebyreq($bg) > 0) {
+                        echo "<script>alert('Success to Delete Data');</script>";
+                        $this->session->set_flashdata('message', $this->flasher('success', 'Success To Add Data'));
+                    } else {
+                        echo "<script>alert('Failed to Delete Data');</script>";
+                        $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Add Data'));
+                    }
+                endforeach;
+                echo "<script>alert('Success to Delete Data');</script>";
+                redirect('user/menutravelda/' . $iduser);
+            } else {
+                echo "<script>alert('Failed to Delete Data');</script>";
+                $this->session->set_flashdata('message', $this->flasher('danger', 'Id Is null'));
+            }
+            redirect('user/menutraveld/' . $iduser);
+        } elseif ($type == 'capexopex') {
+            $budget = $this->DetailBudget_model->getbgById($id);
+            $p = $this->Budget_model->selectheader($budget['id_bdgt']);
 
-        $id = $ci->session->userdata('id');
-        $user = $this->User_model->selectUser($id);
-        // $sisa = $bg['amount_debit']-$actual['amount_debit'];
-        $bg = $this->DetailBudget_model->selectbyid($id);
-
-        $data = [
-            'user' => $user,
-            'bg' => $bg
-            // 'sisa' => $sisa
-
-        ];
-        // var_dump($bg);die;
-        $this->load->view('templates/header');
-        $this->load->view('templates/sidebar_user', $data);
-        $this->load->view('user/databudget', $data);
-        $this->load->view('templates/footer');
+            if ($p['total_budget'] <= $budget['amount_debit']) {
+                $data = [
+                    'id_bdgt' => $budget['id_bdgt'],
+                    'total_budget' => intval($p["total_budget"]) - $budget["amount_debit"]
+                ];
+            } else {
+                $data = [
+                    'id_bdgt' => $budget['id_bdgt'],
+                    'total_budget' => (intval($p["total_budget"]) - $budget['amount_debit'])
+                ];
+            }
+            // var_dump($data);
+            // die;
+            $this->Budget_model->update($data);
+            if ($this->DetailBudget_model->delete($id) > 0) {
+                redirect('user/bugdetcapexopex');
+                $this->session->set_flashdata('message', $this->flasher('success', 'Success To Add Data'));
+            } else {
+                // echo mysqli_error($con);
+                $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Add Data'));
+            }
+        } else {
+            echo "<script>location.href='" . base_url('user/chooseadd') . "';alert('False');</script>";
+        }
     }
     public function addbudget()
     {
@@ -274,12 +325,14 @@ class User extends CI_Controller
         $this->form_validation->set_rules('cat_bdgt', 'Budget Category', 'required');
         $this->form_validation->set_rules('date', 'Date', 'required');
 
+        $periode = $this->Periode_model->getPeriode();
         $user = $this->User_model->selectUser($id);
         $usr = $this->User_model->getuser($id);
         $account = $this->Account_model->selectAll();
         $data = [
             'user' => $user,
             'account' => $account,
+            'periode' => $periode,
             'usr' => $usr,
             'id' => $id,
             'heading' => 'user'
@@ -324,7 +377,7 @@ class User extends CI_Controller
                 ];
                 // var_dump($find[0]['id_bdgt']);die;
                 $this->Budget_model->update($data);
-                echo "<script>location.href='" . base_url('user/') . "';alert('Success to Update Data');</script>";
+                echo "<script>location.href='" . base_url('user/budgetcapexopex') . "';alert('Success to Update Data');</script>";
             } else {
                 $db = [
                     'id_acc' => $this->input->post('acc'),
@@ -370,9 +423,9 @@ class User extends CI_Controller
                     ];
                     // var_dump($data);die;
                     $this->Budget_model->update($data);
-                    $this->session->set_flashdata('message_login', $this->flasher('success', 'User has been registered!'));
+                    $this->session->set_flashdata('message_login', $this->flasher('success', 'Success to create Budget'));
                     echo "<script>alert('Success to Update Data');</script>";
-                    redirect('user/');
+                    redirect('user/budgetcapexopex');
                 } else {
                     echo "Failed to create Budget";
                     die;
@@ -390,42 +443,44 @@ class User extends CI_Controller
         }
     }
 
-    public function dataactual()
-    {
-        $ci = get_instance();
+    // public function dataactual()
+    // {
+    //     $ci = get_instance();
 
-        $id = $ci->session->userdata('id');
-        $user = $this->User_model->selectUser($id);
-        // $sisa = $bg['amount_debit']-$actual['amount_debit'];
-        $bg = $this->DetailBudget_model->selectAll();
+    //     $id = $ci->session->userdata('id');
+    //     $user = $this->User_model->selectUser($id);
+    //     // $sisa = $bg['amount_debit']-$actual['amount_debit'];
+    //     $bg = $this->DetailBudget_model->selectAll();
 
-        $actual = $this->Actual_model->useractById($id);
-        $data = [
-            'actual' => $actual,
-            'user' => $user,
-            'bg' => $bg
-            // 'sisa' => $sisa
+    //     $actual = $this->Actual_model->useractById($id);
+    //     $data = [
+    //         'actual' => $actual,
+    //         'user' => $user,
+    //         'bg' => $bg
+    //         // 'sisa' => $sisa
 
-        ];
-        // var_dump($bg);die;
-        $this->load->view('templates/header');
-        $this->load->view('templates/sidebar_user', $data);
-        $this->load->view('user/data_actual', $data);
-        $this->load->view('templates/footer');
-    }
+    //     ];
+    //     // var_dump($bg);die;
+    //     $this->load->view('templates/header');
+    //     $this->load->view('templates/sidebar_user', $data);
+    //     $this->load->view('user/data_actual', $data);
+    //     $this->load->view('templates/footer');
+    // }
     public function chooseadd()
     {
         $ci = get_instance();
 
         $id = $ci->session->userdata('id');
         $user = $this->User_model->selectUser($id);
+        $periode = $this->Periode_model->getPeriode();
+
         // $sisa = $bg['amount_debit']-$actual['amount_debit'];
         // $bg = $this->DetailBudget_model->selectAll();
         // $actual = $this->Actual_model->useractById($id);
         $data = [
-            // 'actual' => $actual,
+            'periode' => $periode,
             'user' => $user,
-            // 'bg' => $bg,
+            'id' => $id,
             'heading' => 'user'
             // 'sisa' => $sisa
         ];
@@ -435,27 +490,55 @@ class User extends CI_Controller
         $this->load->view('user/chooseadd', $data);
         $this->load->view('templates/footer');
     }
-    public function detailbudget($id)
+    public function bugdetcapexopex($id)
     {
         $ci = get_instance();
 
         $iduser = $ci->session->userdata('id');
         $user = $this->User_model->selectUser($id);
-        // $sisa = $bg['amount_debit']-$actual['amount_debit'];
-        $bg = $this->DetailBudget_model->selectAll();
+        $periode = $this->Periode_model->getPeriode();
 
-        $actual = $this->Actual_model->getactdetail($id, $iduser);
+        // $sisa = $bg['amount_debit']-$actual['amount_debit'];
+        $bg = $this->DetailBudget_model->selectbyIduserr($id);
+
+        // $actual = $this->Actual_model->getactdetail($id, $iduser);
         $data = [
-            'actual' => $actual,
+            'periode' => $periode,
             'user' => $user,
-            'bg' => $bg
+            'bg' => $bg,
+            'heading' => 'user'
             // 'sisa' => $sisa
 
         ];
         // var_dump($bg);die;
         $this->load->view('templates/header');
-        $this->load->view('templates/sidebar_user');
-        $this->load->view('user/data_actual', $data);
+        $this->load->view('templates/sidebar_user', $data);
+        $this->load->view('user/databudget', $data);
+        $this->load->view('templates/footer');
+    }
+    public function menutravelda($id)
+    {
+        $ci = get_instance();
+        $user = $this->User_model->selectUser($id);
+        $periode = $this->Periode_model->getPeriode();
+
+        // $sisa = $bg['amount_debit']-$actual['amount_debit'];
+        $bg = $this->DetailBudget_model->selectTravelda($id);
+        // $year = date('Y') + 1;
+        // var_dump($bg);
+        // die;
+        // $actual = $this->Actual_model->getactdetail($id, $iduser);
+        $data = [
+            'periode' => $periode,
+            'user' => $user,
+            'bg' => $bg,
+            'heading' => 'user'
+
+        ];
+        // var_dump($bg);die;
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar_user', $data);
+        $this->load->view('user/data_travelda', $data);
         $this->load->view('templates/footer');
     }
 
@@ -470,6 +553,7 @@ class User extends CI_Controller
         </button>
         </div>';
     }
+
     public function travelda()
     {
         $ci = get_instance();
@@ -477,12 +561,14 @@ class User extends CI_Controller
         $usr = $this->User_model->getUser($id);
         $user = $this->User_model->selectUser($id);
         $tahun = $this->Travelda_model->tahun();
+        $periode = $this->Periode_model->getPeriode();
 
 
         $data = [
             'usr' => $usr,
             'user' => $user,
             'tahun' => $tahun,
+            'periode' => $periode,
             'heading' => 'user'
         ];
 
@@ -493,6 +579,14 @@ class User extends CI_Controller
         $this->form_validation->set_rules('program', 'Program', 'required');
         $this->form_validation->set_rules('qty', 'Qty', 'required');
         $this->form_validation->set_rules('periode', 'Periode', 'required');
+        $last = $this->DetailBudget_model->getLastId()["request_num"];
+        if ($last == '0') {
+            $last = '000';
+        } else {
+            $last = explode("A", $this->DetailBudget_model->getLastId()["request_num"])[1];
+        }
+        // var_dump($last);
+        // die;
 
         // $periode = date("Y", strtotime($this->input->post('date')));
         if ($this->form_validation->run() == true) {
@@ -518,6 +612,7 @@ class User extends CI_Controller
             // var_dump($travel_da[implode($grade)-1]['hotel']);die;
             // var_dump(count($find));die;
             // die;
+
             $find = $this->Budget_model->findheader($id, $account1, $periode);
             if (count($find) > 0) {
                 $db = [
@@ -530,7 +625,7 @@ class User extends CI_Controller
                     'desc_source' => 'DA#' . $this->input->post('program') . '#' . $this->input->post('tujuan') . '#' . $this->input->post('grade') . '#' . $this->input->post('hari') . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $daa,
-                    'amount_credit' => 0,
+                    'request_num' =>  'TDA' . str_pad(intval($last) + 1, 3, '0', STR_PAD_LEFT),
                     'status' => 'no',
                     'category_budget' => 'OPEX',
                     'id_bdgt' => $find[0]['id_bdgt'],
@@ -567,7 +662,7 @@ class User extends CI_Controller
                     'desc_source' => 'DA#' . $this->input->post('program') . '#' . $this->input->post('tujuan') . '#' . $this->input->post('grade') . '#' . $this->input->post('hari') . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $daa,
-                    'amount_credit' => 0,
+                    'request_num' =>  'TDA' . str_pad(intval($last) + 1, 3, '0', STR_PAD_LEFT),
                     'status' => 'no',
                     'category_budget' => 'OPEX',
                     'id_bdgt' => $da,
@@ -600,7 +695,7 @@ class User extends CI_Controller
                     'desc_source' => 'Akomodasi#' . $this->input->post('program') . '#' . $this->input->post('tujuan') . '#' . $this->input->post('grade') . '#' . $this->input->post('hari') . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $ted,
-                    'amount_credit' => 0,
+                    'request_num' =>  'TDA' . str_pad(intval($last) + 1, 3, '0', STR_PAD_LEFT),
                     'status' => 'no',
                     'category_budget' => 'OPEX',
                     'id_bdgt' => $find[0]['id_bdgt'],
@@ -637,7 +732,7 @@ class User extends CI_Controller
                     'desc_source' => 'Akomodasi#' . $this->input->post('program') . '#' . $this->input->post('tujuan') . '#' . $this->input->post('grade') . '#' . $this->input->post('hari') . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $ted,
-                    'amount_credit' => 0,
+                    'request_num' =>  'TDA' . str_pad(intval($last) + 1, 3, '0', STR_PAD_LEFT),
                     'status' => 'no',
                     'category_budget' => 'OPEX',
                     'id_bdgt' => $da,
@@ -670,7 +765,7 @@ class User extends CI_Controller
                     'desc_source' => 'Ticket#' . $this->input->post('program') . '#' . $this->input->post('tujuan') . '#' . $this->input->post('grade') . '#' . $this->input->post('hari') . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $ticket,
-                    'amount_credit' => 0,
+                    'request_num' =>  'TDA' . str_pad(intval($last) + 1, 3, '0', STR_PAD_LEFT),
                     'status' => 'no',
                     'category_budget' => 'OPEX',
                     'id_bdgt' => $find[0]['id_bdgt'],
@@ -685,7 +780,7 @@ class User extends CI_Controller
                 ];
                 // var_dump($find[0]['id_bdgt']);die;
                 $this->Budget_model->update($data);
-                echo "<script>location.href='" . base_url('user/') . "';alert('Success to Update Data Ticket');</script>";
+                echo "<script>location.href='" . base_url('user/menutravelda/' . $id) . "';alert('Success to Update Data Ticket');</script>";
             } else {
                 $da = [
                     'id_acc' => $account3,
@@ -707,7 +802,7 @@ class User extends CI_Controller
                     'desc_source' => 'Ticket#' . $this->input->post('program') . '#' . $this->input->post('tujuan') . '#' . $this->input->post('grade') . '#' . $this->input->post('hari') . '#Hari',
                     'currency' => 'IDR',
                     'amount_debit' => $ticket,
-                    'amount_credit' => 0,
+                    'request_num' =>  'TDA' . str_pad(intval($last) + 1, 3, '0', STR_PAD_LEFT),
                     'status' => 'no',
                     'category_budget' => 'OPEX',
                     'id_bdgt' => $da,
@@ -722,7 +817,7 @@ class User extends CI_Controller
                 ];
                 // var_dump($data['id_bdgt']);die;
                 $this->Budget_model->update($data);
-                echo "<script>location.href='" . base_url('user/') . "';alert('Success to Add Ticket');</script>";
+                echo "<script>location.href='" . base_url('user/menutravelda/' . $id) . "';alert('Success to Add Ticket');</script>";
             }
         } else {
             $this->load->view('templates/header');

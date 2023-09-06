@@ -1,3 +1,6 @@
+<?php
+if ($usr['id_role'] == '3' && date('Y-m-d') >= $periode['start_date'] && date('Y-m-d') <= $periode['end_date']) {
+?>
     <div class="container-fluid">
         <div class="row ml-1">
             <div class="col-lg-12">
@@ -6,7 +9,7 @@
                     <div class="card-header py-3">
                         <div class="d-flex justify-content-between">
                             <h6 class="m-2 font-weight-bold text-primary">Add Travel DA</h6>
-                            <a href="#info" data-toggle="modal"><i class="fa fa-info-circle" style=" font-size:25px"></i></a>
+                            <a href="#info" data-toggle="modal"><i class="fa fa-info-circle" style=" font-size:25px"></i>Information</a>
                         </div>
                     </div>
                     <div class="card-body">
@@ -102,13 +105,16 @@
             </div>
         </div>
     </div>
+<?php } else {
+    echo "<script>location.href='" . base_url('user/') . "';alert('Periode has been closed');</script>";
+}
+?>
+</div>
+<script>
+    $(function() {
+        $('select').selectpicker();
+        $('#datepicker').datepicker();
+    });
+</script>
 
-    </div>
-    <script>
-        $(function() {
-            $('select').selectpicker();
-            $('#datepicker').datepicker();
-        });
-    </script>
-
-    </main><!-- End #main -->
+</main><!-- End #main -->

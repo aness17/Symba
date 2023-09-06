@@ -1,126 +1,137 @@
-    <div class="container-fluid">
-        <div class="row ml-1">
-            <div class="col-lg-12">
-                <!-- Project Card Example -->
-                <div class="card shadow mb-12">
-                    <div class="card-header py-3">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="m-2 font-weight-bold text-primary">Add Budget CAPEX OPEX</h6>
-                            <a href="#info" data-toggle="modal"><i class="fa fa-info-circle" style=" font-size:25px"></i></a>
+    <?php
+
+    if ($usr['id_role'] == '3' && date('Y-m-d') >= $periode['start_date'] && date('Y-m-d') <= $periode['end_date']) {
+        // var_dump($user['id_role'] == '3' && $button == date('Y-m-d'));
+        // die;
+    ?>
+        <div class="container-fluid">
+            <div class="row ml-1">
+                <div class="col-lg-12">
+                    <!-- Project Card Example -->
+                    <div class="card shadow mb-12">
+                        <div class="card-header py-3">
+                            <div class="d-flex justify-content-between">
+                                <h6 class="m-2 font-weight-bold text-primary">Add Budget CAPEX OPEX</h6>
+                                <a href="#info" data-toggle="modal"><i class="fa fa-info-circle" style=" font-size:25px"></i>Information</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <form method="POST" action="<?= base_url('user/addbudget/') ?>" class="row g-3">
-                            <div class="col-12">
-                                <label for="acc" class="form-label"><span class="text-danger">*</span>Account</label>
-                                <select id="accs" class="form-control" class="selectpicker" data-live-search="true" name="acc">
-                                    <?php
-                                    foreach ($account as $account) : ?>
-                                        <option value="<?= $account['id_account'] ?>">[<?= $account['id_acc'] ?>] <?= $account['remark_acc'] ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <?= form_error('Account', '<small class="form-text text-danger">', '</small>'); ?>
-                            </div>
-                            <div class="col-12">
-                                <label for="inputNanme4" class="form-label">PIC</label>
-                                <select name="user" class="form-control" id="exampleFormControlSelect1" name="user" disabled>
-                                    <option value="<?= $usr['id_user'] ?>"><?= $usr['name_user'] ?> [<?= $usr['division'] ?> - <?= $usr['name_station'] ?>]</option>
-                                </select>
-                                <?= form_error('user', '<small class="form-text text-danger">', '</small>'); ?>
-                            </div>
-                            <div class="col-12">
-                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Programme</label>
-                                <input type="text" name="program" class="form-control" id="program">
-                                <?= form_error('program', '<small class="form-text text-danger">', '</small>'); ?>
-                            </div>
-                            <div class="col-12">
-                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Description</label>
-                                <input type="text" name="desc" class="form-control" id="desc">
-                                <?= form_error('desc', '<small class="form-text text-danger">', '</small>'); ?>
-                            </div>
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Qty</label>
-                                        <input type="text" name="qty" class="form-control" id="qty">
-                                        <?= form_error('qty', '<small class="form-text text-danger">', '</small>'); ?>
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Unit</label>
-                                        <input type="text" name="unit" class="form-control" id="unit">
-                                        <?= form_error('unit', '<small class="form-text text-danger">', '</small>'); ?>
+                        <div class="card-body">
+                            <form method="POST" action="<?= base_url('user/addbudget/') ?>" class="row g-3">
+                                <div class="col-12">
+                                    <label for="acc" class="form-label"><span class="text-danger">*</span>Account</label>
+                                    <select id="accs" class="form-control" class="selectpicker" data-live-search="true" name="acc">
+                                        <?php
+                                        foreach ($account as $account) : ?>
+                                            <option value="<?= $account['id_account'] ?>">[<?= $account['id_acc'] ?>] <?= $account['remark_acc'] ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <?= form_error('Account', '<small class="form-text text-danger">', '</small>'); ?>
+                                </div>
+                                <div class="col-12">
+                                    <label for="inputNanme4" class="form-label">PIC</label>
+                                    <select name="user" class="form-control" id="exampleFormControlSelect1" name="user" disabled>
+                                        <option value="<?= $usr['id_user'] ?>"><?= $usr['name_user'] ?> [<?= $usr['division'] ?> - <?= $usr['name_station'] ?>]</option>
+                                    </select>
+                                    <?= form_error('user', '<small class="form-text text-danger">', '</small>'); ?>
+                                </div>
+                                <div class="col-12">
+                                    <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Programme</label>
+                                    <input type="text" name="program" class="form-control" id="program">
+                                    <?= form_error('program', '<small class="form-text text-danger">', '</small>'); ?>
+                                </div>
+                                <div class="col-12">
+                                    <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Description</label>
+                                    <input type="text" name="desc" class="form-control" id="desc">
+                                    <?= form_error('desc', '<small class="form-text text-danger">', '</small>'); ?>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Qty</label>
+                                            <input type="text" name="qty" class="form-control" id="qty">
+                                            <?= form_error('qty', '<small class="form-text text-danger">', '</small>'); ?>
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Unit</label>
+                                            <input type="text" name="unit" class="form-control" id="unit">
+                                            <?= form_error('unit', '<small class="form-text text-danger">', '</small>'); ?>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-12">
-                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Remarks</label>
-                                <input type="text" name="dsm" class="form-control" id="dsm">
-                                <?= form_error('dsm', '<small class="form-text text-danger">', '</small>'); ?>
-                            </div>
-                            <div class="col-12">
-                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Currency</label>
-                                <input type="text" name="cur" class="form-control" id="cur" value="IDR" disabled>
-                                <?= form_error('cur', '<small class="form-text text-danger">', '</small>'); ?>
-                            </div>
-                            <div class="col-12">
-                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Total Amount</label>
-                                <input type="text" onkeypress="return /[0-9]/i.test(event.key)" name="dbt" class="form-control" id="dbt">
-                                <input type="hidden" onkeypress="return /[0-9]/i.test(event.key)" name="debit" class="form-control" id="debit">
-                                <?= form_error('debit', '<small class="form-text text-danger">', '</small>'); ?>
-                            </div>
-                            <div class="col-12">
-                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Budget Category</label>
-                                <div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="cat_bdgt" id="cat_bdgt1" value="CAPEX">
-                                        <label class="form-check-label" for="cat_bdgt1">CAPEX</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="cat_bdgt" id="cat_bdgt2" value="OPEX">
-                                        <label class="form-check-label" for="cat_bdgt2">OPEX</label>
-                                    </div>
-                                    <?= form_error('cat_bdgt', '<small class="form-text text-danger">', '</small>'); ?>
+                                <div class="col-12">
+                                    <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Remarks</label>
+                                    <input type="text" name="dsm" class="form-control" id="dsm">
+                                    <?= form_error('dsm', '<small class="form-text text-danger">', '</small>'); ?>
                                 </div>
-                            </div>
-                            <!-- <div class="col-12">
+                                <div class="col-12">
+                                    <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Currency</label>
+                                    <input type="text" name="cur" class="form-control" id="cur" value="IDR" disabled>
+                                    <?= form_error('cur', '<small class="form-text text-danger">', '</small>'); ?>
+                                </div>
+                                <div class="col-12">
+                                    <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Total Amount</label>
+                                    <input type="text" onkeypress="return /[0-9]/i.test(event.key)" name="dbt" class="form-control" id="dbt">
+                                    <input type="hidden" onkeypress="return /[0-9]/i.test(event.key)" name="debit" class="form-control" id="debit">
+                                    <?= form_error('debit', '<small class="form-text text-danger">', '</small>'); ?>
+                                </div>
+                                <div class="col-12">
+                                    <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Budget Category</label>
+                                    <div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="cat_bdgt" id="cat_bdgt1" value="CAPEX">
+                                            <label class="form-check-label" for="cat_bdgt1">CAPEX</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="cat_bdgt" id="cat_bdgt2" value="OPEX">
+                                            <label class="form-check-label" for="cat_bdgt2">OPEX</label>
+                                        </div>
+                                        <?= form_error('cat_bdgt', '<small class="form-text text-danger">', '</small>'); ?>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-12">
                                 <label for="inputNanme4" class="form-label">Accounted CR Amount</label>
                                 <input type="number" name="credit" class="form-control" id="credit">
                                 <?= form_error('credit', '<small class="form-text text-danger">', '</small>'); ?>
                             </div>                   -->
-                            <div class="col-12">
-                                <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Date</label>
-                                <input type="text" name="date" class="form-control" id="datepicker" placeholder="00/00/0000">
-                                <?= form_error('date', '<small class="form-text text-danger">', '</small>'); ?>
-                            </div>
-                            <div class="text-center col-12 mt-3  ">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                                <button type="reset" class="btn btn-secondary">Reset</button>
-                                <button type="button" onclick="history.go(-1);" class="btn btn-success">Kembali</button>
-                            </div>
-                        </form><!-- Vertical Form -->
+                                <div class="col-12">
+                                    <label for="inputNanme4" class="form-label"><span class="text-danger">*</span>Date</label>
+                                    <input type="text" name="date" class="form-control" id="datepicker" placeholder="00/00/0000">
+                                    <?= form_error('date', '<small class="form-text text-danger">', '</small>'); ?>
+                                </div>
+                                <div class="text-center col-12 mt-3  ">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="reset" class="btn btn-secondary">Reset</button>
+                                    <button type="button" onclick="history.go(-1);" class="btn btn-success">Kembali</button>
+                                </div>
+                            </form><!-- Vertical Form -->
+                        </div>
                     </div>
-                </div>
-                <div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-dismiss="modal">
-                    <div class="modal-dialog modal-xl">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-info-circle"></i> Information</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <img src="<?= base_url('fotouser/infobudget.png') ?>" style="width:100%;" />
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" data-dismiss="modal">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-info-circle"></i> Information</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="<?= base_url('fotouser/infobudget.png') ?>" style="width:100%;" />
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    <?php } else {
+        echo "<script>location.href='" . base_url('user/') . "';alert('Periode has been closed');</script>";
+    }
+
+    ?>
 
     </div>
     <script>

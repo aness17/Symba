@@ -7,8 +7,9 @@
     <div class="card shadow mb-4">
         <div class="card-header py-2">
             <div class="d-flex justify-content-between">
-                <h6 class="m-2 font-weight-bold text-primary">Budget Data</h6>
-                <a href="<?= base_url('user/addbudget') ?>" class="btn btn-primary">Add Data</a>
+                <h6 class="m-2 font-weight-bold text-primary">Travel DA Data</h6>
+                <a href="<?= base_url('user/travelda') ?>" class="btn btn-primary">Add Data</a>
+
             </div>
 
         </div>
@@ -19,14 +20,10 @@
                         <tr style="text-align: center;">
                             <th>No</th>
                             <th>Account</th>
-                            <th>Program</th>
+                            <th>PIC</th>
                             <th>Description</th>
                             <th>Remarks</th>
-                            <!-- <th>Source</th> -->
-                            <!-- <th>Currency</th> -->
                             <th>Total Amount</th>
-                            <th>Date</th>
-                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -35,17 +32,20 @@
                         // $user = $this->db->query("SELECT * FROM user where fk_role = '2'");
                         foreach ($bg as $bg) : ?>
                             <tr style="text-align: center;">
-                                <td><?= $no ?></td>
+                                <td><?= $no; ?></td>
                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
-                                <td><?= str_replace('#', ' ', $bg['program']) ?></td>
-                                <td><?= str_replace('#', ' ', $bg['description']) ?></td>
+                                <td><?= $bg['name_user'] ?> [<?= $bg['division'] ?>-<?= $bg['name_station'] ?>]</td>
                                 <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
+                                <td><?= $bg['description'] ?></td>
+                                <!-- <td><?= $bg['category'] ?></td> -->
+                                <!-- <td><?= $bg['currency'] ?></td> -->
                                 <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?> </td>
+                                <!-- <td><?= number_format($bg['amount_debit'] - $bg['debit'] + $bg['credit'], 0, ",", ".") ?> <?= $bg['currency'] ?> </td> -->
                                 <!-- <td><?= number_format($bg['amount_credit'], 0, ",", "."); ?></td> -->
-                                <td><?= $bg['create_date']; ?></td>
-                                <td><?= $bg['status'] ?></td>
+                                <!-- <td><?= $bg['create_date']; ?></td> -->
+                                <!-- <td><?= $bg['status'] ?></td> -->
                                 <td class="text-center">
-                                    <a href="<?= base_url('user/deletebudget/' . $bg['id_budget'] . '/capexopex') ?>" type="button" class="fa fa-trash" style="color:red" onclick="return confirm('Are you sure to delete this row ?')">
+                                    <a href="<?= base_url('user/deletebudget/' . $bg['id_budget'] . '/travelda') ?>" type="button" class="fa fa-trash" style="color:red" onclick="return confirm('Are you sure to delete this row ?')">
                                     </a>
                                 </td>
                             </tr>

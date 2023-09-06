@@ -128,7 +128,7 @@
                             <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Detail Remaining Budget</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">Detail Budget Data</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -275,10 +275,10 @@
                                 <a class="nav-link active" data-toggle="tab" href="#tab-1">BUDGET DATA</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tab-2">ACTUAL DATA</a>
+                                <a class="nav-link" data-toggle="tab" href="#tab-2">USED DATA</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tab-3">REMAINING DATA</a>
+                                <a class="nav-link" data-toggle="tab" href="#tab-3">DETAIL BUDGET DATA</a>
                             </li>
                         </ul>
                         <!-- <h6 class="m-2 font-weight-bold text-primary">Budget Data</h6> -->
@@ -300,7 +300,8 @@
                                             <th>No</th>
                                             <th style="width: 202px;">Account</th>
                                             <th style="width: 315px;">Description</th>
-                                            <th>Balance</th>
+                                            <th>Budget Amount</th>
+                                            <th>Used</th>
                                             <th>Remaining</th>
                                             <th>Action</th>
                                         </tr>
@@ -313,6 +314,7 @@
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
                                                 <td><?= $bg['remark_acc'] ?></td>
                                                 <td><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
+                                                <td><?= number_format($bg['debit'] - $bg['credit'], 0, ",", "."); ?> IDR</td>
                                                 <td><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", "."); ?> IDR</td>
                                                 <td><a href="#detailbudget" onclick="dtl_budget(<?= $bg['id_user'] ?>,<?= $thn ?>,<?= $bg['id_bdgt'] ?>)" class="fa fa-binoculars" style="color:blue" data-toggle="modal">
                                                     </a></td>
@@ -327,7 +329,7 @@
                     <div id="tab-2" class="ml-4 mr-4 mb-2 tab-pane fade"><br>
                         <div class="card-header py-2">
                             <div class="d-flex justify-content-between">
-                                <h6 class="m-2 font-weight-bold text-primary">SUMMARY ACTUAL DATA CAPEX</h6>
+                                <h6 class="m-2 font-weight-bold text-primary">SUMMARY USED DATA CAPEX</h6>
                             </div>
                         </div>
                         <div class="card-body">
@@ -377,7 +379,7 @@
                     <div id="tab-3" class="ml-4 mr-4 mb-2 tab-pane fade"><br>
                         <div class="card-header py-2">
                             <div class="d-flex justify-content-between">
-                                <h6 class="m-2 font-weight-bold text-primary">SUMMARY REMAINING DATA CAPEX</h6>
+                                <h6 class="m-2 font-weight-bold text-primary">SUMMARY DETAIL BUDGET DATA CAPEX</h6>
                             </div>
                         </div>
                         <div class="card-body">
@@ -435,10 +437,10 @@
                                 <a class="nav-link active" data-toggle="tab" href="#opex-1">BUDGET DATA</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#opex-2">ACTUAL DATA</a>
+                                <a class="nav-link" data-toggle="tab" href="#opex-2">USED DATA</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#opex-3">REMAINING DATA</a>
+                                <a class="nav-link" data-toggle="tab" href="#opex-3">DETAIL BUDGET DATA</a>
                             </li>
                         </ul>
                         <!-- <h6 class="m-2 font-weight-bold text-primary">Budget Data</h6> -->
@@ -460,7 +462,8 @@
                                             <th>No</th>
                                             <th style="width: 202px;">Account</th>
                                             <th style="width: 315px;">Description</th>
-                                            <th>Balance</th>
+                                            <th>Budget Amount</th>
+                                            <th>Used</th>
                                             <th>Remaining</th>
                                             <th>Action</th>
                                         </tr>
@@ -473,6 +476,7 @@
                                                 <td><?= $bg['id_acc'] ?>.<?= $bg['subacc'] ?>.<?= $bg['product'] ?>.<?= $bg['code_costcen'] ?>.<?= $bg['code_station'] ?>.<?= $bg['company'] ?></td>
                                                 <td><?= $bg['remark_acc'] ?></td>
                                                 <td><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
+                                                <td><?= number_format($bg['debit'] - $bg['credit'], 0, ",", "."); ?> IDR</td>
                                                 <td><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", "."); ?> IDR</td>
                                                 <td><a href="#detailbudget" onclick="dtl_budget(<?= $bg['id_user'] ?>,<?= $thn ?>,<?= $bg['id_bdgt'] ?>)" class="fa fa-binoculars" style="color:blue" data-toggle="modal">
                                                     </a></td>
@@ -487,7 +491,7 @@
                     <div id="opex-2" class="ml-4 mr-4 mb-2 tab-pane fade"><br>
                         <div class="card-header py-2">
                             <div class="d-flex justify-content-between">
-                                <h6 class="m-2 font-weight-bold text-primary">SUMMARY ACTUAL DATA OPEX</h6>
+                                <h6 class="m-2 font-weight-bold text-primary">SUMMARY USED DATA OPEX</h6>
                             </div>
                         </div>
                         <div class="card-body">
@@ -536,7 +540,7 @@
                     <div id="opex-3" class="ml-4 mr-4 mb-2 tab-pane fade"><br>
                         <div class="card-header py-2">
                             <div class="d-flex justify-content-between">
-                                <h6 class="m-2 font-weight-bold text-primary">SUMMARY REMAINING DATA OPEX</h6>
+                                <h6 class="m-2 font-weight-bold text-primary">SUMMARY DETAIL BUDGET DATA OPEX</h6>
                             </div>
                         </div>
                         <div class="card-body">

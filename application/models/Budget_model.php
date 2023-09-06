@@ -89,6 +89,13 @@ class Budget_model extends CI_Model
         $this->db->where('id_bdgt', $id);
         return $this->db->get($this->table)->row_array();
     }
+    public function selecthd($id)
+    {
+        $this->db->select('A.total_budget');
+        $this->db->join('tdetail_budget B', 'B.id_bdgt = A.id_bdgt');
+        $this->db->where('B.request_num', $id);
+        return $this->db->get($this->table . " as A")->result_array();
+    }
     public function update($data)
     {
         $this->db->where($this->primary, $data[$this->primary]);

@@ -4,7 +4,7 @@
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-4 col-md-6 mb-4 ">
             <div class="card border-bottom-primary shadow py-2 effect">
-                <a href="<?= base_url('user/travelda') ?>">
+                <a href="<?= base_url('user/menutravelda/' . $id) ?>">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
@@ -21,7 +21,7 @@
         </div>
         <div class="col-xl-4 col-md-6 mb-4">
             <div class="card border-bottom-primary shadow py-2 effect">
-                <a href="<?= base_url('user/addbudget') ?>">
+                <a href="<?= base_url('user/bugdetcapexopex/' . $id) ?>">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">

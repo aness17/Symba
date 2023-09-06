@@ -42,7 +42,7 @@
                 <a class="collapse-item" href="<?= base_url('admin/roles') ?>">Roles Data</a>
                 <a class="collapse-item" href="<?= base_url('admin/station') ?>">Station Data</a>
                 <a class="collapse-item" href="<?= base_url('admin/travelda') ?>">Travel DA Data</a>
-                <!-- <a class="collapse-item" href="<?= base_url('admin/DetailDA') ?>">Detail DA Data</a> -->
+                <a class="collapse-item" href="<?= base_url('admin/periode') ?>">Periode Data</a>
                 <!-- <a class="collapse-item" href="<?= base_url('admin/master') ?>">Master</a> -->
 
             </div>

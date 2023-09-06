@@ -41,6 +41,7 @@ class Admin extends CI_Controller
         $this->load->model('Budget_model');
         $this->load->model('Travelda_model');
         $this->load->model('Log_model');
+        $this->load->model('Periode_model');
         $this->cekauth();
 
         $_SESSION['login_time'] = time();
@@ -594,6 +595,100 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('message', $this->flasher('danger', 'Id Is null'));
         }
         redirect('admin/dvn');
+        // }
+    }
+    public function periode()
+    {
+        $periode = $this->Periode_model->selectAll();
+        $data = [
+            'periode' => $periode,
+            'heading' => 'master'
+        ];
+
+        $this->load->view('templates/header');
+        $this->load->view('templates/sidebar_admin', $data);
+        $this->load->view('admin/periode/data_periode', $data);
+        $this->load->view('templates/footer');
+    }
+    public function addPeriode()
+    {
+        $this->form_validation->set_rules('periode', 'Periode', 'required');
+        $this->form_validation->set_rules('start', 'Start of Periode', 'required');
+        $this->form_validation->set_rules('end', 'End of Periode', 'required');
+
+        if ($this->form_validation->run() == true) {
+            $db = [
+                'periode_year' => $this->input->post('periode'),
+                'start_date' => date('Y-m-d', strtotime($this->input->post('start'))),
+                'end_date' => date('Y-m-d', strtotime($this->input->post('end')))
+            ];
+            // var_dump($db);
+            // die;
+            if ($this->Periode_model->create($db) > 0) {
+                $this->session->set_flashdata('message_login', $this->flasher('success', 'User has been registered!'));
+                echo "<script>location.href='" . base_url('admin/periode') . "';alert('Success to Add Data');</script>";
+            } else {
+                echo "Failed to create User";
+                die;
+                $this->session->set_flashdata('message_login', $this->flasher('danger', 'Failed to create User'));
+            }
+        } else {
+            $data = ['heading' => 'master'];
+            $this->load->view('templates/header');
+            $this->load->view('templates/sidebar_admin', $data);
+            $this->load->view('admin/periode/add_periode');
+            $this->load->view('templates/footer');
+        }
+    }
+    public function editPeriode($id)
+    {
+
+        $this->form_validation->set_rules('periode', 'Periode', 'required');
+        $this->form_validation->set_rules('start', 'Start of Periode', 'required');
+        $this->form_validation->set_rules('end', 'End of Periode', 'required');
+
+        $periode = $this->Periode_model->getWhere($id);
+        $data = [
+            'p' => $periode,
+            'heading' => 'master'
+        ];
+        // if ($id == "") {
+        if ($this->form_validation->run() == true) {
+            $db = [
+                'id_periode' => $id,
+                'periode_year' => $this->input->post('periode'),
+                'start_date' => date('Y-m-d', strtotime($this->input->post('start'))),
+                'end_date' => date('Y-m-d', strtotime($this->input->post('end')))
+            ];
+            if ($this->Periode_model->update($db) > 0) {
+                echo "<script>location.href='" . base_url('admin/periode') . "';alert('Success to Edit Data');</script>";
+                $this->session->set_flashdata('message', $this->flasher('success', 'Success To Edit Data'));
+            } else {
+                $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Edit Data'));
+            }
+        } else {
+            $this->load->view('templates/header');
+            $this->load->view('templates/sidebar_admin', $data);
+            $this->load->view('admin/periode/edit_periode', $data);
+            $this->load->view('templates/footer');
+        }
+        // }
+    }
+
+    public function deletePeriode($id)
+    {
+
+        if ($id) {
+            if ($this->Periode_model->delete($id) > 0) {
+                echo "<script>location.href='" . base_url('admin/periode') . "';alert('Success to Add Data');</script>";
+                $this->session->set_flashdata('message', $this->flasher('success', 'Success To Add Data'));
+            } else {
+                $this->session->set_flashdata('message', $this->flasher('danger', 'Failed To Add Data'));
+            }
+        } else {
+            $this->session->set_flashdata('message', $this->flasher('danger', 'Id Is null'));
+        }
+        redirect('admin/periode');
         // }
     }
     public function Dpt()

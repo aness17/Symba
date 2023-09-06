@@ -603,9 +603,26 @@ class Budget extends CI_Controller
         //     redirect('admin/');
         // } else {
         $idbudget = $this->Detailbudget_model->selectiddetail($id);
-        var_dump($idbudget);
-        die;
+        $budget = $this->Detailbudget_model->selecttda($id);
+        // var_dump($idbudget);
+        // die;
         if ($id) {
+            $p = $this->Budget_model->selectheader($idbudget);
+            // var_dump($bg['amount_debit']);echo "<br/>";
+            // var_dump(intval($p["total_budget"])- $bg['amount_debit']);            echo "<br/>";
+            if ($p['total_budget'] <= $budget['amount_debit']) {
+                $data = [
+                    'id_bdgt' => $budget['id_bdgt'],
+                    'total_budget' => intval($p["total_budget"]) - $budget["amount_debit"]
+                ];
+            } else {
+                $data = [
+                    'id_bdgt' => $budget['id_bdgt'],
+                    'total_budget' => (intval($p["total_budget"]) - $budget['amount_debit'])
+                ];
+            }
+            // var_dump($data);die;
+            $this->Budget_model->update($data);
             if ($this->DetailBudget_model->delete($id) > 0) {
                 redirect('budget/databudget');
                 $this->session->set_flashdata('message', $this->flasher('success', 'Success To Add Data'));

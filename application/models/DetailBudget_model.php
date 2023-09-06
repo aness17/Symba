@@ -45,6 +45,17 @@ class DetailBudget_model extends CI_Model
         $this->db->where('id_budget', $id);
         return $this->db->get($this->table)->row_array();
     }
+    public function selectbg($id)
+    {
+        $this->db->where('id_budget', $id);
+        return $this->db->get($this->table)->result_array();
+    }
+    public function selecttda($id)
+    {
+        $this->db->select('request_num');
+        $this->db->where('id_budget', $id);
+        return $this->db->get($this->table)->result();
+    }
     public function selectAll()
     {
         $this->db->join('tuser G', 'A.id_user = G.id_user');
@@ -55,6 +66,28 @@ class DetailBudget_model extends CI_Model
         $this->db->join('taccount E', 'A.id_account = E.id_account');
         $this->db->where('A.budget_year', date('Y'));
         return $this->db->get($this->table . " as A")->result_array();
+    }
+    public function selectTravelda($id)
+    {
+        $this->db->join('tuser G', 'A.id_user = G.id_user');
+        $this->db->join('tdivision B', 'G.id_dvn = B.id_dvn');
+        $this->db->join('tdepartement F', 'B.id_dpt=F.id_dpt');
+        $this->db->join('tcostcen C', 'B.id_costcen=C.id_costcen');
+        $this->db->join('tstation D', 'B.id_station=D.id_station');
+        $this->db->join('taccount E', 'A.id_account = E.id_account');
+        $this->db->where('A.id_user', $id);
+        $this->db->where('A.budget_year', date('Y') + 1);
+        $this->db->group_start();
+        $this->db->where('A.id_account', 104);
+        $this->db->or_where('A.id_account', 106);
+        $this->db->or_where('A.id_account', 107);
+        $this->db->group_end();
+        return $this->db->get($this->table . " as A")->result_array();
+    }
+    public function getLastId()
+    {
+        $this->db->select_max('request_num');
+        return $this->db->get($this->table)->row_array();
     }
     public function selectAllbyyear($thn)
     {
@@ -146,6 +179,19 @@ class DetailBudget_model extends CI_Model
         // $this->db->where('A.category_budget', $category);
         return $this->db->get($this->table . " as A")->result_array();
     }
+    public function selectbyIduserr($id)
+    {
+        $this->db->join('tuser G', 'A.id_user = G.id_user');
+        $this->db->join('tdivision B', 'G.id_dvn = B.id_dvn');
+        $this->db->join('tdepartement F', 'B.id_dpt=F.id_dpt');
+        $this->db->join('tcostcen C', 'B.id_costcen=C.id_costcen');
+        $this->db->join('tstation D', 'B.id_station=D.id_station');
+        $this->db->join('taccount E', 'A.id_account = E.id_account');
+        $this->db->where('G.id_user', $id);
+        $this->db->where('A.budget_year', date('Y') + 1);
+        // $this->db->where('A.category_budget', $category);
+        return $this->db->get($this->table . " as A")->result_array();
+    }
 
     public function getbgById($id)
     {
@@ -159,6 +205,7 @@ class DetailBudget_model extends CI_Model
         $this->db->where($this->primary, $id);
         return $this->db->get($this->table . " as A")->row_array();
     }
+
     public function update($data)
     {
         $this->db->where($this->primary, $data[$this->primary]);
@@ -168,6 +215,16 @@ class DetailBudget_model extends CI_Model
     {
         $this->db->where($this->primary, $id);
         return $this->db->delete($this->table);
+    }
+    public function deletebyreq($data)
+    {
+        $this->db->where('request_num', $data);
+        return $this->db->delete($this->table);
+    }
+    public function selectbyreq($data)
+    {
+        $this->db->where('request_num', $data);
+        return $this->db->get($this->table)->result_array();
     }
     // public function sumpengajuan($id){
 

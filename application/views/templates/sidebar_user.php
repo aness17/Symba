@@ -19,9 +19,22 @@
     </li>
 
     <?php
-    $no = 1;
+    $begin = new DateTime($periode['start_date']);
+    $end = new DateTime($periode['end_date']);
+
+    $begin->setTime(0, 0);
+    $end->setTime(12, 0);
+    $interval = DateInterval::createFromDateString('1 day');
+    $period = new DatePeriod($begin, $interval, $end);
+    // x>= $periode['start_date'] && x<= $periode['end_date']
     foreach ($user as $user) :
-        if ($user['id_role'] == '3') { ?>
+        // foreach ($period as $dt) {
+        // $button = $dt->format("Y-m-d");
+        // var_dump($button);
+        // var_dump(date('Y-m-d'));
+        // die;
+        if ($user['id_role'] == '3' && date('Y-m-d') >= $periode['start_date'] && date('Y-m-d') <= $periode['end_date']) {
+    ?>
             <!-- Divider -->
             <hr class="sidebar-divider">
             <!-- Nav Item - Pages Collapse Menu -->
@@ -35,7 +48,7 @@
                 <span>Add Aktual</span>
             </a> -->
             </li>
-        <?php };
+        <?php }
         ?>
 
         <!-- Nav Item - Charts -->
@@ -113,7 +126,6 @@
 
             </ul>
         <?php
-        $no++;
     endforeach; ?>
         </nav>
         <!-- End of Topbar -->
