@@ -13,19 +13,17 @@
 
     <!-- Custom fonts for this template-->
     <link href="<?= base_url('assets/') ?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-    rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="<?= base_url('assets/') ?>css/sb-admin-2.min.css" rel="stylesheet">
-    <link rel="icon" href="<?= base_url('/fotouser/logo3.png')?>" style="width:200%;" type="image/ico">
+    <link rel="icon" href="<?= base_url('/fotouser/logo3.png') ?>" style="width:200%;" type="image/ico">
 
 </head>
 
 <body class="bg-gradient-primary">
 
     <div class="container">
-
         <!-- Outer Row -->
         <div class="row justify-content-center">
 
@@ -38,24 +36,22 @@
                             <div class="col">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <img src="<?= base_url('fotouser/logo4.png')?>" style="width:100%;">
+                                        <img src="<?= base_url('fotouser/logo4.png') ?>" style="width:100%;">
                                         <!-- <h1 class="h4 text-gray-900 mb-1" style="font-family: initial;font-size: 70px">S Y M B A</h1>
                                         <h5 class="h4 text-gray-400 mb-4 text-s" style="font-family: fangsong;">System Monitoring Budget</h5> -->
                                     </div>
                                     <form class="user" method="POST" action="<?= base_url('auth/login/') ?>">
                                         <div class="form-group">
-                                            <input type="username" class="form-control form-control-user"
-                                            id="username" name="username" aria-describedby="emailHelp"
-                                            placeholder="Username">
+                                            <input type="username" class="form-control form-control-user" id="username" name="username" aria-describedby="emailHelp" placeholder="Username">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user" name="passwd" id="exampleInputPassword" placeholder="Password">
                                         </div>
-                                        <div >
+                                        <div>
                                             <button class="btn btn-primary btn-user btn-block" type="submit">Login</button>
                                         </div>
                                     </form>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -66,6 +62,7 @@
             </div>
 
         </div>
+        <marquee style="color:white"> Human Capital Information System PT. Jasa Angkasa Semesta, Tbk | Human Capital Information System PT. Jasa Angkasa Semesta, Tbk | Human Capital Information System PT. Jasa Angkasa Semesta, Tbk | Human Capital Information System PT. Jasa Angkasa Semesta, Tbk |</marquee>
 
         <!-- Bootstrap core JavaScript-->
         <script src="<?= base_url('assets/') ?>vendor/jquery/jquery.min.js"></script>
@@ -77,5 +74,6 @@
         <!-- Custom scripts for all pages-->
         <script src="<?= base_url('assets/') ?>js/sb-admin-2.min.js"></script>
 
-    </body>
-    </html>
+</body>
+
+</html>

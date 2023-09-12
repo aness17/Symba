@@ -42,7 +42,7 @@
                                 <td><?= str_replace('#', ' ', $bg['desc_source']) ?></td>
                                 <td><?= number_format($bg['amount_debit'], 0, ",", "."); ?> <?= $bg['currency'] ?> </td>
                                 <!-- <td><?= number_format($bg['amount_credit'], 0, ",", "."); ?></td> -->
-                                <td><?= $bg['create_date']; ?></td>
+                                <td><?= Date("M, Y", strtotime($bg['budget_date'])); ?></td>
                                 <td><?= $bg['status'] ?></td>
                                 <td class="text-center">
                                     <a href="<?= base_url('user/deletebudget/' . $bg['id_budget'] . '/capexopex') ?>" type="button" class="fa fa-trash" style="color:red" onclick="return confirm('Are you sure to delete this row ?')">

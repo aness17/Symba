@@ -398,6 +398,13 @@ class Actual extends CI_Controller
                     // var_dump($data);die;
                     //insert data to database
                     if ($this->Actual_model->create($data) > 0) {
+                        $status = [
+                            'id_budget' => $s[0],
+                            'status' => 'yes'
+                        ];
+                        if ($this->DetailBudget_model->update($status) > 0) {
+                            echo "<script>alert('Success to Update Status');</script>";
+                        }
                         echo "<script>location.href='" . base_url('admin/') . "';alert('Success to Add Transaction List');</script>";
                     } else {
                         echo "<script>location.href='" . base_url('actual/upload2') . "';alert('Failed to Add Transaction List');</script>";

@@ -2,6 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require APPPATH . "libraries/format.php";
 // require APPPATH . "libraries/RestController.php";
+date_default_timezone_set("Asia/Jakarta");
 
 use chriskacerguis\RestServer\RestController;
 
@@ -217,7 +218,7 @@ class Admin extends CI_Controller
                 $isi_table .= '<td>' . str_replace('#', ' ', $d['desc_source']) . '</td>';
                 $isi_table .= '<td>' . $d['currency'] . ' ' . number_format($d['amount_debit'], 0, ",", ".") . '</td>';
                 $isi_table .= '<td>' . $d['status'] . '</td>';
-                $isi_table .= '<td>' . date('M d, Y', strtotime($d['create_date'])) . '</td>';
+                $isi_table .= '<td>' . date('M d, Y', strtotime($d['budget_date'])) . '</td>';
                 $isi_table .= '</tr>';
                 $no++;
             endforeach;
