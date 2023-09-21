@@ -316,7 +316,7 @@
                                                 <td><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
                                                 <td><?= number_format($bg['debit'] - $bg['credit'], 0, ",", "."); ?> IDR</td>
                                                 <td><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", "."); ?> IDR</td>
-                                                <td><a href="#detailbudget" onclick="dtl_budget(<?= $bg['id_user'] ?>,<?= $thn ?>,<?= $bg['id_bdgt'] ?>)" class="fa fa-binoculars" style="color:blue" data-toggle="modal">
+                                                <td><a href="#detailbudget" onclick="dtl_budget(<?= $bg['id_user'] ?>,<?= $thn ?>,<?= $bg['id_bdgt'] ?>,'CAPEX')" class="fa fa-binoculars" style="color:blue" data-toggle="modal">
                                                     </a></td>
                                             </tr>
                                         <?php $no++;
@@ -478,7 +478,7 @@
                                                 <td><?= number_format($bg['total_budget'], 0, ",", "."); ?> IDR</td>
                                                 <td><?= number_format($bg['debit'] - $bg['credit'], 0, ",", "."); ?> IDR</td>
                                                 <td><?= number_format($bg['total_budget'] - $bg['debit'] + $bg['credit'], 0, ",", "."); ?> IDR</td>
-                                                <td><a href="#detailbudget" onclick="dtl_budget(<?= $bg['id_user'] ?>,<?= $thn ?>,<?= $bg['id_bdgt'] ?>)" class="fa fa-binoculars" style="color:blue" data-toggle="modal">
+                                                <td><a href="#detailbudget" onclick="dtl_budget(<?= $bg['id_user'] ?>,<?= $thn ?>,<?= $bg['id_bdgt'] ?>,'OPEX')" class="fa fa-binoculars" style="color:blue" data-toggle="modal">
                                                     </a></td>
                                             </tr>
                                         <?php $no++;

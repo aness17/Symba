@@ -130,7 +130,7 @@ class DetailBudget_model extends CI_Model
             WHERE tdetail_budget.id_bdgt = ' . $id . '      
             GROUP BY tdetail_budget.id_budget')->result_array();
     }
-    public function sisabudgetusermodal($id, $iduser)
+    public function sisabudgetusermodal($id, $iduser, $thn, $category)
     {
         return $this->db->query('SELECT taccount.id_acc,tcostcen.code_costcen,tstation.*,tdivision.*,tuser.name_user,SUM(tactual.amount_debit) debit, SUM(tactual.amount_credit) credit,tdetail_budget.* FROM `tdetail_budget`
             LEFT JOIN tactual ON tactual.id_budget = tdetail_budget.id_budget
@@ -141,6 +141,8 @@ class DetailBudget_model extends CI_Model
             join tstation   on tstation.id_station  = tdivision.id_station
             WHERE tdetail_budget.id_bdgt = ' . $id . '
             AND tdetail_budget.id_user  = ' . $iduser . '     
+            AND tdetail_budget.budget_year  = ' . $thn . '     
+            AND tdetail_budget.category_budget  = "' . $category . '"     
             GROUP BY tdetail_budget.id_budget')->result_array();
     }
     public function sisabudgett($id)

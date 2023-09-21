@@ -1,4 +1,4 @@
-let base_url = "http://192.168.11.143/symba/";
+let base_url = "http://192.168.111.14/symba/";
 
 function dtl_actual(id, tahun, user) {
 	let id_budget = id;
@@ -53,10 +53,11 @@ function dtl_actual(id, tahun, user) {
 	});
 }
 
-function dtl_budget(id, tahun, idbudget) {
+function dtl_budget(id, tahun, idbudget, category) {
 	let id_user = id;
 	let thn = tahun;
 	let id_bdgt = idbudget;
+	let cat = category;
 	$.ajax({
 		url: base_url + "user/dtl_budget",
 		type: "POST",
@@ -64,6 +65,7 @@ function dtl_budget(id, tahun, idbudget) {
 			id_bdgt: id_bdgt,
 			thn: thn,
 			id_user: id_user,
+			cat: cat,
 		},
 		success: function (r) {
 			let obj = JSON.parse(r);

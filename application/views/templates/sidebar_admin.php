@@ -88,12 +88,12 @@
     </li>
 
     <!-- Divider -->
-    <!-- <hr class="sidebar-divider d-none d-md-block"> -->
+    <hr class="sidebar-divider d-none d-md-block">
 
     <!-- Sidebar Toggler (Sidebar) -->
-    <!-- <div class="text-center d-none d-md-inline">
-                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
-                </div> -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
 </ul>
 <!-- End of Sidebar -->
 <!-- Content Wrapper -->
@@ -110,6 +110,10 @@
 
             </div>
             <!-- Sidebar Toggle (Topbar) -->
+            <!-- Sidebar Toggle (Topbar) -->
+            <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                <i class="fa fa-bars"></i>
+            </button>
 
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">

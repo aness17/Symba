@@ -203,8 +203,10 @@ class User extends CI_Controller
         $iduser = (int)$_POST['id_user'];
         $id = (int)$_POST['id_bdgt'];
         $thn = (int)$_POST['thn'];
-
-        $data = $this->DetailBudget_model->sisabudgetusermodal($id, $iduser, $thn);
+        $cat = $_POST['cat'];
+        // var_dump($cat);
+        // die;
+        $data = $this->DetailBudget_model->sisabudgetusermodal($id, $iduser, $thn, $cat);
 
         $division = $this->User_model->selectdpt($iduser)[0]->division;
 

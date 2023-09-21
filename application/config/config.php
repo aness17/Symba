@@ -24,7 +24,7 @@ date_default_timezone_set("Asia/Jakarta");
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://192.168.11.143/symba/';
+$config['base_url'] = 'http://192.168.111.14/symba/';
 
 /*
 |--------------------------------------------------------------------------
